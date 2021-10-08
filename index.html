@@ -53,13 +53,20 @@
 </head>
 
 <body>
-  <tr-app></tr-app>
+  <sp-theme color="light" scale="medium">
+    <tr-app></tr-app>
+  </sp-theme>
 
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.5.0/webcomponents-loader.min.js"
     integrity="sha512-uJCcZt3bdFSWoQnmkXGnDRfRjPNS4WpN/UBYf3S9qD0X1NfoD5UYNwufxvMRF1854yYNu9NZW2Nc+eL5o0uRYQ=="
     crossorigin="anonymous"></script>
-  <script type="module" src="./src/tr-app.js"></script>
+  <script type="module">
+    import '@spectrum-web-components/theme/sp-theme';
+    import '@spectrum-web-components/theme/theme-light';
+    import '@spectrum-web-components/theme/scale-medium';
+    import './src/tr-app.js';
+  </script>
   <script type="module" src='./pwabuilder-sw-register.js'></script>
 </body>
 
