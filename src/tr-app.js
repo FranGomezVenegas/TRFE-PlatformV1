@@ -121,7 +121,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
           </div>
         </mwc-drawer>      
         <main class="layout vertical flex">
-          <tr-home route='home'></tr-home>
+          <tr-home route='home' @authorized=${()=>this.navigate("/dashboard")}></tr-home>
           <tr-dashboard route='dashboard'></tr-dashboard>
           <tr-view404 route='view404'></tr-view404>
         </main>
@@ -133,6 +133,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   get drawer() {
     return this.shadowRoot.querySelector("mwc-drawer")
   }
+
   get snackbar() {
     return this.shadowRoot.querySelector("mwc-snackbar")
   }

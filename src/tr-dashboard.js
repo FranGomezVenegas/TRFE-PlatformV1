@@ -22,6 +22,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   render() {
     return html`
       <h1>DASHBOARD</h1>
+      <h3>Hi ${this.getUser()}, you are authorized</h3>
+      <button @click=${this.logout}>Logout</button>
     `;
   }
 
@@ -35,6 +37,16 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   }
 
   firstUpdated() {
+  }
+
+  getUser() {
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    return userSession.header_info.first_name +" "+ userSession.header_info.last_name
+  }
+
+  logout() {
+    window.sessionStorage.clear();
+    window.location.href = "/";
   }
 
   stateChanged(state) {

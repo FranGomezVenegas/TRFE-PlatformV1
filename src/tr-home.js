@@ -44,6 +44,10 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
     `;
   }
 
+  get pLogin() {
+    return this.shadowRoot.querySelector("platform-login")
+  }
+
   static get properties() {
     return {
     };
@@ -54,6 +58,9 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
   }
 
   firstUpdated() {
+    fetch("/src/config.json").then(r => r.json()).then(j => {
+      this.pLogin.config = j
+    })
   }
 
   stateChanged(state) {
