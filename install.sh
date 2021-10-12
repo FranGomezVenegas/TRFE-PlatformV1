@@ -4,7 +4,7 @@ echo ======
 echo preinstall
 echo
 
-requirements="@trazit/platform-login"
+requirements="@trazit/platform-login @trazit/procedure-management"
 yalcDir=`yalc dir`
 
 echo deleting old packages

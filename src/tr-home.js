@@ -10,37 +10,28 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
     return [
       css`
       :host {
-        display: block;
-        height: 100vh;
-        background-color: white;
-      }
-      div {
         display: flex;
         justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
         background-image: url(/images/abstract.jpg);
-        background-size: contain;
+        background-color: white;
+        background-size: cover;
         background-repeat: no-repeat;
-        margin-top: 20px;
       }
       @media (max-width: 460px) {
-        div {
-          display: flex;
-          justify-content: center;
-          background-repeat: no-repeat;
+        :host {
           background-size: 110%;
           background-position: center;
-          background-image: url('/images/abstract.jpg');
-          margin-top: 30px;
-        }  
+        }
       }
     `];
   }
 
   render() {
     return html`
-      <div>
-        <platform-login></platform-login>
-      </div>
+      <platform-login></platform-login>
     `;
   }
 
