@@ -9,7 +9,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 import { store } from '../redux/store';
 
 // These are the actions needed by this element.
-import { initMetadata } from '../redux/actions.js';
+import { initMetadata, initConfig } from '../redux/actions.js';
 
 import '@material/mwc-snackbar';
 
@@ -107,6 +107,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   }
 
   firstUpdated() {
+    fetch("/src/config.json").then(r => r.json()).then(j => {
+      store.dispatch(initConfig(j));
+    })
     window.addEventListener('online', () => {
       this.snackbar.labelText = "You are now online"
       this.snackbar.show()

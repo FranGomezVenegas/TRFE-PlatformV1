@@ -31,7 +31,7 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
 
   render() {
     return html`
-      <platform-login></platform-login>
+      <platform-login .config=${this.config}></platform-login>
     `;
   }
 
@@ -41,20 +41,19 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
 
   static get properties() {
     return {
+      config: { type: Object }
     };
   }
 
   constructor() {
     super();
-  }
-
-  firstUpdated() {
-    fetch("/src/config.json").then(r => r.json()).then(j => {
-      this.pLogin.config = j
-    })
+    this.config = {};
   }
 
   stateChanged(state) {
+    if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
+      this.config = state.app.config;
+    }
   }
 }
 customElements.define('tr-home', TrHome);

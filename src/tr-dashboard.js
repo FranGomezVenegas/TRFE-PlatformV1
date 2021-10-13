@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit-element';
 import { Layouts, Factors, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../redux/store';
 import '@spectrum-web-components/action-menu/sync/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-settings.js';
@@ -12,7 +14,7 @@ import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
 
-export class TrDashboard extends navigator(LitElement) {
+export class TrDashboard extends connect(store)(navigator(LitElement)) {
   static get styles() {
     return [
       Layouts, Factors,
@@ -119,7 +121,7 @@ export class TrDashboard extends navigator(LitElement) {
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     Incidents
                   </sp-menu-item>
-                  <sp-menu-item>
+                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/user")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     User
                   </sp-menu-item>
@@ -140,7 +142,8 @@ export class TrDashboard extends navigator(LitElement) {
         <main class="layout vertical flex">
           <div style="margin: 20px auto">TAB STATE</div>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <procedure-management ?hidden=${this.params.menu=='procedure'  ? false : true} .params=${this.params}></procedure-management>
+          <procedure-management ?hidden=${this.params.menu=='procedure' ? false : true} .params=${this.params}></procedure-management>
+          <user-profile .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
         </main>
       </div>
     `;
@@ -154,7 +157,8 @@ export class TrDashboard extends navigator(LitElement) {
     return {
       params: { type: Object }, // route params which is passed from parent element (root app)
       desktop: { type: Boolean },
-      drawerState: { type: Boolean }
+      drawerState: { type: Boolean },
+      config: { type: Object }
     };
   }
 
@@ -162,6 +166,7 @@ export class TrDashboard extends navigator(LitElement) {
     super();
     this.params = {};
     this.drawerState = false;
+    this.config = {};
   }
 
   updated(updates) {
@@ -184,6 +189,9 @@ export class TrDashboard extends navigator(LitElement) {
     switch (this.params.menu) {
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
+        break;
+      case 'user':
+        import('@trazit/user-profile/user-profile');
         break;
       default:
         import('./tr-default');
@@ -231,6 +239,9 @@ export class TrDashboard extends navigator(LitElement) {
   }
 
   stateChanged(state) {
+    if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
+      this.config = state.app.config;
+    }
   }
 }
 customElements.define('tr-dashboard', TrDashboard);
