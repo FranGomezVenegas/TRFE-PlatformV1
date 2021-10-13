@@ -33,6 +33,7 @@
     "@spectrum-web-components/theme": "^0.8.14",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
+    "@trazit/user-profile": "file:.yalc/@trazit/user-profile",
     "lit-element": "^2.5.1",
     "lit-element-router": "^2.0.3",
     "lit-html": "^1.4.1",
