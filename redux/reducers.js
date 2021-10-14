@@ -1,11 +1,13 @@
 import {
   INIT_METADATA,
-  INIT_CONFIG
+  INIT_CONFIG,
+  SET_LANG
 } from './actions';
 
 const INITIAL_STATE = {
   metadata: {},
-  config: {}
+  config: {},
+  lang: "en"
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -19,6 +21,11 @@ const app = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         config: action.config
+      };
+    case SET_LANG:
+      return {
+        ...state,
+        lang: action.lang
       };
     default:
       return state;
