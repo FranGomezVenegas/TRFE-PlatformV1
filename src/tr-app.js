@@ -9,7 +9,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 import { store } from '../redux/store';
 
 // These are the actions needed by this element.
-import { initMetadata, initConfig } from '../redux/actions.js';
+import { initMetadata, initConfig, setLang } from '../redux/actions.js';
 
 import '@material/mwc-snackbar';
 
@@ -25,8 +25,11 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
 
   render() {
     return html`
-      <tr-home route='home' @authorized=${()=>this.navigate("/dashboard")}></tr-home>
-      <tr-dashboard route='dashboard' .params=${this.params}></tr-dashboard>
+      <tr-home route='home' 
+        @authorized=${()=>this.navigate("/dashboard")}
+        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}></tr-home>
+      <tr-dashboard route='dashboard' .params=${this.params}
+        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}></tr-dashboard>
       <tr-view404 route='view404'></tr-view404>
       <mwc-snackbar></mwc-snackbar>
     `;
@@ -38,7 +41,6 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
 
   static get properties() {
     return {
-      auth: { type: Boolean },
       page: { type: String },
       params: { type: Object },
       query: { type: Object },
@@ -91,7 +93,6 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
-    this.auth = false;
     this.page = "";
     this.params = {};
     this.query = {};
