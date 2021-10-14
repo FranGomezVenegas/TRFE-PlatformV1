@@ -96,9 +96,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 ${this.userSession()}
                 <sp-divider size="m"></sp-divider>
               </div>
-              <nav slot="actionItems">
+              <nav slot="actionItems" class="layout horizontal center">
                 <sp-action-menu id="menu1" size="m" @mouseover=${()=>this.menuHover("menu1")}>
-                  <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label" @mouseover=${()=>this.menuHover("menu1")}>Procedures</span>
                   <sp-menu-item>
                     <sp-action-menu size="m" @mouseover=${e => e.target.open=true}>
@@ -125,7 +124,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     User
                   </sp-menu-item>
-                  <sp-menu-item>
+                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/tutorial")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     Video Tutorial
                   </sp-menu-item>
@@ -135,6 +134,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     Logout
                   </sp-menu-item>
                 </sp-action-menu>
+                <mwc-icon-button @click=${this.changeLang}>
+                  <img .src="/images/${this.flag}.jpg" />
+                </mwc-icon-button>
               </nav>
             </mwc-top-app-bar-fixed>
           </div>
@@ -143,7 +145,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <div style="margin: 20px auto">TAB STATE</div>
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <procedure-management ?hidden=${this.params.menu=='procedure' ? false : true} .params=${this.params}></procedure-management>
-          <user-profile .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
+          <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
+          <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='tutorial' ? false : true} .params=${this.params}></video-tutorial>
         </main>
       </div>
     `;
@@ -158,7 +161,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       params: { type: Object }, // route params which is passed from parent element (root app)
       desktop: { type: Boolean },
       drawerState: { type: Boolean },
-      config: { type: Object }
+      config: { type: Object },
+      lang: { type: String },
+      flag: { type: String }
     };
   }
 
@@ -167,6 +172,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     this.params = {};
     this.drawerState = false;
     this.config = {};
+    this.lang = "en";
   }
 
   updated(updates) {
@@ -174,9 +180,35 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     if (updates.has('params')) {
       this._paramsChanged()
     }
+    if (updates.has("lang")) {
+      this.changeFlag()
+    }
+  }
+
+  changeLang() {
+    if (this.flag == "england") {
+      this.lang = "en"
+      this.flag = "spain"
+    } else {
+      this.lang = "es"
+      this.flag = "england"
+    }
+  }
+
+  changeFlag() {
+    console.log(this.lang)
+    if (this.lang == "en") {
+      this.flag = "spain"
+    } else {
+      this.flag = "england"
+    }
+    console.log(this.flag)
   }
 
   firstUpdated() {
+    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
+      return this.navigate("/")
+    }
     const container = this.drawer.parentNode;
     container.addEventListener('MDCTopAppBar:nav', () => {
       this.drawer.open = !this.drawer.open;
@@ -193,6 +225,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       case 'user':
         import('@trazit/user-profile/user-profile');
         break;
+      case 'tutorial':
+        import('@trazit/video-tutorial/video-tutorial');
+        break;
       default:
         import('./tr-default');
     }
@@ -201,20 +236,22 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
 
   userSession() {
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    if (this.desktop) {
-      return html`
-        <label style="line-height:normal">
-          ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-          Session Id: ${userSession.appSessionId} Date: ${userSession.appSessionStartDate}
-        </label>
-      `
-    } else {
-      return html`
-        <label style="line-height:normal">
-          ${userSession.header_info.first_name} ${userSession.header_info.last_name}<br>
-          ${userSession.userRole}
-        </label>
-      `
+    if (userSession) {
+      if (this.desktop) {
+        return html`
+          <label style="line-height:normal">
+            ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
+            Session Id: ${userSession.appSessionId} Date: ${userSession.appSessionStartDate}
+          </label>
+        `
+      } else {
+        return html`
+          <label style="line-height:normal">
+            ${userSession.header_info.first_name} ${userSession.header_info.last_name}<br>
+            ${userSession.userRole}
+          </label>
+        `
+      }
     }
   }
 
@@ -241,6 +278,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   stateChanged(state) {
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
+    }
+    if (this.lang != state.app.lang) {
+      this.lang = state.app.lang;
     }
   }
 }

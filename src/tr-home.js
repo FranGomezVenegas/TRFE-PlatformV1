@@ -54,6 +54,9 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
     }
+    if (this.pLogin && this.pLogin.lang != state.app.lang) {
+      this.pLogin.lang = state.app.lang;
+    }
   }
 }
 customElements.define('tr-home', TrHome);
