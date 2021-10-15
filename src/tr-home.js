@@ -20,6 +20,9 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
         background-size: cover;
         background-repeat: no-repeat;
       }
+      platform-login {
+        opacity: 0.7;
+      }
       @media (max-width: 460px) {
         :host {
           background-size: 110%;
