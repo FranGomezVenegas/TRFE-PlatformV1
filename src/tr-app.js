@@ -27,15 +27,26 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     return html`
       <tr-home route='home' 
         @authorized=${()=>this.navigate("/dashboard")}
-        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}></tr-home>
+        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
+        @error=${this.error}></tr-home>
       <tr-dashboard route='dashboard' .params=${this.params}
-        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}></tr-dashboard>
+        @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
+        @error=${this.error}></tr-dashboard>
       <tr-view404 route='view404'></tr-view404>
       <mwc-snackbar></mwc-snackbar>
     `;
   }
 
-  get snackbar() {
+  error(e) {
+    let msg = e.detail.message;
+    if (e.detail["message_"+ this.lang]) {
+      msg = e.detail["message_"+ this.lang];
+    }
+    this.toast.labelText = msg;
+    this.toast.show();
+  }
+
+  get toast() {
     return this.shadowRoot.querySelector("mwc-snackbar")
   }
 
@@ -46,7 +57,8 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       query: { type: Object },
       data: { type: Object },
       title: { type: String },
-      metadata: { type: Object }
+      metadata: { type: Object },
+      lang: { type: String }
     };
   }
 
@@ -168,6 +180,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         ...state.app.metadata,
         url: window.location.href
       })
+    }
+    if (this.lang != state.app.lang) {
+      this.lang = state.app.lang;
     }
   }
 }
