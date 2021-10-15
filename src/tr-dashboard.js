@@ -14,6 +14,41 @@ import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
 
+const langConfig = {
+  "proceduresOption": {
+    "tabLabel_en": "Procedures", 
+    "tabLabel_es": "Procesos"
+  },
+  "notificationsOption": {
+    "tabLabel_en": "Notifications", 
+    "tabLabel_es": "Notificaciones"
+  },
+  "personalOption": {
+    "tabLabel_en": "My Settings", 
+    "tabLabel_es": "Mi Espacio",
+    "procedure": {
+      "label_en": "Procedure", 
+      "label_es": "Proceso"
+    },
+    "incidents": {
+      "label_en": "Incidents", 
+      "label_es": "Incidencias"
+    },
+    "user": {
+      "label_en": "User", 
+      "label_es": "Usuario"
+    },
+    "video": {
+      "label_en": "Video Tutorial", 
+      "label_es": "Tutorial en Video"
+    },
+    "doLogout": {
+      "label_en": "Close Session", 
+      "label_es": "Cerrar Sesión"
+    }
+  }
+}
+
 export class TrDashboard extends connect(store)(navigator(LitElement)) {
   static get styles() {
     return [
@@ -66,8 +101,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         cursor: pointer;
       }
       main {
-        color: #2F4F4F;
-        margin-bottom: 60px;
+        padding: 20px;
       }
     `];
   }
@@ -83,7 +117,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <div>
             <mwc-list>
               <mwc-list-item @click="${() => this.navigate('/dashboard/procedures')}">
-                <span>Procedures</span>
+                <span>${langConfig.proceduresOption["tabLabel_"+this.lang]}</span>
               </mwc-list-item>
             </mwc-list>
           </div>
@@ -111,31 +145,31 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 </sp-action-menu>
                 <sp-action-menu id="menu2" size="m" @mouseover=${e=>this.menuHover("menu2")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
-                  <span slot="label" @mouseover=${()=>this.menuHover("menu2")}>Settings</span>
+                  <span slot="label" @mouseover=${()=>this.menuHover("menu2")}>${langConfig.personalOption["tabLabel_"+this.lang]}</span>
                   <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/procedure")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    Procedures
+                    ${langConfig.personalOption.procedure["label_"+this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item>
+                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/incidents")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    Incidents
+                    ${langConfig.personalOption.incidents["label_"+this.lang]}
                   </sp-menu-item>
                   <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/user")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    User
+                    ${langConfig.personalOption.user["label_"+this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/tutorial")}>
+                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/video")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    Video Tutorial
+                    ${langConfig.personalOption.video["label_"+this.lang]}
                   </sp-menu-item>
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item @click=${this.logout}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    Logout
+                    ${langConfig.personalOption.doLogout["label_"+this.lang]}
                   </sp-menu-item>
                 </sp-action-menu>
                 <mwc-icon-button @click=${this.changeLang}>
-                  <img .src="/images/${this.flag}.jpg" />
+                  <img .src="/images/${this.flag}.png" />
                 </mwc-icon-button>
               </nav>
             </mwc-top-app-bar-fixed>
@@ -145,6 +179,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <div style="margin: 20px auto">TAB STATE</div>
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <procedure-management ?hidden=${this.params.menu=='procedure' ? false : true} .params=${this.params}></procedure-management>
+          <my-incidents ?hidden=${this.params.menu=='incidents' ? false : true} .params=${this.params}></my-incidents>
           <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
           <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='tutorial' ? false : true} .params=${this.params}></video-tutorial>
         </main>
@@ -186,23 +221,21 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   }
 
   changeLang() {
-    if (this.flag == "england") {
+    if (this.flag == "en") {
       this.lang = "en"
-      this.flag = "spain"
+      this.flag = "es"
     } else {
       this.lang = "es"
-      this.flag = "england"
+      this.flag = "en"
     }
   }
 
   changeFlag() {
-    console.log(this.lang)
     if (this.lang == "en") {
-      this.flag = "spain"
+      this.flag = "es"
     } else {
-      this.flag = "england"
+      this.flag = "en"
     }
-    console.log(this.flag)
   }
 
   firstUpdated() {
@@ -221,6 +254,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     switch (this.params.menu) {
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
+        break;
+      case 'incidents':
+        import('@trazit/my-incidents/my-incidents');
         break;
       case 'user':
         import('@trazit/user-profile/user-profile');
@@ -241,7 +277,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         return html`
           <label style="line-height:normal">
             ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-            Session Id: ${userSession.appSessionId} Date: ${userSession.appSessionStartDate}
+            ${this.lang=="en"?"Session":"Sesión"} Id: ${userSession.appSessionId} ${this.lang=="en"?"Date":"Fecha"}: ${userSession.appSessionStartDate}
           </label>
         `
       } else {
