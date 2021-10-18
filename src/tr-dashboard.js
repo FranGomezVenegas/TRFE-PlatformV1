@@ -158,7 +158,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     ${langConfig.personalOption.user["label_"+this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/video")}>
+                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/tutorial")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     ${langConfig.personalOption.video["label_"+this.lang]}
                   </sp-menu-item>
@@ -179,7 +179,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <div style="margin: 20px auto">TAB STATE</div>
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <procedure-management ?hidden=${this.params.menu=='procedure' ? false : true} .params=${this.params}></procedure-management>
-          <my-incidents ?hidden=${this.params.menu=='incidents' ? false : true} .params=${this.params}></my-incidents>
+          <my-incidents .config=${this.config} ?hidden=${this.params.menu=='incidents' ? false : true} .params=${this.params}></my-incidents>
           <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
           <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='tutorial' ? false : true} .params=${this.params}></video-tutorial>
         </main>
