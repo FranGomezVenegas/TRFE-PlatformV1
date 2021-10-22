@@ -151,7 +151,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 <sp-action-menu id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
-                    ${this.sops.length + this.analytics.length}</span>
+                    ${this.allPending()}</span>
                   <sp-menu-item>SOP ${this.pendingSOP()} <span style="color: blue"
                       @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span></sp-menu-item>
                   <sp-menu-item>Analytical Method ${this.pendingAnalytic()} <span style="color: blue"
@@ -244,6 +244,16 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     this.notifs = [];
   }
 
+  allPending() {
+    let s = this.sops.filter(s => s.status == "NOT_PASS")
+    let a = this.analytics.filter(s => s.status == "NOT_PASS")
+    if (s.length+a.length > 0) {
+      return html`<span style="color: red">${s.length+a.length}</span>`
+    } else {
+      return null
+    }
+  }
+
   pendingSOP() {
     let p = this.sops.filter(s => s.status == "NOT_PASS")
     if (p.length) {
@@ -305,8 +315,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       return this.navigate("/")
     }
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.sops = userSession.all_my_sops[0].my_sops.filter(c => c.status != "EXPIRED")
-    this.analytics = userSession.all_my_analysis_methods[0].my_analysis_method_certifications.filter(c => c.status != "EXPIRED")
+    this.sops = userSession.all_my_sops[0].my_sops
+    this.analytics = userSession.all_my_analysis_methods[0].my_analysis_method_certifications
 
     const container = this.drawer.parentNode;
     container.addEventListener('MDCTopAppBar:nav', () => {
