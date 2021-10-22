@@ -16,34 +16,34 @@ import '@material/mwc-icon-button';
 
 const langConfig = {
   "proceduresOption": {
-    "tabLabel_en": "Procedures", 
+    "tabLabel_en": "Procedures",
     "tabLabel_es": "Procesos"
   },
   "notificationsOption": {
-    "tabLabel_en": "Notifications", 
+    "tabLabel_en": "Notifications",
     "tabLabel_es": "Notificaciones"
   },
   "personalOption": {
-    "tabLabel_en": "My Settings", 
+    "tabLabel_en": "My Settings",
     "tabLabel_es": "Mi Espacio",
     "procedure": {
-      "label_en": "Procedure", 
+      "label_en": "Procedure",
       "label_es": "Proceso"
     },
     "incidents": {
-      "label_en": "Incidents", 
+      "label_en": "Incidents",
       "label_es": "Incidencias"
     },
     "user": {
-      "label_en": "User", 
+      "label_en": "User",
       "label_es": "Usuario"
     },
     "video": {
-      "label_en": "Video Tutorial", 
+      "label_en": "Video Tutorial",
       "label_es": "Tutorial en Video"
     },
     "doLogout": {
-      "label_en": "Close Session", 
+      "label_en": "Close Session",
       "label_es": "Cerrar Sesión"
     }
   }
@@ -110,14 +110,14 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     return html`
       <div class="container layout vertical">
         <mwc-drawer hasHeader type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
-          <div @click=${() => this.navigate("/")} class="header" slot="title" style="margin:-30px auto">
+          <div @click=${()=> this.navigate("/")} class="header" slot="title" style="margin:-30px auto">
             <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
             ${this.userSession()}
           </div>
           <div>
             <mwc-list>
               <mwc-list-item @click="${() => this.navigate('/dashboard/procedures')}">
-                <span>${langConfig.proceduresOption["tabLabel_"+this.lang]}</span>
+                <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
               </mwc-list-item>
             </mwc-list>
           </div>
@@ -125,47 +125,58 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             <mwc-top-app-bar-fixed>
               <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
                 @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-              <div @click=${() => this.navigate("/")} ?hidden=${!this.desktop} class="header" slot="title">
+              <div @click=${()=> this.navigate("/")} ?hidden=${!this.desktop} class="header" slot="title">
                 <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
                 ${this.userSession()}
                 <sp-divider size="m"></sp-divider>
               </div>
               <nav slot="actionItems" class="layout horizontal center">
-                <sp-action-menu id="menu1" size="m" @mouseover=${()=>this.menuHover("menu1")}>
-                  <span slot="label" @mouseover=${()=>this.menuHover("menu1")}>Procedures</span>
+                <sp-action-menu id="menu1" size="m" @mouseover=${() => this.menuHover("menu1")}>
+                  <div slot="icon"></div>
+                  <span slot="label" @mouseover=${() => this.menuHover("menu1")}>Procedures</span>
                   <sp-menu-item>
-                    <sp-action-menu size="m" @mouseover=${e => e.target.open=true}>
+                    <sp-action-menu size="m" @mouseover=${e=> e.target.open = true}>
                       <div slot="icon"></div>
                       <span slot="label">Menu 1</span>
-                      <sp-menu-item @click=${()=>this.selectedMenu("/dashboard")}>
+                      <sp-menu-item @click=${() => this.selectedMenu("/dashboard")}>
                         Sub Menu 1
                       </sp-menu-item>
                     </sp-action-menu>
                   </sp-menu-item>
                 </sp-action-menu>
-                <sp-action-menu id="menu2" size="m" @mouseover=${e=>this.menuHover("menu2")}>
+                <sp-action-menu id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
+                  <div slot="icon"></div>
+                  <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
+                    ${this.sops.length + this.analytics.length}</span>
+                  <sp-menu-item>SOP ${this.pendingSOP()} <span style="color: blue"
+                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span></sp-menu-item>
+                  <sp-menu-item>Analytical Method ${this.pendingAnalytic()} <span style="color: blue"
+                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span></sp-menu-item>
+                </sp-action-menu>
+                <sp-action-menu id="menu2" size="m" @mouseover=${e => this.menuHover("menu2")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
-                  <span slot="label" @mouseover=${()=>this.menuHover("menu2")}>${langConfig.personalOption["tabLabel_"+this.lang]}</span>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/procedure")}>
+                  <span slot="label"
+                    @mouseover=${() => this.menuHover("menu2")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    ${langConfig.personalOption.procedure["label_"+this.lang]}
+                    ${langConfig.personalOption.procedure["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/incidents")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    ${langConfig.personalOption.incidents["label_"+this.lang]}
+                    ${langConfig.personalOption.incidents["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/user")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    ${langConfig.personalOption.user["label_"+this.lang]}
+                    ${langConfig.personalOption.user["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${()=>this.selectedMenu("/dashboard/tutorial")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    ${langConfig.personalOption.video["label_"+this.lang]}
+                    ${langConfig.personalOption.video["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item @click=${this.logout}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
-                    ${langConfig.personalOption.doLogout["label_"+this.lang]}
+                    ${langConfig.personalOption.doLogout["label_" + this.lang]}
                   </sp-menu-item>
                 </sp-action-menu>
                 <mwc-icon-button @click=${this.changeLang}>
@@ -178,10 +189,16 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         <main class="layout vertical flex">
           <div style="margin: 20px auto">TAB STATE</div>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <procedure-management ?hidden=${this.params.menu=='procedure' ? false : true} .params=${this.params}></procedure-management>
-          <my-incidents .config=${this.config} ?hidden=${this.params.menu=='incidents' ? false : true} .params=${this.params}></my-incidents>
-          <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='user' ? false : true} .params=${this.params}></user-profile>
-          <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu=='tutorial' ? false : true} .params=${this.params}></video-tutorial>
+          <procedure-management ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
+          </procedure-management>
+          <my-certifications .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
+          </my-certifications>
+          <my-incidents .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
+          </my-incidents>
+          <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
+            .params=${this.params}></user-profile>
+          <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
+            .params=${this.params}></video-tutorial>
         </main>
       </div>
     `;
@@ -191,23 +208,51 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     return this.shadowRoot.querySelector("mwc-drawer")
   }
 
+  get myCerts() {
+    return this.shadowRoot.querySelector("my-certifications")
+  }
+
   static get properties() {
     return {
       params: { type: Object }, // route params which is passed from parent element (root app)
+      query: { type: Object }, // route query which is passed from parent element (root app)
       desktop: { type: Boolean },
       drawerState: { type: Boolean },
       config: { type: Object },
       lang: { type: String },
-      flag: { type: String }
+      flag: { type: String },
+      sops: { type: Array },
+      analytics: { type: Array }
     };
   }
 
   constructor() {
     super();
     this.params = {};
+    this.query = {};
     this.drawerState = false;
     this.config = {};
     this.lang = "en";
+    this.sops = [];
+    this.analytics = [];
+  }
+
+  pendingSOP() {
+    let p = this.sops.filter(s => s.status == "NOT_PASS")
+    if (p.length) {
+      return html`<span style="color: red" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=psop")}>${p.length}</span>`
+    } else {
+      return null
+    }
+  }
+
+  pendingAnalytic() {
+    let p = this.analytics.filter(s => s.status == "NOT_PASS")
+    if (p.length) {
+      return html`<span style="color: red" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=panalytic")}>${p.length}</span>`
+    } else {
+      return null
+    }
   }
 
   updated(updates) {
@@ -242,6 +287,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
       return this.navigate("/")
     }
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.sops = userSession.all_my_sops[0].my_sops.filter(c => c.status != "EXPIRED")
+    this.analytics = userSession.all_my_analysis_methods[0].my_analysis_method_certifications.filter(c => c.status != "EXPIRED")
+
     const container = this.drawer.parentNode;
     container.addEventListener('MDCTopAppBar:nav', () => {
       this.drawer.open = !this.drawer.open;
@@ -254,6 +303,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     switch (this.params.menu) {
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
+        break;
+      case 'certifications':
+        import('@trazit/my-certifications/my-certifications');
         break;
       case 'incidents':
         import('@trazit/my-incidents/my-incidents');
@@ -277,7 +329,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         return html`
           <label style="line-height:normal">
             ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-            ${this.lang=="en"?"Session":"Sesión"} Id: ${userSession.appSessionId} ${this.lang=="en"?"Date":"Fecha"}: ${userSession.appSessionStartDate}
+            ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} ${this.lang == "en" ? "Date" : "Fecha"}:
+            ${userSession.appSessionStartDate}
           </label>
         `
       } else {
@@ -296,13 +349,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       if (s.id == menu) {
         s.open = true;
       } else {
-        s.open=false
+        s.open = false
       }
     })
   }
 
   selectedMenu(route) {
-    this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => s.open=false)
+    this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => s.open = false)
     this.navigate(route)
   }
 

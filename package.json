@@ -32,6 +32,7 @@
     "@spectrum-web-components/menu": "^0.9.5",
     "@spectrum-web-components/theme": "^0.8.14",
     "@trazit/common-core": "file:.yalc/@trazit/common-core",
+    "@trazit/my-certifications": "file:.yalc/@trazit/my-certifications",
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",

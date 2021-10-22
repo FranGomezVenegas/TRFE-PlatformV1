@@ -4,5 +4,9 @@
   "appAuthenticateApiUrl": "/frontend/AuthenticationAPI",
   "frontEndVideoTutorialsUrl": "/frontend/VideoTutorialAPIfrontend",
   "frontEndIncidentsUrl": "/frontend/IncidentAPIfrontend",
-  "ApiIncidentsUrl": "/app/IncidentAPI"
+  "ApiIncidentsUrl": "/app/IncidentAPI",
+  "ApiSopUserUrl": "/app/SopUserAPI",
+  "frontEndSopUrl": "/frontend/SopUserAPIfrontend",
+  "appProcedureListApiUrl": "/frontend/AppProcedureListAPI"
+
 }
