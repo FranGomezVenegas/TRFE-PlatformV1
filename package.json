@@ -35,6 +35,7 @@
     "@trazit/my-certifications": "file:.yalc/@trazit/my-certifications",
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
+    "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
     "@trazit/user-profile": "file:.yalc/@trazit/user-profile",
     "@trazit/video-tutorial": "file:.yalc/@trazit/video-tutorial",

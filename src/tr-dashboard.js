@@ -131,9 +131,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 <sp-divider size="m"></sp-divider>
               </div>
               <nav slot="actionItems" class="layout horizontal center">
-                <sp-action-menu id="menu1" size="m" @mouseover=${() => this.menuHover("menu1")}>
+                <sp-action-menu id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
                   <div slot="icon"></div>
-                  <span slot="label" @mouseover=${() => this.menuHover("menu1")}>Procedures</span>
+                  <span slot="label" @mouseover=${() => this.menuHover("procedures")}>Procedures</span>
                   <sp-menu-item>
                     <sp-action-menu size="m" @mouseover=${e=> e.target.open = true}>
                       <div slot="icon"></div>
@@ -144,6 +144,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     </sp-action-menu>
                   </sp-menu-item>
                 </sp-action-menu>
+                <sp-action-menu id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
+                  <div slot="icon"></div>
+                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>Notifications${this.notifs.length?' '+this.notifs.length:null}</span>
+                </sp-action-menu>
                 <sp-action-menu id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
@@ -153,10 +157,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                   <sp-menu-item>Analytical Method ${this.pendingAnalytic()} <span style="color: blue"
                       @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span></sp-menu-item>
                 </sp-action-menu>
-                <sp-action-menu id="menu2" size="m" @mouseover=${e => this.menuHover("menu2")}>
+                <sp-action-menu id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label"
-                    @mouseover=${() => this.menuHover("menu2")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
+                    @mouseover=${() => this.menuHover("settings")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
                   <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")}>
                     <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
                     ${langConfig.personalOption.procedure["label_" + this.lang]}
@@ -191,6 +195,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <procedure-management ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
+          <platform-notif .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
           <my-certifications .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
           </my-certifications>
           <my-incidents .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
@@ -222,7 +227,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       lang: { type: String },
       flag: { type: String },
       sops: { type: Array },
-      analytics: { type: Array }
+      analytics: { type: Array },
+      notifs: { type: Array }
     };
   }
 
@@ -235,6 +241,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     this.lang = "en";
     this.sops = [];
     this.analytics = [];
+    this.notifs = [];
   }
 
   pendingSOP() {
@@ -252,6 +259,16 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       return html`<span style="color: red" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=panalytic")}>${p.length}</span>`
     } else {
       return null
+    }
+  }
+
+  setNotif(e) {
+    if (e.detail.log) { // logging as required
+      this.notifs = [
+        ...this.notifs,
+        e.detail
+      ]
+      this.requestUpdate()
     }
   }
 
@@ -303,6 +320,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     switch (this.params.menu) {
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
+        break;
+      case 'notifications':
+        import('@trazit/platform-notif/platform-notif');
         break;
       case 'certifications':
         import('@trazit/my-certifications/my-certifications');

@@ -31,19 +31,27 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         @error=${this.error}></tr-home>
       <tr-dashboard route='dashboard' .params=${this.params} .query=${this.query}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
-        @error=${this.error}></tr-dashboard>
+        @success=${this.setNotif} 
+        @error=${this.setNotif}></tr-dashboard>
       <tr-view404 route='view404'></tr-view404>
       <mwc-snackbar></mwc-snackbar>
     `;
   }
 
-  error(e) {
+  setNotif(e) {
+    if (e.detail.log) {
+      this.dashboard.setNotif(e)
+    }
     let msg = e.detail.message;
     if (e.detail["message_"+ this.lang]) {
       msg = e.detail["message_"+ this.lang];
     }
     this.toast.labelText = msg;
     this.toast.show();
+  }
+
+  get dashboard() {
+    return this.shadowRoot.querySelector("tr-dashboard")
   }
 
   get toast() {
