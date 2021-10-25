@@ -152,10 +152,14 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
                     ${this.allPending()}</span>
-                  <sp-menu-item>SOP ${this.pendingSOP()} <span style="color: blue"
-                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span></sp-menu-item>
-                  <sp-menu-item>Analytical Method ${this.pendingAnalytic()} <span style="color: blue"
-                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span></sp-menu-item>
+                  <sp-menu-item>SOP ${this.pendingSOP()} ${this.sops.length ?
+                    html`<span style="color: blue"
+                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span>` : null}
+                  </sp-menu-item>
+                  <sp-menu-item>Analytical Method ${this.pendingAnalytic()} ${this.analytics.length ?
+                    html`<span style="color: blue"
+                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span>` : null}
+                  </sp-menu-item>
                 </sp-action-menu>
                 <sp-action-menu id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
