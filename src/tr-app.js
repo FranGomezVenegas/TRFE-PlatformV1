@@ -28,7 +28,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       <tr-home route='home' 
         @authorized=${()=>this.navigate("/dashboard")}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
-        @error=${this.error}></tr-home>
+        @error=${this.setNotif}></tr-home>
       <tr-dashboard route='dashboard' .params=${this.params} .query=${this.query}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
         @success=${this.setNotif} 
