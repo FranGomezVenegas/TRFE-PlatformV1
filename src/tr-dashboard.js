@@ -311,18 +311,17 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   }
 
   firstUpdated() {
-    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
-      return this.navigate("/")
-    }
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.sops = userSession.all_my_sops[0].my_sops
-    this.analytics = userSession.all_my_analysis_methods[0].my_analysis_method_certifications
-
     const container = this.drawer.parentNode;
     container.addEventListener('MDCTopAppBar:nav', () => {
       this.drawer.open = !this.drawer.open;
     });
     installMediaQueryWatcher(`(min-width: 460px)`, desktop => this.desktop = desktop);
+    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
+      return this.navigate("/")
+    }
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
+    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
   }
 
   _paramsChanged() {
