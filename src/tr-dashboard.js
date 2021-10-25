@@ -13,6 +13,7 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
+import './tab-state';
 
 const langConfig = {
   "proceduresOption": {
@@ -101,7 +102,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         cursor: pointer;
       }
       main {
-        padding: 20px;
+        padding: 0 20px 20px;
       }
     `];
   }
@@ -195,7 +196,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           </div>
         </mwc-drawer>
         <main class="layout vertical flex">
-          <div style="margin: 20px auto">TAB STATE</div>
+          <tab-state .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <procedure-management ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
@@ -219,6 +220,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
 
   get myCerts() {
     return this.shadowRoot.querySelector("my-certifications")
+  }
+
+  get tabs() {
+    return this.shadowRoot.querySelector("tab-state")
   }
 
   static get properties() {
