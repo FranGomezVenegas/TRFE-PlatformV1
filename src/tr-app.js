@@ -46,8 +46,15 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     if (e.detail["message_"+ this.lang]) {
       msg = e.detail["message_"+ this.lang];
     }
-    this.toast.labelText = msg;
-    this.toast.show();
+    if (e.detail.is_error) {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#a33";
+    } else {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
+    }
+    if (msg) {
+      this.toast.labelText = msg;
+      this.toast.show();
+    }
   }
 
   get dashboard() {
@@ -132,12 +139,14 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       store.dispatch(initConfig(j));
     })
     window.addEventListener('online', () => {
-      this.snackbar.labelText = "You are now online"
-      this.snackbar.show()
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
+      this.toast.labelText = "You are now online"
+      this.toast.show()
     })
     window.addEventListener('offline', () => {
-      this.snackbar.labelText = "You are now offline"
-      this.snackbar.show()
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
+      this.toast.labelText = "You are now offline"
+      this.toast.show()
     })
   }
 
