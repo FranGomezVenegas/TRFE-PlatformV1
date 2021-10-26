@@ -331,6 +331,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    this.updateComplete.then(() => {
+      this.dispatchEvent(new CustomEvent('completed'))
+    })
   }
 
   _paramsChanged() {

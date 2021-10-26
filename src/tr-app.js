@@ -12,6 +12,7 @@ import { store } from '../redux/store';
 import { initMetadata, initConfig, setLang } from '../redux/actions.js';
 
 import '@material/mwc-snackbar';
+import '@material/mwc-circular-progress';
 
 export class TrApp extends connect(store)(router(navigator(outlet(LitElement)))) {
   static get styles() {
@@ -19,6 +20,11 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       :host {
         display: block;
         background-color: white;
+      }
+      mwc-circular-progress {
+        position: fixed;
+        top : 50%;
+        left: 50%;
       }
     `;
   }
@@ -32,14 +38,27 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         @error=${this.setNotif}></tr-home>
       <tr-dashboard route='dashboard' .params=${this.params} .query=${this.query}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
+        @completed=${this.completed}
         @success=${this.setNotif} 
         @error=${this.setNotif}></tr-dashboard>
       <tr-view404 route='view404'></tr-view404>
       <mwc-snackbar></mwc-snackbar>
+      <mwc-circular-progress indeterminate closed=true></mwc-circular-progress>
     `;
   }
 
+  /**
+   * once dashboard rendered for the first time
+   */
+  completed() {
+    this.waiting.closed = true
+    this.toast.close()
+  }
+
   setNotif(e) {
+    if (e.detail.waiting) {
+      this.waiting.closed = false
+    }
     if (e.detail.log) {
       this.dashboard.setNotif(e)
     }
@@ -64,6 +83,10 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
 
   get toast() {
     return this.shadowRoot.querySelector("mwc-snackbar")
+  }
+
+  get waiting() {
+    return this.shadowRoot.querySelector("mwc-circular-progress")
   }
 
   static get properties() {
