@@ -1,4 +1,10 @@
 {
+  "enableLockSession": true,
+  "minsLockSession": 5000,
+  "enableLogoutSession": true,
+  "minsLogoutSession": 7000,
+  "showTimingInConsole": false,
+  "secondsNextTimeChecker": 1000,
   "dbName": "labplanet",
   "backendUrl": "http://51.75.202.142:8888/LabPLANET-API",
   "appAuthenticateApiUrl": "/frontend/AuthenticationAPI",
@@ -8,5 +14,4 @@
   "ApiSopUserUrl": "/app/SopUserAPI",
   "frontEndSopUrl": "/frontend/SopUserAPIfrontend",
   "appProcedureListApiUrl": "/frontend/AppProcedureListAPI"
-
 }

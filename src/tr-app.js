@@ -9,7 +9,7 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 import { store } from '../redux/store';
 
 // These are the actions needed by this element.
-import { initMetadata, initConfig, setLang } from '../redux/actions.js';
+import { initMetadata, initConfig, setLang, setActivity } from '../redux/actions.js';
 
 import '@material/mwc-snackbar';
 import '@material/mwc-circular-progress';
@@ -37,6 +37,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         @success=${this.setNotif} 
         @error=${this.setNotif}></tr-home>
       <tr-dashboard route='dashboard' .params=${this.params} .query=${this.query}
+        @set-activity=${()=>store.dispatch(setActivity(true))}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
         @completed=${this.completed}
         @success=${this.setNotif} 
@@ -75,6 +76,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       this.toast.labelText = msg;
       this.toast.show();
     }
+    store.dispatch(setActivity(false))
   }
 
   get dashboard() {

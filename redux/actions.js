@@ -1,6 +1,7 @@
 export const INIT_METADATA = 'INIT_METADATA';
 export const INIT_CONFIG = 'INIT_CONFIG';
 export const SET_LANG = 'SET_LANG';
+export const SET_ACTIVITY = 'SET_ACTIVITY';
 
 export const initMetadata = (metadata) => {
   return {
@@ -20,5 +21,12 @@ export const setLang = (lang) => {
   return {
     type: SET_LANG,
     lang
+  };
+}
+
+export const setActivity = (activity) => {
+  return {
+    type: SET_ACTIVITY,
+    activity
   };
 }

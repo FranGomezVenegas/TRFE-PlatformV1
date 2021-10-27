@@ -1,13 +1,15 @@
 import {
   INIT_METADATA,
   INIT_CONFIG,
-  SET_LANG
+  SET_LANG,
+  SET_ACTIVITY
 } from './actions';
 
 const INITIAL_STATE = {
   metadata: {},
   config: {},
-  lang: "en"
+  lang: "en",
+  activity: false
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -26,6 +28,11 @@ const app = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         lang: action.lang
+      };
+    case SET_ACTIVITY:
+      return {
+        ...state,
+        activity: action.activity
       };
     default:
       return state;
