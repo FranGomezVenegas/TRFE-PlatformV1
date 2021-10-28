@@ -123,6 +123,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       .sublist[hidden] {
         display: none;
       }
+      mwc-icon-button[hidden] {
+        display: none;
+      }
       @media (max-width: 960px) {
       }
       @media (max-width: 460px) {
