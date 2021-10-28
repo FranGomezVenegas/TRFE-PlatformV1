@@ -120,9 +120,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         line-height:normal;
         font-size:14px;
       }
-      .sublist {
-        padding-left: 20px;
-      }
       .sublist[hidden] {
         display: none;
       }
@@ -195,15 +192,74 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
-              <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+              <mwc-list-item graphic="avatar" @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
                 <span>Air</span>
-                <mwc-icon slot="graphic">code</mwc-icon>
               </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+              <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
+                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                  <span>Sub Air 1</span>
+                  <mwc-icon slot="graphic">code</mwc-icon>
+                </mwc-list-item>
+                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                  <span>Sub Air 2</span>
+                  <mwc-icon slot="graphic">code</mwc-icon>
+                </mwc-list-item>
+              </mwc-list>
+              <mwc-list-item graphic="avatar" @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
                 <span>Water</span>
-                <mwc-icon slot="graphic">code</mwc-icon>
+              </mwc-list-item>
+              <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
+                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                  <span>Sub Water 1</span>
+                  <mwc-icon slot="graphic">code</mwc-icon>
+                </mwc-list-item>
+                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                  <span>Sub Water 2</span>
+                  <mwc-icon slot="graphic">code</mwc-icon>
+                </mwc-list-item>
+              </mwc-list>
+            </mwc-list>
+            <mwc-list-item @click="${() => this.selectedMenu("/dashboard/notifications")}">
+              <span>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
+            </mwc-list-item>
+            <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
+              <span>My Certifications ${this.allPending()}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
+              <mwc-list-item graphic="avatar">
+                <span>SOP ${this.pendingSOP()} ${this.sops.length ?
+                  html`<span style="color: blue"
+                    @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span>` : null}
+                </span>
+              </mwc-list-item>
+              <mwc-list-item graphic="avatar">
+                <span>Analytical Method ${this.pendingAnalytic()} ${this.analytics.length ?
+                  html`<span style="color: blue"
+                    @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span>` : null}
+                </span>
               </mwc-list-item>
             </mwc-list>
+            <mwc-list-item @click="${() => this.personalCollapse=!this.personalCollapse}">
+              <span>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/procedure")}>
+                <span>${langConfig.personalOption.procedure["label_" + this.lang]}</span>
+              </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/incidents")}>
+                <span>${langConfig.personalOption.incidents["label_" + this.lang]}</span>
+              </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/user")}>
+                <span>${langConfig.personalOption.user["label_" + this.lang]}</span>
+              </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
+                <span>${langConfig.personalOption.video["label_" + this.lang]}</span>
+              </mwc-list-item>
+            </mwc-list>
+            <sp-divider size="m"></sp-divider>
+            <mwc-list-item @click=${this.logout}>
+              <span>${langConfig.personalOption.doLogout["label_" + this.lang]}</span>
+            </mwc-list-item>
           </mwc-list>
           <div slot="appContent">
             <mwc-top-app-bar-fixed>
@@ -230,7 +286,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 </sp-action-menu>
                 <sp-action-menu class="topMenu" id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
                   <div slot="icon"></div>
-                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>Notifications${this.notifs.length?' '+this.notifs.length:null}</span>
+                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
                 </sp-action-menu>
                 <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
@@ -342,7 +398,11 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       minsLogoutSession: { type: Number },
       showTimingInConsole: { type: Boolean },
       secondsNextTimeChecker: { type: Number },
-      procCollapse: { type: Boolean }
+      procCollapse: { type: Boolean },
+      airCollapse: { type: Boolean },
+      waterCollapse: { type: Boolean },
+      certCollapse: { type: Boolean },
+      personalCollapse: { type: Boolean }
     };
   }
 
