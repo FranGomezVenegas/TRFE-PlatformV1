@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { Layouts, Factors, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
+import { Layouts, Factors, displayFlex, horizontal, centerAligned, centerAlignedContent } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -90,8 +90,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       mwc-icon-button.menu[hidden] {
         display: none;
       }
+      nav[hidden] {
+        display: none;
+      }
       nav {
-        margin-right: 10px;
+        ${displayFlex}
+        ${horizontal}
+        ${centerAligned}
       }
       nav a {
         text-decoration: none;
@@ -105,35 +110,112 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       main {
         padding: 0 20px 20px;
       }
+      sp-action-menu {
+        margin-right: 5px;
+      }
+      sp-action-menu * {
+        color: white;
+      }
+      #sessionLabel {
+        line-height:normal;
+        font-size:14px;
+      }
+      .sublist {
+        padding-left: 20px;
+      }
+      .sublist[hidden] {
+        display: none;
+      }
+      @media (max-width: 960px) {
+      }
+      @media (max-width: 460px) {
+        mwc-drawer {
+          height: 50px;
+          padding-top: 0;
+        }
+        .header img {
+          width: 50px;
+          height: 50px;
+          margin-right: 0;
+          margin-left: -10px;
+        }
+        #sessionLabel {
+          line-height:normal;
+          font-size:10px;
+        }
+      }
     `];
+  }
+
+  firstUpdated() {
+    this.startSession = new Date().getTime()
+    const container = this.drawer.parentNode;
+    container.addEventListener('MDCTopAppBar:nav', () => {
+      this.drawer.open = !this.drawer.open;
+    });
+    installMediaQueryWatcher(`(min-width: 960px)`, desktop => {
+      this.desktop = desktop
+    });
+    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
+      return this.navigate("/")
+    }
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
+    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    this.updateComplete.then(() => {
+      this.dispatchEvent(new CustomEvent('completed'))
+      this.tabBar.updateComplete.then(() => {
+        this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
+      })
+      this.actMenu.forEach(a => {
+        a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "rgb(3, 169, 244)"
+      })
+    })
+  }
+
+  userSession() {
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    if (userSession) {
+      return html`
+        <label id="sessionLabel">
+          ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
+          ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId}<br>
+          ${this.desktop ? this.lang == "en" ? "Date: " : "Fecha: " : null}${userSession.appSessionStartDate}
+        </label>
+      `
+    }
   }
 
   render() {
     return html`
       <div class="container layout vertical">
-        <mwc-drawer hasHeader type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
-          <div @click=${()=> this.navigate("/")} class="header" slot="title" style="margin:-30px auto">
-            <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
-            ${this.userSession()}
-          </div>
-          <div>
-            <mwc-list>
-              <mwc-list-item @click="${() => this.navigate('/dashboard/procedures')}">
-                <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
+        <mwc-drawer type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+          <mwc-list>
+            <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
+              <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
+              <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                <span>Air</span>
+                <mwc-icon slot="graphic">code</mwc-icon>
+              </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
+                <span>Water</span>
+                <mwc-icon slot="graphic">code</mwc-icon>
               </mwc-list-item>
             </mwc-list>
-          </div>
+          </mwc-list>
           <div slot="appContent">
             <mwc-top-app-bar-fixed>
               <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
                 @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-              <div @click=${()=> this.navigate("/")} ?hidden=${!this.desktop} class="header" slot="title">
+              <div @click=${()=> this.navigate("/")} class="header" slot="title">
                 <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
                 ${this.userSession()}
                 <sp-divider size="m"></sp-divider>
               </div>
-              <nav slot="actionItems" class="layout horizontal center">
-                <sp-action-menu id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
+              <nav slot="actionItems" ?hidden="${!this.desktop}">
+                <sp-action-menu class="topMenu" id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("procedures")}>Procedures</span>
                   <sp-menu-item>
@@ -146,11 +228,11 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     </sp-action-menu>
                   </sp-menu-item>
                 </sp-action-menu>
-                <sp-action-menu id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
+                <sp-action-menu class="topMenu" id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
                   <div slot="icon"></div>
                   <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>Notifications${this.notifs.length?' '+this.notifs.length:null}</span>
                 </sp-action-menu>
-                <sp-action-menu id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
+                <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
                     ${this.allPending()}</span>
@@ -163,7 +245,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                       @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span>` : null}
                   </sp-menu-item>
                 </sp-action-menu>
-                <sp-action-menu id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
+                <sp-action-menu class="topMenu" id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label"
                     @mouseover=${() => this.menuHover("settings")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
@@ -212,10 +294,21 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             .params=${this.params}></video-tutorial>
         </main>
       </div>
+      <mwc-icon-button @click=${this.changeLang} ?hidden="${this.desktop}" style="position:fixed;bottom:10px;right:10px;">
+        <img .src="/images/${this.flag}.png" />
+      </mwc-icon-button>
       <relogin-dialog .lang=${this.lang} .config=${this.config}
         @logout=${this.logout}
         @relogin-succeed=${this.reloginSucceed}></relogin-dialog>
     `;
+  }
+
+  get tabBar() {
+    return this.shadowRoot.querySelector("mwc-top-app-bar-fixed")
+  }
+
+  get actMenu() {
+    return this.shadowRoot.querySelectorAll("sp-action-menu.topMenu")
   }
 
   get drawer() {
@@ -248,7 +341,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       enableLogoutSession: { type: Boolean },
       minsLogoutSession: { type: Number },
       showTimingInConsole: { type: Boolean },
-      secondsNextTimeChecker: { type: Number }
+      secondsNextTimeChecker: { type: Number },
+      procCollapse: { type: Boolean }
     };
   }
 
@@ -336,24 +430,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     }
   }
 
-  firstUpdated() {
-    this.startSession = new Date().getTime()
-    const container = this.drawer.parentNode;
-    container.addEventListener('MDCTopAppBar:nav', () => {
-      this.drawer.open = !this.drawer.open;
-    });
-    installMediaQueryWatcher(`(min-width: 460px)`, desktop => this.desktop = desktop);
-    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
-      return this.navigate("/")
-    }
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
-    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
-    this.updateComplete.then(() => {
-      this.dispatchEvent(new CustomEvent('completed'))
-    })
-  }
-
   _paramsChanged() {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
@@ -379,28 +455,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         import('./tr-default');
     }
     this.drawerState = false;
-  }
-
-  userSession() {
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    if (userSession) {
-      if (this.desktop) {
-        return html`
-          <label style="line-height:normal">
-            ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-            ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} ${this.lang == "en" ? "Date" : "Fecha"}:
-            ${userSession.appSessionStartDate}
-          </label>
-        `
-      } else {
-        return html`
-          <label style="line-height:normal">
-            ${userSession.header_info.first_name} ${userSession.header_info.last_name}<br>
-            ${userSession.userRole}
-          </label>
-        `
-      }
-    }
   }
 
   menuHover(menu) {
