@@ -2,3 +2,5 @@ node_modules
 package-lock.json
 .yalc
 yalc.lock
+build
+awsSetup.sh
