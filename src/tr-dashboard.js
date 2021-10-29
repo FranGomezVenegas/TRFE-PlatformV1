@@ -67,6 +67,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       }
       mwc-drawer {
         height: 80px;
+        color: #2ec3ec;
         padding-top: 10px;
         background-color: #d6e9f8;
       }
@@ -87,7 +88,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         height: 80px;
         margin-right: 10px;
       }
-      mwc-icon-button.menu[hidden] {
+      mwc-icon-button[hidden] {
         display: none;
       }
       nav[hidden] {
@@ -123,15 +124,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       .sublist[hidden] {
         display: none;
       }
-      mwc-icon-button[hidden] {
-        display: none;
-      }
       @media (max-width: 960px) {
-      }
-      @media (max-width: 460px) {
         mwc-drawer {
-          height: 50px;
           padding-top: 0;
+          height: 50px;
         }
         .header img {
           width: 50px;
@@ -167,6 +163,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       this.tabBar.updateComplete.then(() => {
         this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
       })
+      this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
       this.actMenu.forEach(a => {
         a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "rgb(3, 169, 244)"
       })
@@ -271,8 +268,12 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <div @click=${()=> this.navigate("/")} class="header" slot="title">
                 <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
                 ${this.userSession()}
-                <sp-divider size="m"></sp-divider>
               </div>
+              <nav slot="actionItems" ?hidden="${this.desktop}">
+                <mwc-icon-button @click=${this.changeLang}>
+                  <img .src="/images/${this.flag}.png" />
+                </mwc-icon-button>
+              </nav>
               <nav slot="actionItems" ?hidden="${!this.desktop}">
                 <sp-action-menu class="topMenu" id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
                   <div slot="icon"></div>
@@ -348,14 +349,11 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           <my-incidents .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
           </my-incidents>
           <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
-            .params=${this.params}></user-profile>
+            .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
           <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
             .params=${this.params}></video-tutorial>
         </main>
       </div>
-      <mwc-icon-button @click=${this.changeLang} ?hidden="${this.desktop}" style="position:fixed;bottom:10px;right:10px;">
-        <img .src="/images/${this.flag}.png" />
-      </mwc-icon-button>
       <relogin-dialog .lang=${this.lang} .config=${this.config}
         @logout=${this.logout}
         @relogin-succeed=${this.reloginSucceed}></relogin-dialog>
