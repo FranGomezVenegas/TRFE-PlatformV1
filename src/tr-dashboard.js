@@ -227,16 +227,16 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
               <mwc-list-item graphic="avatar">
-                <span>SOP ${this.pendingSOP()} ${this.sops.length ?
-                  html`<span style="color: blue"
-                    @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span>` : null}
-                </span>
+                <div style="display:flex;align-items:center;width:170px;">
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>SOP</div>
+                  ${this.pendingSOP()}
+                </div>
               </mwc-list-item>
               <mwc-list-item graphic="avatar">
-                <span>Analytical Method ${this.pendingAnalytic()} ${this.analytics.length ?
-                  html`<span style="color: blue"
-                    @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span>` : null}
-                </span>
+                <div style="display:flex;align-items:center;width:170px;">
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>Analytical Method</div>
+                  ${this.pendingAnalytic()}
+                </div>
               </mwc-list-item>
             </mwc-list>
             <mwc-list-item @click="${() => this.personalCollapse=!this.personalCollapse}">
@@ -296,13 +296,17 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
                     ${this.allPending()}</span>
-                  <sp-menu-item>SOP ${this.pendingSOP()} ${this.sops.length ?
-                    html`<span style="color: blue"
-                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.sops.length}</span>` : null}
+                  <sp-menu-item>
+                    <div style="display:flex;align-items:center;">
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>SOP</div>
+                      ${this.pendingSOP()}
+                    </div>
                   </sp-menu-item>
-                  <sp-menu-item>Analytical Method ${this.pendingAnalytic()} ${this.analytics.length ?
-                    html`<span style="color: blue"
-                      @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.analytics.length}</span>` : null}
+                  <sp-menu-item>
+                    <div style="display:flex;align-items:center;width:150px;">
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>Analytical Method</div>
+                      ${this.pendingAnalytic()}
+                    </div>
                   </sp-menu-item>
                 </sp-action-menu>
                 <sp-action-menu class="topMenu" id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
