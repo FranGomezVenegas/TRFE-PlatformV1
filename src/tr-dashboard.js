@@ -244,15 +244,19 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
               <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/procedure")}>
                 <span>${langConfig.personalOption.procedure["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">route</mwc-icon>
               </mwc-list-item>
               <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/incidents")}>
                 <span>${langConfig.personalOption.incidents["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">bug_report</mwc-icon>
               </mwc-list-item>
               <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/user")}>
                 <span>${langConfig.personalOption.user["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">person</mwc-icon>
               </mwc-list-item>
               <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
                 <span>${langConfig.personalOption.video["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">video_library</mwc-icon>
               </mwc-list-item>
             </mwc-list>
             <sp-divider size="m"></sp-divider>
@@ -313,24 +317,24 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                   <span slot="label"
                     @mouseover=${() => this.menuHover("settings")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
                   <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")}>
-                    <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
+                    <mwc-icon slot="icon">route</mwc-icon>
                     ${langConfig.personalOption.procedure["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")}>
-                    <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
+                    <mwc-icon slot="icon">bug_report</mwc-icon>
                     ${langConfig.personalOption.incidents["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")}>
-                    <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
+                    <mwc-icon slot="icon">person</mwc-icon>
                     ${langConfig.personalOption.user["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")}>
-                    <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
+                    <mwc-icon slot="icon">video_library</mwc-icon>
                     ${langConfig.personalOption.video["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item @click=${this.logout}>
-                    <sp-icon-save-floppy slot="icon"></sp-icon-save-floppy>
+                    <mwc-icon slot="icon">logout</mwc-icon>
                     ${langConfig.personalOption.doLogout["label_" + this.lang]}
                   </sp-menu-item>
                 </sp-action-menu>
