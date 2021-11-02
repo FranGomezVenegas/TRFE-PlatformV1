@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { Layouts, Factors, displayFlex, horizontal, centerAligned, centerAlignedContent } from '@collaborne/lit-flexbox-literals';
+import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -54,7 +54,7 @@ const langConfig = {
 export class TrDashboard extends connect(store)(navigator(LitElement)) {
   static get styles() {
     return [
-      Layouts, Factors,
+      Layouts,
       css`
       :host {
         display: block;
@@ -81,7 +81,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         ${centerAligned}
         font-family: 'Open Sans', sans-serif;
         font-style: normal;
-        cursor: pointer;
       }
       .header img {
         width: 80px;
@@ -265,7 +264,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             <mwc-top-app-bar-fixed>
               <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
                 @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-              <div @click=${()=> this.navigate("/")} class="header" slot="title">
+              <div class="header" slot="title">
                 <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
                 ${this.userSession()}
               </div>
