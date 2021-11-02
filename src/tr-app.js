@@ -53,7 +53,6 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
    */
   completed() {
     this.waiting.closed = true
-    this.toast.close()
   }
 
   setNotif(e) {
