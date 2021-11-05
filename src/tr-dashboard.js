@@ -25,6 +25,18 @@ const langConfig = {
     "tabLabel_en": "Notifications",
     "tabLabel_es": "Notificaciones"
   },
+  "certOption": {
+    "tabLabel_en": "My Certifications",
+    "tabLabel_es": "Mi Certificaciones",
+    "sop": {
+      "label_en": "SOP",
+      "label_es": "SOP"
+    },
+    "analytic": {
+      "label_en": "Analytical Method",
+      "label_es": "Método analítico"
+    }
+  },
   "personalOption": {
     "tabLabel_en": "My Settings",
     "tabLabel_es": "Mi Espacio",
@@ -222,18 +234,18 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <span>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
             </mwc-list-item>
             <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
-              <span>My Certifications ${this.allPending()}</span>
+              <span>${langConfig.certOption["tabLabel_" + this.lang]} ${this.allPending()}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
               <mwc-list-item graphic="avatar">
                 <div style="display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>SOP</div>
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}</div>
                   ${this.pendingSOP()}
                 </div>
               </mwc-list-item>
               <mwc-list-item graphic="avatar">
                 <div style="display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>Analytical Method</div>
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}</div>
                   ${this.pendingAnalytic()}
                 </div>
               </mwc-list-item>
@@ -280,7 +292,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <nav slot="actionItems" ?hidden="${!this.desktop}">
                 <sp-action-menu class="topMenu" id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
                   <div slot="icon"></div>
-                  <span slot="label" @mouseover=${() => this.menuHover("procedures")}>Procedures</span>
+                  <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
                   <sp-menu-item>
                     <sp-action-menu size="m" @mouseover=${e=> e.target.open = true}>
                       <div slot="icon"></div>
@@ -297,17 +309,17 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 </sp-action-menu>
                 <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
-                  <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>My Certifications
+                  <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${langConfig.certOption["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
                   <sp-menu-item>
                     <div style="display:flex;align-items:center;">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>SOP</div>
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}</div>
                       ${this.pendingSOP()}
                     </div>
                   </sp-menu-item>
                   <sp-menu-item>
                     <div style="display:flex;align-items:center;width:150px;">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>Analytical Method</div>
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}</div>
                       ${this.pendingAnalytic()}
                     </div>
                   </sp-menu-item>
