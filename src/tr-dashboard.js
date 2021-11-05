@@ -204,16 +204,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
               <mwc-list-item graphic="avatar" @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
-                <span>Air</span>
+                <span>Air (em-demo-a)</span>
               </mwc-list-item>
               <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
-                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
-                  <span>Sub Air 1</span>
-                  <mwc-icon slot="graphic">code</mwc-icon>
-                </mwc-list-item>
-                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
-                  <span>Sub Air 2</span>
-                  <mwc-icon slot="graphic">code</mwc-icon>
+                <mwc-list-item graphic="avatar">
+                  <mwc-icon>person</mwc-icon>
+                  <mwc-icon>person</mwc-icon>
+                  <span>Samples Sampling</span>
                 </mwc-list-item>
               </mwc-list>
               <mwc-list-item graphic="avatar" @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
@@ -239,13 +236,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
               <mwc-list-item graphic="avatar">
                 <div style="display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}</div>
-                  ${this.pendingSOP()}
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]} 
+                    (<span style="color: blue">${this.sops.length}</span>)</div>
+                    ${this.pendingSOP()}
                 </div>
               </mwc-list-item>
               <mwc-list-item graphic="avatar">
                 <div style="display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}</div>
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]} 
+                  (<span style="color: blue">${this.analytics.length}</span>)</div>
                   ${this.pendingAnalytic()}
                 </div>
               </mwc-list-item>
@@ -296,9 +295,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                   <sp-menu-item>
                     <sp-action-menu size="m" @mouseover=${e=> e.target.open = true}>
                       <div slot="icon"></div>
-                      <span slot="label">Menu 1</span>
-                      <sp-menu-item @click=${() => this.selectedMenu("/dashboard")}>
-                        Sub Menu 1
+                      <span slot="label">Air (em-demo-a)</span>
+                      <sp-menu-item>
+                        <div style="display: flex;align-items: center;">
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
+                          <label style="margin-left: 10px">Samples Sampling</label>
+                        </div>
                       </sp-menu-item>
                     </sp-action-menu>
                   </sp-menu-item>
@@ -313,13 +316,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                     ${this.allPending()}</span>
                   <sp-menu-item>
                     <div style="display:flex;align-items:center;">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}</div>
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}
+                      (<span style="color: blue">${this.sops.length}</span>)</div>
                       ${this.pendingSOP()}
                     </div>
                   </sp-menu-item>
                   <sp-menu-item>
                     <div style="display:flex;align-items:center;width:150px;">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}</div>
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}
+                      (<span style="color: blue">${this.analytics.length}</span>)</div>
                       ${this.pendingAnalytic()}
                     </div>
                   </sp-menu-item>
@@ -360,6 +365,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         <main class="layout vertical flex">
           <tab-state .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
+          <samples-sampling .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
           <procedure-management ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
           <platform-notif .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
@@ -513,6 +519,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   _paramsChanged() {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
+      case 'samples':
+        import('@trazit/samples-sampling/samples-sampling');
+        break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
         break;

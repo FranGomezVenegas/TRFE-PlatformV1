@@ -1,5 +1,5 @@
 {
-  "enableLockSession": true,
+  "enableLockSession": false,
   "minsLockSession": 5000,
   "enableLogoutSession": true,
   "minsLogoutSession": 7000,
@@ -13,5 +13,7 @@
   "ApiIncidentsUrl": "/app/IncidentAPI",
   "ApiSopUserUrl": "/app/SopUserAPI",
   "frontEndSopUrl": "/frontend/SopUserAPIfrontend",
-  "appProcedureListApiUrl": "/frontend/AppProcedureListAPI"
+  "appProcedureListApiUrl": "/frontend/AppProcedureListAPI",
+  "frontEndEnvMonitSampleUrl": "/moduleenvmon/frontend/EnvMonSampleAPIfrontend",
+  "ApiEnvMonitSampleUrl": "/moduleenvmon/EnvMonSampleAPI"
 }
