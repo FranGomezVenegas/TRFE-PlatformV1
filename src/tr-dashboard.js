@@ -135,6 +135,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       .sublist[hidden] {
         display: none;
       }
+      mwc-list-item {
+        font-size: 12px;
+      }
       @media (max-width: 960px) {
         mwc-drawer {
           padding-top: 0;
@@ -208,9 +211,11 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               </mwc-list-item>
               <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
                 <mwc-list-item graphic="avatar">
-                  <mwc-icon>person</mwc-icon>
-                  <mwc-icon>person</mwc-icon>
-                  <span>Samples Sampling</span>
+                  <div style="display: flex;align-items: center;">
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
+                    <label style="margin-left: 10px">Samples Sampling</label>
+                  </div>
                 </mwc-list-item>
               </mwc-list>
               <mwc-list-item graphic="avatar" @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
