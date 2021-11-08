@@ -1,13 +1,33 @@
 import { LitElement, html, css } from 'lit-element';
 import { Layouts } from '@collaborne/lit-flexbox-literals';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
-import { store } from '../redux/store';
 import '@material/mwc-icon-button';
 import '@material/mwc-button';
 import './tab-item';
 
 let tabObj = [
+  {
+    "lp_frontend_page_name": "sample-sampling",
+    "route": "samples?personel=false",
+    "tabName": "sample-sampling",
+    "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": false
+  },
+  {
+    "lp_frontend_page_name": "person-sampling",
+    "route": "samples?personel=true",
+    "tabName": "person-sampling",
+    "tabLabel_en": "Air (em-demo-a)-Sampling",
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": false
+  },
   {
     "lp_frontend_page_name": "incident-management",
     "route": "incidents",
@@ -171,7 +191,7 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData)
+    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?personel="+ this.query.personel)
     if (tab.length) {
       let exist = this.tabs.filter(t => t.route == tab[0].route)
       // dont add if found existing one
