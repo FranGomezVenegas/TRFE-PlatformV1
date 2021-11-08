@@ -107,7 +107,7 @@ export class TabState extends navigator(LitElement) {
       <div class="layout horizontal center flex wrap">
         <mwc-icon-button icon="save" @click=${this.saveTabs}></mwc-icon-button>
         ${this.tabs.map(t=>
-          html`<tab-item .tab=${t} 
+          html`<tab-item .lang=${this.lang} .tab=${t} 
             @tab-change=${this.tabChanged}
             @tab-remove=${this.tabRemoved}></tab-item>`
         )}
@@ -146,7 +146,8 @@ export class TabState extends navigator(LitElement) {
       currentTab: { type: String }, // current selected tab route
       config: { type: Object },
       params: { type: Object }, // route params which is passed from parent element (root app)
-      query: { type: Object } // route query which is passed from parent element (root app)
+      query: { type: Object }, // route query which is passed from parent element (root app)
+      lang: { type: String}
     };
   }
 

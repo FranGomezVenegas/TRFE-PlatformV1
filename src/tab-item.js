@@ -24,7 +24,7 @@ export class TabItem extends LitElement {
   render() {
     return html`
       <div class="t-item">
-        <mwc-button label="${this.tab.tabLabel_en}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
+        <mwc-button .label="${this.lang=="en"?this.tab.tabLabel_en:this.tab.tabLabel_es}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
           detail: this.tab
         }))}></mwc-button>
         <mwc-icon-button style="--mdc-icon-button-size: 30px;--mdc-icon-size: 20px;" @click=${()=>this.dispatchEvent(new CustomEvent('tab-remove', {
@@ -36,6 +36,7 @@ export class TabItem extends LitElement {
 
   static get properties() {
     return {
+      lang: { type: String },
       tab: { type: Object }
     };
   }

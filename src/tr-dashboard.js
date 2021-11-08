@@ -368,15 +368,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           </div>
         </mwc-drawer>
         <main class="layout vertical flex">
-          <tab-state .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
+          <tab-state .lang=${this.lang} .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <samples-sampling .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
-          <procedure-management ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
+          <samples-sampling .lang=${this.lang} .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
+          <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
-          <platform-notif .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
-          <my-certifications .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
+          <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
+          <my-certifications .lang=${this.lang} .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
           </my-certifications>
-          <my-incidents .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
+          <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
           </my-incidents>
           <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
             .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
