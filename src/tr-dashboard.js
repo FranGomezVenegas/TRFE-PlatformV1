@@ -485,6 +485,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
 
   setNotif(e) {
     if (e.detail.log) { // logging as required
+      // delete unnecessity objects
+      delete e.detail.log
+      delete e.detail.finalToken
       this.notifs = [
         ...this.notifs,
         e.detail
