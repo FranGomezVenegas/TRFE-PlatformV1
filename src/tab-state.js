@@ -29,6 +29,40 @@ let tabObj = [
     "tabConfirmUserRequired": false
   },
   {
+    "lp_frontend_page_name": "plate-reading",
+    "route": "plate?personel=false",
+    "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
+    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
+  },
+  {
+    "lp_frontend_page_name": "person-plate-reading",
+    "route": "plate?personel=true",
+    "tabLabel_en": "Air (em-demo-a)-Plate Reading",
+    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
+  },
+  {
+    "lp_frontend_page_name": "sample-plate-reading",
+    "route": "plate?personel=false",
+    "tabName": "sample-plate-reading",
+    "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
+    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": false
+  },
+  {
+    "lp_frontend_page_name": "person-plate-reading",
+    "route": "plate?personel=true",
+    "tabName": "person-plate-reading",
+    "tabLabel_en": "Air (em-demo-a)-Plate Reading",
+    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": false
+  },
+  {
     "lp_frontend_page_name": "incident-management",
     "route": "incidents",
     "tabName": "incident-management",
@@ -251,8 +285,10 @@ export class TabState extends navigator(LitElement) {
    * Populating fetch api
    * @param {*} urlParams the url api with params
    * @param {*} log will be logged into notifications or no? default true
+   * @param {*} feedback will be show up the user feedback
    */
-  fetchApi(urlParams, log=true) {
+  fetchApi(urlParams, log=true, feedback=true) {
+    this.dispatchEvent(new CustomEvent('set-activity', {bubbles: true, composed: true}))
     return fetch(urlParams).then(async r => {
       if (r.status == 200) {
         return r.json()
@@ -262,17 +298,18 @@ export class TabState extends navigator(LitElement) {
       }
     }).then(j => {
       this.dispatchEvent(new CustomEvent('success', {
-        detail: {...j, urlParams: urlParams, log: log},
+        detail: {...j, log: log},
         bubbles: true,
         composed: true
       }))
       return j
     }).catch(e => {
       this.dispatchEvent(new CustomEvent("error", {
-        detail: {...e, urlParams: urlParams, log: log},
+        detail: {...e, log: true},
         bubbles: true,
         composed: true
       }))
+      return
     })
   }
 }
