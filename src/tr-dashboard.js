@@ -138,6 +138,11 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       mwc-list-item {
         font-size: 12px;
       }
+      .subproc {
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+      }
       @media (max-width: 960px) {
         mwc-drawer {
           padding-top: 0;
@@ -206,29 +211,40 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
-              <mwc-list-item graphic="avatar" @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
-                <span>Air (em-demo-a)</span>
+              <mwc-list-item @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
+                <span style="margin-left:20px">Air (em-demo-a)</span>
               </mwc-list-item>
               <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
-                <mwc-list-item graphic="avatar">
-                  <div style="display: flex;align-items: center;">
+                <mwc-list-item>
+                  <div class="subproc">
                     <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
                     <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
                     <label style="margin-left: 10px">Samples Sampling</label>
                   </div>
                 </mwc-list-item>
+                <mwc-list-item>
+                  <div class="subproc">
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=false")}>model_training</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=true")}>groups</mwc-icon>
+                    <label style="margin-left: 10px">Samples Plate Reading</label>
+                  </div>
+                </mwc-list-item>
               </mwc-list>
-              <mwc-list-item graphic="avatar" @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
-                <span>Water</span>
+              <mwc-list-item @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
+                <span style="margin-left:20px">Water</span>
               </mwc-list-item>
               <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
-                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
-                  <span>Sub Water 1</span>
-                  <mwc-icon slot="graphic">code</mwc-icon>
+                <mwc-list-item @click="${() => this.selectedMenu("/dashboard")}">
+                  <div class="subproc">
+                    <mwc-icon>code</mwc-icon>
+                    <label style="margin-left: 10px">Sub Water 1</label>
+                  </div>
                 </mwc-list-item>
-                <mwc-list-item graphic="avatar" @click="${() => this.selectedMenu("/dashboard")}">
-                  <span>Sub Water 2</span>
-                  <mwc-icon slot="graphic">code</mwc-icon>
+                <mwc-list-item @click="${() => this.selectedMenu("/dashboard")}">
+                  <div class="subproc">
+                    <mwc-icon>code</mwc-icon>
+                    <label style="margin-left: 10px">Sub Water 2</label>
+                  </div>
                 </mwc-list-item>
               </mwc-list>
             </mwc-list>
@@ -239,15 +255,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <span>${langConfig.certOption["tabLabel_" + this.lang]} ${this.allPending()}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
-              <mwc-list-item graphic="avatar">
-                <div style="display:flex;align-items:center;width:170px;">
+              <mwc-list-item>
+                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
                   <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]} 
                     (<span style="color: blue">${this.sops.length}</span>)</div>
                     ${this.pendingSOP()}
                 </div>
               </mwc-list-item>
-              <mwc-list-item graphic="avatar">
-                <div style="display:flex;align-items:center;width:170px;">
+              <mwc-list-item>
+                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
                   <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]} 
                   (<span style="color: blue">${this.analytics.length}</span>)</div>
                   ${this.pendingAnalytic()}
@@ -306,6 +322,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                           <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
                           <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
                           <label style="margin-left: 10px">Samples Sampling</label>
+                        </div>
+                      </sp-menu-item>
+                      <sp-menu-item>
+                        <div style="display: flex;align-items: center;">
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=false")}>model_training</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=true")}>groups</mwc-icon>
+                          <label style="margin-left: 10px">Samples Plate Reading</label>
                         </div>
                       </sp-menu-item>
                     </sp-action-menu>
@@ -370,6 +393,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         <main class="layout vertical flex">
           <tab-state .lang=${this.lang} .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
+          <plate-reading .lang=${this.lang} .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'plate' ? false : true} .params=${this.params}></plate-reading>
           <samples-sampling .lang=${this.lang} .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
@@ -529,6 +553,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     switch (this.params.menu) {
       case 'samples':
         import('@trazit/samples-sampling/samples-sampling');
+        break;
+      case 'plate':
+        import('@trazit/plate-reading/plate-reading');
         break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
