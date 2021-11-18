@@ -616,7 +616,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     }
     let curTime = new Date().getTime();
     let runSession = curTime - this.startSession;
-    if (runSession >= this.config.minsLockSession) { // session running >= minsLockSession
+    if (runSession >= this.config.minsLockSession*60000) { // session running >= minsLockSession
       this.relogin.open = true;
       if (this.config.enableLogoutSession) {
         this.newSession = new Date().getTime()
@@ -637,13 +637,13 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     console.log("checkingUserRelogin")
     let curTime = new Date().getTime();
     let runSession = curTime - this.newSession;
-    if (runSession >= this.config.minsLogoutSession) { // session running >= minsLogoutSession
+    if (runSession >= this.config.minsLogoutSession*60000) { // session running >= minsLogoutSession
       this.logout()
     } else {
       // set the timeout object
       this.timer = setTimeout(() => {
         this.checkUserRelogin()
-      }, this.config.secondsNextTimeChecker)
+      }, this.config.secondsNextTimeChecker*60000)
     }
   }
 
