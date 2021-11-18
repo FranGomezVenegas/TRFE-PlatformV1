@@ -117,7 +117,7 @@ class ReloginDialog extends CommonCore {
         hideActions=""
         scrimClickAction=""
         escapeKeyAction="">
-        <div class="content layout horizontal flex center-justified">
+        <div class="content layout vertical flex center-justified">
           <mwc-textfield id="user" label="${langConfig.userToCheck["label_"+this.lang]}" type="text" .value=${this.userName} disabled></mwc-textfield>
           <mwc-textfield id="pwd" label="${langConfig.pwToCheck["label_"+this.lang]}" type="password" iconTrailing="visibility" 
             dialogInitialFocus
