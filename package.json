@@ -42,6 +42,7 @@
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
     "@trazit/samples-sampling": "file:.yalc/@trazit/samples-sampling",
+    "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
     "@trazit/user-profile": "file:.yalc/@trazit/user-profile",
     "@trazit/video-tutorial": "file:.yalc/@trazit/video-tutorial",
     "lit": "^2.0.2",

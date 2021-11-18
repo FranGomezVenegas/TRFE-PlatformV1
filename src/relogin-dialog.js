@@ -1,10 +1,10 @@
 import { html, css } from 'lit';
 import { CommonCore, commonLangConfig } from '@trazit/common-core';
 import { Layouts } from '@collaborne/lit-flexbox-literals';
-import '@material/mwc-dialog';
 import '@material/mwc-icon-button';
 import '@material/mwc-textfield';
 import '@spectrum-web-components/button/sp-button';
+import '@trazit/tr-dialog/tr-dialog';
 
 const langConfig = {
   "Password": {
@@ -54,10 +54,17 @@ class ReloginDialog extends CommonCore {
       :host([hidden]) {
         display: none;
       }
-      mwc-dialog {
+      tr-dialog {
         --mdc-dialog-heading-ink-color: blue;
         --mdc-typography-headline6-font-size: 35px;
       }
+      .content {
+        opacity: 0.9;
+      }
+      .content * {
+        margin: 5px 0;
+      }
+
       @media (max-width: 460px) {
       }
     `];
@@ -97,34 +104,35 @@ class ReloginDialog extends CommonCore {
       this.pwdDialogSurface.style.backgroundSize = "cover";
       this.pwdDialogSurface.style.backgroundRepeat = "no-repeat";
       this.pwdDialogSurface.style.textAlign = "center";
-      this.pwdDialogSurface.style.padding = "20px";
       this.pwdDialog.shadowRoot.querySelector("h2#title").style.fontSize = "20px";
+      this.pwdDialog.shadowRoot.querySelector("#content").style.paddingBottom = "0";
     })
   }
 
   render() {
     return html`
-      <mwc-dialog id="pwdDialog" 
+      <tr-dialog id="pwdDialog" 
         @closing=${()=>this.open=false}
-        @opened=${()=>this.pwd.focus()}
         heading="${langConfig.pwdWindowTitle["label_"+this.lang]}"
+        hideActions=""
         scrimClickAction=""
         escapeKeyAction="">
-        <div class="layout horizontal flex center-justified" style="opacity:0.8">
-          <div class="input layout vertical" style="width: 70%">
-            <mwc-textfield id="user" label="${langConfig.userToCheck["label_"+this.lang]}" type="text" .value=${this.userName} disabled></mwc-textfield>
-            <mwc-textfield id="pwd" label="${langConfig.pwToCheck["label_"+this.lang]}" type="password" iconTrailing="visibility" 
-              @click=${this.showPwd}></mwc-textfield>
+        <div class="content layout horizontal flex center-justified">
+          <mwc-textfield id="user" label="${langConfig.userToCheck["label_"+this.lang]}" type="text" .value=${this.userName} disabled></mwc-textfield>
+          <mwc-textfield id="pwd" label="${langConfig.pwToCheck["label_"+this.lang]}" type="password" iconTrailing="visibility" 
+            dialogInitialFocus
+            @click=${this.showPwd}></mwc-textfield>
+          <div style="margin-top:30px">
+            <sp-button size="xl" variant="secondary" slot="secondaryAction" @click=${()=>this.dispatchEvent(new CustomEvent('logout'))}>${commonLangConfig.cancelDialogButton["label_"+this.lang]}</sp-button>
+            <sp-button size="xl" slot="primaryAction" dialogAction="accept" @click=${this.checkingUser}>${commonLangConfig.confirmDialogButton["label_"+this.lang]}</sp-button>
           </div>
         </div>
-        <sp-button size="xl" slot="primaryAction" dialogAction="accept" @click=${this.checkingUser}>${commonLangConfig.confirmDialogButton["label_"+this.lang]}</sp-button>
-        <sp-button size="xl" variant="secondary" slot="secondaryAction" @click=${()=>this.dispatchEvent(new CustomEvent('logout'))}>${commonLangConfig.cancelDialogButton["label_"+this.lang]}</sp-button>
-      </mwc-dialog>
+      </tr-dialog>
     `;
   }
 
   get pwdDialog() {
-    return this.shadowRoot.querySelector("mwc-dialog#pwdDialog")
+    return this.shadowRoot.querySelector("tr-dialog#pwdDialog")
   }
 
   get pwd() {
