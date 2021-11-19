@@ -13,8 +13,8 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
+import '@trazit/relogin-dialog/relogin-dialog';
 import './tab-state';
-import './relogin-dialog';
 
 const langConfig = {
   "proceduresOption": {
@@ -408,9 +408,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             .params=${this.params}></video-tutorial>
         </main>
       </div>
-      <relogin-dialog .lang=${this.lang} .config=${this.config}
-        @logout=${this.logout}
-        @relogin-succeed=${this.reloginSucceed}></relogin-dialog>
+      <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>
     `;
   }
 
@@ -434,6 +432,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     return this.shadowRoot.querySelector("tab-state")
   }
 
+  get relogin() {
+    this.shadowRoot.querySelector("relogin-dialog")
+  }
+
   static get properties() {
     return {
       params: { type: Object }, // route params which is passed from parent element (root app)
@@ -446,13 +448,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
       sops: { type: Array },
       analytics: { type: Array },
       notifs: { type: Array },
-      startSession: { type: Number },
-      enableLockSession: { type: Boolean },
-      minsLockSession: { type: Number },
-      enableLogoutSession: { type: Boolean },
-      minsLogoutSession: { type: Number },
-      showTimingInConsole: { type: Boolean },
-      secondsNextTimeChecker: { type: Number },
       procCollapse: { type: Boolean },
       airCollapse: { type: Boolean },
       waterCollapse: { type: Boolean },
@@ -471,12 +466,6 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     this.sops = [];
     this.analytics = [];
     this.notifs = [];
-    this.enableLockSession = false;
-    this.minsLockSession = 0;
-    this.enableLogoutSession = false;
-    this.minsLogoutSession = 0;
-    this.showTimingInConsole = false;
-    this.secondsNextTimeChecker = 0;
   }
 
   allPending() {
@@ -601,66 +590,9 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     window.location.href = "/";
   }
 
-  get relogin() {
-    return this.shadowRoot.querySelector("relogin-dialog")
-  }
-
-  /**
-   * Checking the user session inactivity
-   */
-  checkSessionExpired() {
-    console.log("checkingSesssionExpired")
-    // clear out the timeout if exist to stop the previous interval
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    let curTime = new Date().getTime();
-    let runSession = curTime - this.startSession;
-    if (runSession >= this.config.minsLockSession*60000) { // session running >= minsLockSession
-      this.relogin.open = true;
-      if (this.config.enableLogoutSession) {
-        this.newSession = new Date().getTime()
-        return this.checkUserRelogin()
-      } else {
-        return
-      }
-    }
-    setTimeout(() => {
-      this.checkSessionExpired()
-    }, this.config.secondsNextTimeChecker)
-  }
-
-  /**
-   * Waiting for relogin action, force logout if no relogin activity
-   */
-  checkUserRelogin() {
-    console.log("checkingUserRelogin")
-    let curTime = new Date().getTime();
-    let runSession = curTime - this.newSession;
-    if (runSession >= this.config.minsLogoutSession*60000) { // session running >= minsLogoutSession
-      this.logout()
-    } else {
-      // set the timeout object
-      this.timer = setTimeout(() => {
-        this.checkUserRelogin()
-      }, this.config.secondsNextTimeChecker*60000)
-    }
-  }
-
-  /**
-   * once relogin succeed
-   */
-  reloginSucceed() {
-    this.newSession = new Date().getTime()
-    this.checkSessionExpired()
-  }
-
   stateChanged(state) {
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
-      if (this.config.enableLockSession) {
-        this.checkSessionExpired();
-      }
     }
     if (this.lang != state.app.lang) {
       this.lang = state.app.lang;

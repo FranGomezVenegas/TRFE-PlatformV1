@@ -41,6 +41,7 @@
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
+    "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",
     "@trazit/samples-sampling": "file:.yalc/@trazit/samples-sampling",
     "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
     "@trazit/user-profile": "file:.yalc/@trazit/user-profile",
