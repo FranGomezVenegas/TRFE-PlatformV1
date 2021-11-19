@@ -1,10 +1,4 @@
 {
-  "enableLockSession": true,
-  "minsLockSession": 10,
-  "enableLogoutSession": true,
-  "minsLogoutSession": 15,
-  "showTimingInConsole": true,
-  "secondsNextTimeChecker": 60,
   "dbName": "labplanet",
   "backendUrl": "http://51.75.202.142:8888/LabPLANET-API",
   "appAuthenticateApiUrl": "/frontend/AuthenticationAPI",
@@ -15,5 +9,14 @@
   "frontEndSopUrl": "/frontend/SopUserAPIfrontend",
   "appProcedureListApiUrl": "/frontend/AppProcedureListAPI",
   "frontEndEnvMonitSampleUrl": "/moduleenvmon/frontend/EnvMonSampleAPIfrontend",
-  "ApiEnvMonitSampleUrl": "/moduleenvmon/EnvMonSampleAPI"
+  "ApiEnvMonitSampleUrl": "/moduleenvmon/EnvMonSampleAPI",
+  "businessRules": {
+    "enableLockSession": true,
+    "minsLockSession": 2,
+    "enableLogoutSession": true,
+    "minsLogoutSession": 20,
+    "showTimingInConsole": true,
+    "secondsNextTimeChecker": 5
+  },
+  "local": false
 }
