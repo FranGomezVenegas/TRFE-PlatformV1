@@ -541,10 +541,10 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
       case 'samples':
-        import('@trazit/samples-sampling/samples-sampling');
+        import('@trazit/procedures-core/samples-sampling');
         break;
       case 'plate':
-        import('@trazit/plate-reading/plate-reading');
+        import('@trazit/procedures-core/plate-reading');
         break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
