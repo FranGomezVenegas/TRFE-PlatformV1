@@ -8,7 +8,7 @@ import './tab-item';
 let tabObj = [
   {
     "lp_frontend_page_name": "sample-sampling",
-    "route": "samples?personel=false",
+    "route": "samples?samplingType=samples",
     "tabName": "sample-sampling",
     "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras",
@@ -19,7 +19,7 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "person-sampling",
-    "route": "samples?personel=true",
+    "route": "samples?samplingType=personel",
     "tabName": "person-sampling",
     "tabLabel_en": "Air (em-demo-a)-Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo",
@@ -30,19 +30,19 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "plate-reading",
-    "route": "plate?personel=false",
+    "route": "plate?samplingType=samples",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
     "lp_frontend_page_name": "person-plate-reading",
-    "route": "plate?personel=true",
+    "route": "plate?samplingType=personel",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "plate?personel=false",
+    "route": "plate?samplingType=samples",
     "tabName": "sample-plate-reading",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
@@ -53,7 +53,7 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "person-plate-reading",
-    "route": "plate?personel=true",
+    "route": "plate?samplingType=personel",
     "tabName": "person-plate-reading",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
@@ -225,7 +225,7 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?personel="+ this.query.personel)
+    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?samplingType="+ this.query.samplingType)
     if (tab.length) {
       let exist = this.tabs.filter(t => t.route == tab[0].route)
       // dont add if found existing one

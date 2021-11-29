@@ -217,15 +217,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
               <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
                 <mwc-list-item>
                   <div class="subproc">
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=samples")}>model_training</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=personel")}>groups</mwc-icon>
                     <label style="margin-left: 10px">Samples Sampling</label>
                   </div>
                 </mwc-list-item>
                 <mwc-list-item>
                   <div class="subproc">
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=false")}>model_training</mwc-icon>
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=true")}>groups</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=samples")}>model_training</mwc-icon>
+                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=personel")}>groups</mwc-icon>
                     <label style="margin-left: 10px">Samples Plate Reading</label>
                   </div>
                 </mwc-list-item>
@@ -319,15 +319,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                       <span slot="label">Air (em-demo-a)</span>
                       <sp-menu-item>
                         <div style="display: flex;align-items: center;">
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=false")}>model_training</mwc-icon>
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?personel=true")}>groups</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=samples")}>model_training</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=personel")}>groups</mwc-icon>
                           <label style="margin-left: 10px">Samples Sampling</label>
                         </div>
                       </sp-menu-item>
                       <sp-menu-item>
                         <div style="display: flex;align-items: center;">
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=false")}>model_training</mwc-icon>
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?personel=true")}>groups</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=samples")}>model_training</mwc-icon>
+                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=personel")}>groups</mwc-icon>
                           <label style="margin-left: 10px">Samples Plate Reading</label>
                         </div>
                       </sp-menu-item>
@@ -393,8 +393,8 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
         <main class="layout vertical flex">
           <tab-state .lang=${this.lang} .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <plate-reading .lang=${this.lang} .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'plate' ? false : true} .params=${this.params}></plate-reading>
-          <samples-sampling .lang=${this.lang} .config=${this.config} .personel=${this.query.personel?JSON.parse(this.query.personel):null} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
+          <plate-reading .lang=${this.lang} .config=${this.config} .samplingType=${this.query.samplingType} ?hidden=${this.params.menu == 'plate' ? false : true} .params=${this.params}></plate-reading>
+          <samples-sampling .lang=${this.lang} .config=${this.config} .samplingType=${this.query.samplingType} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
           <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
