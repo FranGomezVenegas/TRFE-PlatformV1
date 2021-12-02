@@ -7,60 +7,46 @@ import './tab-item';
 
 let tabObj = [
   {
-    "lp_frontend_page_name": "sample-sampling",
-    "route": "samples?samplingType=samples",
-    "tabName": "sample-sampling",
+    "lp_frontend_page_name": "sample-pending-sampling",
+    "route": "sample-pending-sampling?name=samples",
     "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
   },
   {
-    "lp_frontend_page_name": "person-sampling",
-    "route": "samples?samplingType=personel",
-    "tabName": "person-sampling",
+    "lp_frontend_page_name": "sample-pending-sampling",
+    "route": "sample-pending-sampling?name=personel",
     "tabLabel_en": "Air (em-demo-a)-Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo"
   },
   {
-    "lp_frontend_page_name": "plate-reading",
-    "route": "plate?samplingType=samples",
+    "lp_frontend_page_name": "sample-pending-sampling",
+    "route": "sample-pending-sampling?name=sampling",
+    "tabLabel_en": "Water (proc-deploy)-Sampling",
+    "tabLabel_es": "Agua (proc-Deploy)-Muestreo"
+  },
+  {
+    "lp_frontend_page_name": "sample-plate-reading",
+    "route": "sample-plate-reading?name=samples",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
-    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
-  },
-  {
-    "lp_frontend_page_name": "person-plate-reading",
-    "route": "plate?samplingType=personel",
-    "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "plate?samplingType=samples",
-    "tabName": "sample-plate-reading",
-    "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
-    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },
-  {
-    "lp_frontend_page_name": "person-plate-reading",
-    "route": "plate?samplingType=personel",
-    "tabName": "person-plate-reading",
+    "route": "sample-plate-reading?name=personel",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
+  },
+  {
+    "lp_frontend_page_name": "sample-enter-result",
+    "route": "sample-enter-result?name=fq",
+    "tabLabel_en": "Water (proc-deploy)-Sample Chem",
+    "tabLabel_es": "Agua (proc-Deploy)-Muestras FQ"
+  },
+  {
+    "lp_frontend_page_name": "sample-enter-result",
+    "route": "sample-enter-result?name=fq",
+    "tabLabel_en": "Water (proc-deploy)-Sample MB",
+    "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
   },
   {
     "lp_frontend_page_name": "incident-management",
@@ -225,7 +211,7 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?samplingType="+ this.query.samplingType)
+    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?name="+ this.query.name)
     if (tab.length) {
       let exist = this.tabs.filter(t => t.route == tab[0].route)
       // dont add if found existing one
