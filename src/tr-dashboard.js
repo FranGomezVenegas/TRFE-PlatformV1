@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import { ProceduresMenuMixin } from './procedures-menu-mixin';
 import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
@@ -63,7 +64,7 @@ const langConfig = {
   }
 }
 
-export class TrDashboard extends connect(store)(navigator(LitElement)) {
+export class TrDashboard extends connect(store)(navigator(ProceduresMenuMixin)) {
   static get styles() {
     return [
       Layouts,
@@ -163,6 +164,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   }
 
   firstUpdated() {
+    super.firstUpdated()
     this.startSession = new Date().getTime()
     const container = this.drawer.parentNode;
     container.addEventListener('MDCTopAppBar:nav', () => {
@@ -210,44 +212,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
             <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
               <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
             </mwc-list-item>
-            <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
-              <mwc-list-item @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
-                <span style="margin-left:20px">Air (em-demo-a)</span>
-              </mwc-list-item>
-              <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
-                <mwc-list-item>
-                  <div class="subproc">
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=samples")}>model_training</mwc-icon>
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=personel")}>groups</mwc-icon>
-                    <label style="margin-left: 10px">Samples Sampling</label>
-                  </div>
-                </mwc-list-item>
-                <mwc-list-item>
-                  <div class="subproc">
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=samples")}>model_training</mwc-icon>
-                    <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=personel")}>groups</mwc-icon>
-                    <label style="margin-left: 10px">Samples Plate Reading</label>
-                  </div>
-                </mwc-list-item>
-              </mwc-list>
-              <mwc-list-item @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false;}}">
-                <span style="margin-left:20px">Water</span>
-              </mwc-list-item>
-              <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
-                <mwc-list-item @click="${() => this.selectedMenu("/dashboard")}">
-                  <div class="subproc">
-                    <mwc-icon>code</mwc-icon>
-                    <label style="margin-left: 10px">Sub Water 1</label>
-                  </div>
-                </mwc-list-item>
-                <mwc-list-item @click="${() => this.selectedMenu("/dashboard")}">
-                  <div class="subproc">
-                    <mwc-icon>code</mwc-icon>
-                    <label style="margin-left: 10px">Sub Water 2</label>
-                  </div>
-                </mwc-list-item>
-              </mwc-list>
-            </mwc-list>
+            ${this.mobileVersion()}
             <mwc-list-item @click="${() => this.selectedMenu("/dashboard/notifications")}">
               <span>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
             </mwc-list-item>
@@ -310,30 +275,7 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
                 </mwc-icon-button>
               </nav>
               <nav slot="actionItems" ?hidden="${!this.desktop}">
-                <sp-action-menu class="topMenu" id="procedures" size="m" @mouseover=${() => this.menuHover("procedures")}>
-                  <div slot="icon"></div>
-                  <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
-                  <sp-menu-item>
-                    <sp-action-menu size="m" @mouseover=${e=> e.target.open = true}>
-                      <div slot="icon"></div>
-                      <span slot="label">Air (em-demo-a)</span>
-                      <sp-menu-item>
-                        <div style="display: flex;align-items: center;">
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=samples")}>model_training</mwc-icon>
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/samples?samplingType=personel")}>groups</mwc-icon>
-                          <label style="margin-left: 10px">Samples Sampling</label>
-                        </div>
-                      </sp-menu-item>
-                      <sp-menu-item>
-                        <div style="display: flex;align-items: center;">
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=samples")}>model_training</mwc-icon>
-                          <mwc-icon @click=${() => this.selectedMenu("/dashboard/plate?samplingType=personel")}>groups</mwc-icon>
-                          <label style="margin-left: 10px">Samples Plate Reading</label>
-                        </div>
-                      </sp-menu-item>
-                    </sp-action-menu>
-                  </sp-menu-item>
-                </sp-action-menu>
+                ${this.desktopVersion()}
                 <sp-action-menu class="topMenu" id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
                   <div slot="icon"></div>
                   <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
@@ -391,10 +333,15 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
           </div>
         </mwc-drawer>
         <main class="layout vertical flex">
-          <tab-state .lang=${this.lang} .config=${this.config} .params=${this.params} .query=${this.query}></tab-state>
+          <tab-state .lang=${this.lang} 
+            .config=${this.config} 
+            .params=${this.params} 
+            .query=${this.query}
+            .selectedProc=${this.selectedProc}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <plate-reading .lang=${this.lang} .config=${this.config} .samplingType=${this.query.samplingType} ?hidden=${this.params.menu == 'plate' ? false : true} .params=${this.params}></plate-reading>
-          <samples-sampling .lang=${this.lang} .config=${this.config} .samplingType=${this.query.samplingType} ?hidden=${this.params.menu == 'samples' ? false : true} .params=${this.params}></samples-sampling>
+          <sample-pending-sampling .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-pending-sampling' ? false : true} .params=${this.params}></sample-pending-sampling>
+          <sample-plate-reading .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-plate-reading' ? false : true} .params=${this.params}></sample-plate-reading>
+          <sample-enter-result .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-enter-result' ? false : true} .params=${this.params}></sample-enter-result>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
           <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
@@ -540,11 +487,14 @@ export class TrDashboard extends connect(store)(navigator(LitElement)) {
   _paramsChanged() {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
-      case 'samples':
-        import('@trazit/procedures-core/samples-sampling');
+      case 'sample-pending-sampling':
+        import('@trazit/procedures-core/sample-pending-sampling');
         break;
-      case 'plate':
-        import('@trazit/procedures-core/plate-reading');
+      case 'sample-plate-reading':
+        import('@trazit/procedures-core/sample-plate-reading');
+        break;
+      case 'sample-enter-result':
+        import('@trazit/procedures-core/sample-enter-result');
         break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
