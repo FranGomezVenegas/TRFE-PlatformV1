@@ -1,4 +1,4 @@
-import { html, css } from 'lit-element';
+import { html, css, unsafeCSS } from 'lit';
 import { ProceduresMenu } from './elements/procedures-menu';
 import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
@@ -89,9 +89,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         --mdc-theme-on-primary: #2ec3ec;
       }
       .header {
-        ${displayFlex}
-        ${horizontal}
-        ${centerAligned}
+        ${unsafeCSS(displayFlex)}
+        ${unsafeCSS(horizontal)}
+        ${unsafeCSS(centerAligned)}
         font-family: 'Open Sans', sans-serif;
         font-style: normal;
       }
@@ -107,9 +107,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         display: none;
       }
       nav {
-        ${displayFlex}
-        ${horizontal}
-        ${centerAligned}
+        ${unsafeCSS(displayFlex)}
+        ${unsafeCSS(horizontal)}
+        ${unsafeCSS(centerAligned)}
       }
       nav a {
         text-decoration: none;

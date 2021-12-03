@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { Layouts } from '@collaborne/lit-flexbox-literals';
 import { navigator } from 'lit-element-router';
 import '@material/mwc-icon-button';

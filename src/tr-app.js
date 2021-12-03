@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { router, navigator, outlet } from 'lit-element-router';
 import { setPassiveTouchGestures } from '../utils/settings.js';
 
