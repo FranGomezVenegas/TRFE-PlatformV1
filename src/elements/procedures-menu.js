@@ -1,4 +1,6 @@
 import { LitElement, html } from 'lit-element';
+import '@material/mwc-icon';
+import { nothing } from 'lit';
 
 const langConfig = {
   "proceduresOption": {
@@ -7,7 +9,7 @@ const langConfig = {
   }
 }
 
-export class ProceduresMenuMixin extends LitElement {
+export class ProceduresMenu extends LitElement {
   static get properties() {
     return {
       procAccess: { type: Array }
@@ -105,25 +107,53 @@ export class ProceduresMenuMixin extends LitElement {
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
               <span slot="label">${proc["label_"+this.lang]}</span>
+              ${proc.icons_up.map(up => 
+                html`
+                  <sp-menu-item style="pointer-events: none">
+                    <div style="display: flex;align-items: center;">
+                      ${up.icon_name=="icons:search" ?
+                        html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
+                        html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
+                      }
+                      <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                    </div>
+                  </sp-menu-item>
+                `
+              )}
               ${proc.new_definition.map(def => 
                 html`
-                  <sp-menu-item style=${def.icons ? "pointer-events: none;" : ""}>
-                    <div style="display: flex;align-items: center;">
-                      ${def.icons ?
-                        html`
-                          ${def.icons.map((subProc,i) => 
+                  ${def.label_en ? 
+                    html`
+                      <sp-menu-item style=${def.icons ? "pointer-events: none;" : ""}>
+                        <div style="display: flex;align-items: center;">
+                          ${def.icons ?
                             html`
-                              <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                                @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                              ${def.icons.map((subProc,i) => 
+                                html`
+                                  <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
+                                    @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                                `
+                              )}
+                              <label style="margin-left: 10px; pointer-events: none;">${def["label_"+this.lang]}</label>
+                            ` :
+                            html`
+                              <label style="margin-left: 50px; cursor: pointer"
+                                @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
                             `
-                          )}
-                          <label style="margin-left: 10px; pointer-events: none;">${def["label_"+this.lang]}</label>
-                        ` :
-                        html`
-                          <label style="margin-left: 50px; cursor: pointer"
-                            @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
-                        `
-                      }
+                          }
+                        </div>
+                      </sp-menu-item>
+                    `
+                    : nothing
+                  }
+                `
+              )}
+              ${proc.icons_down.map(down => 
+                html`
+                  <sp-menu-item style="pointer-events: none">
+                    <div style="display: flex;align-items: center;">
+                      <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
+                      <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
                     </div>
                   </sp-menu-item>
                 `

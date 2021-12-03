@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import { ProceduresMenuMixin } from './procedures-menu-mixin';
+import { ProceduresMenu } from './elements/procedures-menu';
 import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
@@ -15,7 +15,7 @@ import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
 import '@trazit/relogin-dialog/relogin-dialog';
-import './tab-state';
+import './elements/tab-state';
 
 const langConfig = {
   "proceduresOption": {
@@ -64,7 +64,7 @@ const langConfig = {
   }
 }
 
-export class TrDashboard extends connect(store)(navigator(ProceduresMenuMixin)) {
+export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   static get styles() {
     return [
       Layouts,
