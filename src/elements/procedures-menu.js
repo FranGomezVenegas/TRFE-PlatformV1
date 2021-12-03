@@ -1,6 +1,5 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, nothing } from 'lit';
 import '@material/mwc-icon';
-import { nothing } from 'lit';
 
 const langConfig = {
   "proceduresOption": {
@@ -35,25 +34,52 @@ export class ProceduresMenu extends LitElement {
             <span style="margin-left:20px">${this.procAccess[0]&&this.procAccess[0]["label_"+this.lang]}</span>
           </mwc-list-item>
           <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
+            ${this.procAccess[0]&&this.procAccess[0].icons_up.map(up => 
+              html`
+                <mwc-list-item style="pointer-events: none">
+                  <div class="subproc">
+                    ${up.icon_name=="icons:search" ?
+                      html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
+                      html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
+                    }
+                    <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                  </div>
+                </mwc-list-item>
+              `
+            )}
             ${this.procAccess[0]&&this.procAccess[0].new_definition.map(def => 
               html`
-                <mwc-list-item>
-                  <div class="subproc">
-                    ${def.icons ?
-                      html`
-                        ${def.icons.map((subProc,i) => 
+                ${def.label_en ? 
+                  html`
+                    <mwc-list-item style=${def.icons ? "pointer-events: none;" : ""}>
+                      <div class="subproc">
+                        ${def.icons ?
                           html`
-                            <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                              @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                            ${def.icons.map((subProc,i) => 
+                              html`
+                                <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
+                                  @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                              `
+                            )}
+                            <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
+                          ` :
+                          html`
+                            <label style="margin-left: 50px; cursor: pointer"
+                              @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
-                        )}
-                        <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
-                      ` :
-                      html`
-                        <label style="margin-left: 50px; cursor: pointer"
-                          @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
-                      `
-                    }
+                        }
+                      </div>
+                    </mwc-list-item>
+                  ` : nothing
+                }
+              `
+            )}
+            ${this.procAccess[0]&&this.procAccess[0].icons_down.map(down => 
+              html`
+                <mwc-list-item style="pointer-events: none">
+                  <div class="subproc">
+                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
+                    <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
                   </div>
                 </mwc-list-item>
               `
@@ -65,25 +91,52 @@ export class ProceduresMenu extends LitElement {
             <span style="margin-left:20px">${this.procAccess[1]&&this.procAccess[1]["label_"+this.lang]}</span>
           </mwc-list-item>
           <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
+            ${this.procAccess[1]&&this.procAccess[1].icons_up.map(up => 
+              html`
+                <mwc-list-item style="pointer-events: none">
+                  <div class="subproc">
+                    ${up.icon_name=="icons:search" ?
+                      html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
+                      html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
+                    }
+                    <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                  </div>
+                </mwc-list-item>
+              `
+            )}
             ${this.procAccess[1]&&this.procAccess[1].new_definition.map(def => 
               html`
-                <mwc-list-item>
-                  <div class="subproc">
-                    ${def.icons ?
-                      html`
-                        ${def.icons.map((subProc,i) => 
+                ${def.label_en ? 
+                  html`
+                    <mwc-list-item>
+                      <div class="subproc">
+                        ${def.icons ?
                           html`
-                            <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                              @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                            ${def.icons.map((subProc,i) => 
+                              html`
+                                <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
+                                  @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${subProc.name}`)}>
+                              `
+                            )}
+                            <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
+                          ` :
+                          html`
+                            <label style="margin-left: 50px; cursor: pointer"
+                              @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
-                        )}
-                        <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
-                      ` :
-                      html`
-                        <label style="margin-left: 50px; cursor: pointer"
-                          @click=${() => this.selectedMenu(`/dashboard/${def.lp_frontend_page_name}?name=${def.name}`)}>${def["label_"+this.lang]}</label>
-                      `
-                    }
+                        }
+                      </div>
+                    </mwc-list-item>
+                  ` : nothing
+                }
+              `
+            )}
+            ${this.procAccess[1]&&this.procAccess[1].icons_down.map(down => 
+              html`
+                <mwc-list-item style="pointer-events: none">
+                  <div class="subproc">
+                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
+                    <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
                   </div>
                 </mwc-list-item>
               `
