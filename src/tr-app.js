@@ -24,7 +24,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       mwc-circular-progress {
         position: fixed;
         top : 50%;
-        left: 50%;
+        left: calc(50% - 25px);
       }
     `;
   }
