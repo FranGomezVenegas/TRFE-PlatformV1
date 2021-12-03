@@ -44,7 +44,7 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "sample-enter-result",
-    "route": "sample-enter-result?name=fq",
+    "route": "sample-enter-result?name=mb",
     "tabLabel_en": "Water (proc-deploy)-Sample MB",
     "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
   },
