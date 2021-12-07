@@ -339,7 +339,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             .query=${this.query}
             .selectedProc=${this.selectedProc}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <sample-pending-sampling .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-pending-sampling' ? false : true} .params=${this.params}></sample-pending-sampling>
+          <sample-pending-sampling .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-pending-sampling' && this.query.name != 'sampling' ? false : true} .params=${this.params}></sample-pending-sampling>
+          <sample-pending .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'sample-pending-sampling' && this.query.name == 'sampling' ? false : true} .params=${this.params}></sample-pending>
           <sample-plate-reading .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-plate-reading' ? false : true} .params=${this.params}></sample-plate-reading>
           <sample-enter-result .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-enter-result' ? false : true} .params=${this.params}></sample-enter-result>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
@@ -488,7 +489,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
       case 'sample-pending-sampling':
-        import('@trazit/procedures-core/sample-pending-sampling');
+        if (this.query.name == "sampling") {
+          import('@trazit/procedures-core/sample-pending');
+        } else {
+          import('@trazit/procedures-core/sample-pending-sampling');
+        }
         break;
       case 'sample-plate-reading':
         import('@trazit/procedures-core/sample-plate-reading');
