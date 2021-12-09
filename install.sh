@@ -36,6 +36,6 @@ then
   echo ======
   echo
 else
-  echo "Oopp.. Installation fault! please rerun yalclink"
+  echo "Oopp.. Installation fault! please rerun install.sh"
   exit 1
 fi
