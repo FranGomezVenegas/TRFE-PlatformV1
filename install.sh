@@ -30,6 +30,12 @@ echo preinstall done
 echo
 echo installing the packages
 npm i
-pwd
-echo ======
-echo
+if [ $? -eq 0 ]
+then
+  pwd
+  echo ======
+  echo
+else
+  echo "Oopp.. Installation fault! please rerun yalclink"
+  exit 1
+fi
