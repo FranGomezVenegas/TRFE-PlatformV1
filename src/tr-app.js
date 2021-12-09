@@ -59,7 +59,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     if (e.detail.waiting) {
       this.waiting.closed = false
     }
-    if (e.detail.log) {
+    if (e.detail.log && this.dashboard.style.display != "none") {
       this.dashboard.setNotif(e)
     }
     let msg = e.detail.message;
