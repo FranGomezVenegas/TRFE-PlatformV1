@@ -149,21 +149,21 @@ export class ProceduresMenu extends LitElement {
 
   desktopVersion() {
     return html`
-      <sp-action-menu style="left: 60px" class="topMenu" id="procedures" size="m" 
+      <sp-action-menu class="topMenu" id="procedures" size="m" 
         @mouseover=${() => this.menuHover("procedures")}>
         <div slot="icon"></div>
         <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
         ${this.procAccess.map(proc => 
           html`
           <sp-menu-item>
-            <sp-action-menu id="${proc.procInstanceName}" placement="right-start" size="m" 
+            <sp-action-menu class="topMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
-              <span slot="label">${proc["label_"+this.lang]}</span>
+              <span slot="label" style="color: white">${proc["label_"+this.lang]}</span>
               ${proc.icons_up.map(up => 
                 html`
-                  <sp-menu-item style="pointer-events: none">
-                    <div style="display: flex;align-items: center;">
+                  <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
+                    <div style="display: flex;align-items: center;color: white">
                       ${up.icon_name=="icons:search" ?
                         html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
                         html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
@@ -177,8 +177,8 @@ export class ProceduresMenu extends LitElement {
                 html`
                   ${def.label_en ? 
                     html`
-                      <sp-menu-item style=${def.icons ? "pointer-events: none;" : ""}>
-                        <div style="display: flex;align-items: center;">
+                      <sp-menu-item style='height: 45px; width: 255px;${def.icons ? "pointer-events: none;" : ""}'>
+                        <div style="display: flex;align-items: center;color: white">
                           ${def.icons ?
                             html`
                               ${def.icons.map((subProc,i) => 
@@ -203,7 +203,7 @@ export class ProceduresMenu extends LitElement {
               )}
               ${proc.icons_down.map(down => 
                 html`
-                  <sp-menu-item style="pointer-events: none">
+                  <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
                     <div style="display: flex;align-items: center;">
                       <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
                       <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
@@ -236,6 +236,29 @@ export class ProceduresMenu extends LitElement {
         e.target.open = true
         this.openedSubMenu = e.target
       }
+    }
+    // adjust menu and submenu styles
+    if (e.target.open) {
+      setTimeout(() => {
+        let popover = document.querySelectorAll("sp-popover")
+        popover.forEach(p => {
+          p.style.setProperty("--spectrum-popover-background-color", "rgb(3, 169, 244)")
+          p.style.borderBottom = "1px solid black"
+          p.style.boxShadow = "1px 1px #888888"
+          let pMenu = p.querySelectorAll("sp-menu")
+          pMenu.forEach(m => {
+            if (m.tabIndex < 0) {
+              m.style.margin = "0"
+              m.style.width = "260px"
+            }
+          })
+          let spMenu = p.querySelectorAll("sp-menu-item")
+          spMenu.forEach(s => {
+            s.style.borderBottom = "1px solid black"
+            s.style.boxShadow = "1px 1px #888"
+          })
+        })
+      })
     }
   }
 }

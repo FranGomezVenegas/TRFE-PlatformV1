@@ -285,14 +285,14 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${langConfig.certOption["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
                   <sp-menu-item>
-                    <div style="display:flex;align-items:center;">
+                    <div style="display:flex;align-items:center;color:white">
                       <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}
                       (<span style="color: blue">${this.sops.length}</span>)</div>
                       ${this.pendingSOP()}
                     </div>
                   </sp-menu-item>
                   <sp-menu-item>
-                    <div style="display:flex;align-items:center;width:150px;">
+                    <div style="display:flex;align-items:center;width:150px;color:white">
                       <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}
                       (<span style="color: blue">${this.analytics.length}</span>)</div>
                       ${this.pendingAnalytic()}
@@ -303,24 +303,24 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label"
                     @mouseover=${() => this.menuHover("settings")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:white">
                     <mwc-icon slot="icon">route</mwc-icon>
                     ${langConfig.personalOption.procedure["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:white">
                     <mwc-icon slot="icon">bug_report</mwc-icon>
                     ${langConfig.personalOption.incidents["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:white">
                     <mwc-icon slot="icon">person</mwc-icon>
                     ${langConfig.personalOption.user["label_" + this.lang]}
                   </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")}>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:white">
                     <mwc-icon slot="icon">video_library</mwc-icon>
                     ${langConfig.personalOption.video["label_" + this.lang]}
                   </sp-menu-item>
                   <sp-divider size="m"></sp-divider>
-                  <sp-menu-item @click=${this.logout}>
+                  <sp-menu-item @click=${this.logout} style="color:white">
                     <mwc-icon slot="icon">logout</mwc-icon>
                     ${langConfig.personalOption.doLogout["label_" + this.lang]}
                   </sp-menu-item>
@@ -362,6 +362,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 
   get tabBar() {
     return this.shadowRoot.querySelector("mwc-top-app-bar-fixed")
+  }
+
+  get subMenu() {
+    return this.shadowRoot.querySelectorAll("sp-action-menu.subMenu")
   }
 
   get actMenu() {
@@ -529,6 +533,22 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
       if (s.id == menu) {
         s.open = true;
+        // adjust menu and submenu styles
+        setTimeout(() => {
+          let popover = document.querySelectorAll("sp-popover")
+          popover.forEach(p => {
+            p.style.setProperty("--spectrum-popover-background-color", "rgb(3, 169, 244)")
+            p.style.borderBottom = "1px solid black"
+            p.style.boxShadow = "1px 1px #888"
+            let pMenu = p.querySelector("sp-menu")
+            pMenu.style.margin = "0"
+            let spMenu = p.querySelectorAll("sp-menu-item")
+            spMenu.forEach((s,i) => {
+              s.style.borderBottom = "1px solid black"
+              s.style.boxShadow = "1px 1px #888"
+            })
+          })
+        })
       } else {
         s.open = false
       }
