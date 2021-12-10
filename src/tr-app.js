@@ -136,8 +136,19 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.params = params;
     this.query = query;
     this.data = data;
-    this._routeChanged();
+    // prevent unaccess history
     console.log(route, params, query, data)
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    if (userSession && userSession.finalToken) {
+      if (route == "home") {
+        return history.forward()
+      }
+    } else {
+      if (route != "home") {
+        window.location.href = "/";
+      }
+    }
+    this._routeChanged();
   }
 
   constructor() {

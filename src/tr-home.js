@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { store } from '../redux/store';
 import { navigator } from 'lit-element-router';
 import '@trazit/platform-login/platform-login';
