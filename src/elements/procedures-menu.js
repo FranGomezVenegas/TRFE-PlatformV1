@@ -39,10 +39,10 @@ export class ProceduresMenu extends LitElement {
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
                     ${up.icon_name=="icons:search" ?
-                      html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
-                      html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
+                      html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
+                      html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
                     }
-                    <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                    <label style="margin-left: 30px; pointer-events: none;">${up["label_"+this.lang]}</label>
                   </div>
                 </mwc-list-item>
               `
@@ -165,10 +165,10 @@ export class ProceduresMenu extends LitElement {
                   <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
                     <div style="display: flex;align-items: center;color: white">
                       ${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
-                        html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
+                        html`<mwc-icon style="--mdc-icon-size:20px; pointer-events: auto;">search</mwc-icon>` :
+                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
                       }
-                      <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                      <label style="margin-left: 30px; pointer-events: none;">${up["label_"+this.lang]}</label>
                     </div>
                   </sp-menu-item>
                 `
