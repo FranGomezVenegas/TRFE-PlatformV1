@@ -34,19 +34,20 @@ export class ProceduresMenu extends LitElement {
             <span style="margin-left:20px">${this.procAccess[0]&&this.procAccess[0]["label_"+this.lang]}</span>
           </mwc-list-item>
           <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
-            ${this.procAccess[0]&&this.procAccess[0].icons_up.map(up => 
+            ${this.procAccess[0]&&this.procAccess[0].icons_up.length ?
               html`
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
-                    ${up.icon_name=="icons:search" ?
-                      html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
-                      html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
-                    }
-                    <label style="margin-left: 30px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                    ${this.procAccess[0].icons_up.map(up => 
+                      html`${up.icon_name=="icons:search" ?
+                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
+                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
+                      }`
+                    )}
                   </div>
                 </mwc-list-item>
-              `
-            )}
+              ` : nothing
+            }
             ${this.procAccess[0]&&this.procAccess[0].new_definition.map(def => 
               html`
                 ${def.label_en ? 
@@ -91,19 +92,20 @@ export class ProceduresMenu extends LitElement {
             <span style="margin-left:20px">${this.procAccess[1]&&this.procAccess[1]["label_"+this.lang]}</span>
           </mwc-list-item>
           <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
-            ${this.procAccess[1]&&this.procAccess[1].icons_up.map(up => 
+            ${this.procAccess[1]&&this.procAccess[1].icons_up.length ?
               html`
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
-                    ${up.icon_name=="icons:search" ?
-                      html`<mwc-icon style="pointer-events: auto;">search</mwc-icon>` :
-                      html`<img src="/images/noImage0.png" style="width:25px; pointer-events: auto;">`
-                    }
-                    <label style="margin-left: 25px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                    ${this.procAccess[1].icons_up.map(up => 
+                      html`${up.icon_name=="icons:search" ?
+                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
+                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
+                      }`
+                    )}
                   </div>
                 </mwc-list-item>
-              `
-            )}
+              ` : nothing
+            }
             ${this.procAccess[1]&&this.procAccess[1].new_definition.map(def => 
               html`
                 ${def.label_en ? 
@@ -131,16 +133,17 @@ export class ProceduresMenu extends LitElement {
                 }
               `
             )}
-            ${this.procAccess[1]&&this.procAccess[1].icons_down.map(down => 
+            ${this.procAccess[1]&&this.procAccess[1].icons_down.length ?
               html`
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
-                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
-                    <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
+                    ${this.procAccess[1].icons_down.map(down => 
+                      html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
+                    )}
                   </div>
                 </mwc-list-item>
-              `
-            )}
+              ` : nothing
+            }
           </mwc-list>
         </div>
       </mwc-list>
@@ -160,19 +163,20 @@ export class ProceduresMenu extends LitElement {
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
               <span slot="label" style="color: white">${proc["label_"+this.lang]}</span>
-              ${proc.icons_up.map(up => 
+              ${proc.icons_up.length ?
                 html`
                   <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
                     <div style="display: flex;align-items: center;color: white">
-                      ${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:20px; pointer-events: auto;">search</mwc-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
-                      }
-                      <label style="margin-left: 30px; pointer-events: none;">${up["label_"+this.lang]}</label>
+                      ${proc.icons_up.map(up =>
+                        html`${up.icon_name=="icons:search" ?
+                          html`<mwc-icon style="--mdc-icon-size:20px; pointer-events: auto;">search</mwc-icon>` :
+                          html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
+                        }`
+                      )}
                     </div>
                   </sp-menu-item>
-                `
-              )}
+                ` : nothing
+              }
               ${proc.new_definition.map(def => 
                 html`
                   ${def.label_en ? 
@@ -201,16 +205,17 @@ export class ProceduresMenu extends LitElement {
                   }
                 `
               )}
-              ${proc.icons_down.map(down => 
+              ${proc.icons_down.length ?
                 html`
                   <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
-                    <div style="display: flex;align-items: center;">
-                      <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
-                      <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
+                    <div style="display: flex;align-items: center;color: white">
+                      ${proc.icons_down.map(down =>
+                        html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
+                      )}
                     </div>
                   </sp-menu-item>
-                `
-              )}
+                ` : nothing
+              }
             </sp-action-menu>
           </sp-menu-item>
           `
