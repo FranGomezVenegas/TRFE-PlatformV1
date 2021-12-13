@@ -26,13 +26,13 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "sample-plate-reading?name=samples",
+    "route": "sample-plate-reading?name=PlateReadingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "sample-plate-reading?name=personel",
+    "route": "sample-plate-reading?name=PlateReadingPERS",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
