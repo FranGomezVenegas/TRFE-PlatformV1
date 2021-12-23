@@ -7,44 +7,50 @@ import './tab-item';
 
 let tabObj = [
   {
-    "lp_frontend_page_name": "sample-pending-sampling",
-    "route": "sample-pending-sampling?name=samples",
+    "lp_frontend_page_name": "SamplePendingSampling",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=samples",
     "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
   },
   {
-    "lp_frontend_page_name": "sample-pending-sampling",
-    "route": "sample-pending-sampling?name=personel",
+    "lp_frontend_page_name": "SamplePendingSampling",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=personel",
     "tabLabel_en": "Air (em-demo-a)-Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo"
   },
   {
-    "lp_frontend_page_name": "sample-pending-sampling",
-    "route": "sample-pending-sampling?name=sampling",
-    "tabLabel_en": "Water (proc-deploy)-Sampling",
-    "tabLabel_es": "Agua (proc-Deploy)-Muestreo"
-  },
-  {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "sample-plate-reading?name=PlateReadingSMP",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePlateReading&filterName=PlateReadingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
     "lp_frontend_page_name": "sample-plate-reading",
-    "route": "sample-plate-reading?name=PlateReadingPERS",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePlateReading&filterName=PlateReadingPERS",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
+    "lp_frontend_page_name": "sample-incubation",
+    "route": "procedures?procName=em-demo-a&sampleName=SampleIncubation&filterName=active_batches",
+    "tabLabel_en": "Air (em-demo-a)-Samples Incubation",
+    "tabLabel_es": "Aire (em-demo-a)-Incubation"
+  },
+  {
+    "lp_frontend_page_name": "sample-pending",
+    "route": "procedures?procName=proc-deploy&sampleName=SamplePending&filterName=sampling",
+    "tabLabel_en": "Water (proc-deploy)-Sampling",
+    "tabLabel_es": "Agua (proc-Deploy)-Muestreo"
+  },
+  {
     "lp_frontend_page_name": "sample-enter-result",
-    "route": "sample-enter-result?name=fq",
+    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=fq",
     "tabLabel_en": "Water (proc-deploy)-Sample Chem",
     "tabLabel_es": "Agua (proc-Deploy)-Muestras FQ"
   },
   {
     "lp_frontend_page_name": "sample-enter-result",
-    "route": "sample-enter-result?name=mb",
+    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=mb",
     "tabLabel_en": "Water (proc-deploy)-Sample MB",
     "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
   },
@@ -211,7 +217,7 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?name="+ this.query.name)
+    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?procName="+ this.query.procName +"&sampleName="+ this.query.sampleName +"&filterName="+ this.query.filterName)
     if (tab.length) {
       let exist = this.tabs.filter(t => t.route == tab[0].route)
       // dont add if found existing one

@@ -15,6 +15,7 @@ import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
 import '@trazit/relogin-dialog/relogin-dialog';
+import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
 
 const langConfig = {
@@ -339,10 +340,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             .query=${this.query}
             .selectedProc=${this.selectedProc}></tab-state>
           <tr-default ?hidden=${this.params.menu}></tr-default>
-          <sample-pending-sampling .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-pending-sampling' && this.query.name != 'sampling' ? false : true} .params=${this.params}></sample-pending-sampling>
-          <sample-pending .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'sample-pending-sampling' && this.query.name == 'sampling' ? false : true} .params=${this.params}></sample-pending>
-          <sample-plate-reading .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-plate-reading' ? false : true} .params=${this.params}></sample-plate-reading>
-          <sample-enter-result .lang=${this.lang} .config=${this.config} .name=${this.query.name} ?hidden=${this.params.menu == 'sample-enter-result' ? false : true} .params=${this.params}></sample-enter-result>
+          <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
           </procedure-management>
           <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
@@ -489,21 +487,20 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     }
   }
 
+  get trProc() {
+    return this.shadowRoot.querySelector("tr-procedures")
+  }
+
   _paramsChanged() {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
-      case 'sample-pending-sampling':
-        if (this.query.name == "sampling") {
-          import('@trazit/procedures-core/sample-pending');
-        } else {
-          import('@trazit/procedures-core/sample-pending-sampling');
-        }
-        break;
-      case 'sample-plate-reading':
-        import('@trazit/procedures-core/sample-plate-reading');
-        break;
-      case 'sample-enter-result':
-        import('@trazit/procedures-core/sample-enter-result');
+      case 'procedures':
+        this.trProc.procName = this.query.procName
+        this.trProc.sampleName = this.query.sampleName
+        this.trProc.filterName = this.query.filterName
+        this.trProc.resetView()
+        this.trProc.render()
+        this.trProc.authorized()
         break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
