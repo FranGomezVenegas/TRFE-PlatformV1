@@ -7,50 +7,74 @@ import './tab-item';
 
 let tabObj = [
   {
+    "lp_frontend_page_name": "LogSamples",
+    "route": "procedures?procName=em-demo-a&sampleName=LogSamples&filterName=SampleLogin",
+    "tabLabel_en": "Air (em-demo-a)-Login New Samples",
+    "tabLabel_es": "Aire (em-demo-a)-Registrar Nuevas Muestras"
+  },
+  {
     "lp_frontend_page_name": "SamplePendingSampling",
-    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=samples",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=SamplingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
   },
   {
     "lp_frontend_page_name": "SamplePendingSampling",
-    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=personel",
+    "route": "procedures?procName=em-demo-a&sampleName=SamplePendingSampling&filterName=SamplingPERS",
     "tabLabel_en": "Air (em-demo-a)-Sampling",
     "tabLabel_es": "Aire (em-demo-a)-Muestreo"
   },
   {
-    "lp_frontend_page_name": "sample-plate-reading",
+    "lp_frontend_page_name": "SamplePlateReading",
     "route": "procedures?procName=em-demo-a&sampleName=SamplePlateReading&filterName=PlateReadingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
-    "lp_frontend_page_name": "sample-plate-reading",
+    "lp_frontend_page_name": "SamplePlateReading",
     "route": "procedures?procName=em-demo-a&sampleName=SamplePlateReading&filterName=PlateReadingPERS",
     "tabLabel_en": "Air (em-demo-a)-Plate Reading",
     "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
   },
   {
-    "lp_frontend_page_name": "sample-incubation",
+    "lp_frontend_page_name": "SampleIncubation",
     "route": "procedures?procName=em-demo-a&sampleName=SampleIncubation&filterName=active_batches",
     "tabLabel_en": "Air (em-demo-a)-Samples Incubation",
     "tabLabel_es": "Aire (em-demo-a)-Incubation"
   },
   {
-    "lp_frontend_page_name": "sample-pending",
+    "lp_frontend_page_name": "SampleMicroorganism",
+    "route": "procedures?procName=em-demo-a&sampleName=SampleMicroorganism&filterName=MicroOrganismSMP",
+    "tabLabel_en": "Air (em-demo-a)-Microorganism Identification",
+    "tabLabel_es": "Aire (em-demo-a)-Identificación de microorganismos"
+  },
+  {
+    "lp_frontend_page_name": "SampleMicroorganism",
+    "route": "procedures?procName=em-demo-a&sampleName=SampleMicroorganism&filterName=MicroOrganismPERS",
+    "tabLabel_en": "Air (em-demo-a)-Microorganism Identification",
+    "tabLabel_es": "Aire (em-demo-a)-Identificación de microorganismos"
+  },
+  {
+    "lp_frontend_page_name": "LogSamples",
+    "route": "procedures?procName=proc-deploy&sampleName=LogSamples&filterName=SampleLogin",
+    "tabLabel_en": "Water (proc-deploy)-Login New Samples",
+    "tabLabel_es": "Agua (proc-Deploy)-Registrar Nuevas Muestras"
+  },
+  {
+    "lp_frontend_page_name": "SamplePending",
     "route": "procedures?procName=proc-deploy&sampleName=SamplePending&filterName=sampling",
     "tabLabel_en": "Water (proc-deploy)-Sampling",
     "tabLabel_es": "Agua (proc-Deploy)-Muestreo"
   },
   {
-    "lp_frontend_page_name": "sample-enter-result",
-    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=fq",
+    "lp_frontend_page_name": "SampleEnterResult",
+    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=ER-FQ",
     "tabLabel_en": "Water (proc-deploy)-Sample Chem",
     "tabLabel_es": "Agua (proc-Deploy)-Muestras FQ"
   },
   {
-    "lp_frontend_page_name": "sample-enter-result",
-    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=mb",
+    "lp_frontend_page_name": "SampleEnterResult",
+    "route": "procedures?procName=proc-deploy&sampleName=SampleEnterResult&filterName=ER-MB",
     "tabLabel_en": "Water (proc-deploy)-Sample MB",
     "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
   },

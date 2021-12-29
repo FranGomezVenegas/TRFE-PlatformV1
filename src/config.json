@@ -10,6 +10,9 @@
   "appProcedureListApiUrl": "/frontend/AppProcedureListAPI",
   "frontEndEnvMonitSampleUrl": "/moduleenvmon/frontend/EnvMonSampleAPIfrontend",
   "ApiEnvMonitSampleUrl": "/moduleenvmon/EnvMonSampleAPI",
+  "ApiEnvMonitUrl": "/moduleenvmon/EnvMonAPI",
+  "frontEndEnvMonitIncubationUrl": "/moduleenvmon/frontend/EnvMonIncubationAPIfrontend",
+  "frontEndEnvMonitUrl": "/moduleenvmon/frontend/EnvMonAPIfrontend",
   "businessRules": {
     "enableLockSession": true,
     "minsLockSession": 2,
