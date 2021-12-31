@@ -496,7 +496,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     switch (this.params.menu) {
       case 'procedures':
         this.trProc.procName = this.query.procName
-        this.trProc.sampleName = this.query.sampleName
+        this.trProc.viewName = this.query.viewName
         this.trProc.filterName = this.query.filterName
         this.trProc.resetView()
         this.trProc.render()

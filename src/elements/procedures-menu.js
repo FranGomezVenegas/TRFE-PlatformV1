@@ -59,14 +59,14 @@ export class ProceduresMenu extends LitElement {
                             ${def.icons.map((subProc,i) => 
                               html`
                                 <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
                             <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
                           ` :
                           html`
                             <label style="margin-left: 50px; cursor: pointer"
-                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
+                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
                         }
                       </div>
@@ -117,14 +117,14 @@ export class ProceduresMenu extends LitElement {
                             ${def.icons.map((subProc,i) => 
                               html`
                                 <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
                             <label style="margin-left: 10px">${def["label_"+this.lang]}</label>
                           ` :
                           html`
                             <label style="margin-left: 50px; cursor: pointer"
-                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
+                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
                         }
                       </div>
@@ -188,14 +188,14 @@ export class ProceduresMenu extends LitElement {
                               ${def.icons.map((subProc,i) => 
                                 html`
                                   <img src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                                 `
                               )}
                               <label style="margin-left: 10px; pointer-events: none;">${def["label_"+this.lang]}</label>
                             ` :
                             html`
                               <label style="margin-left: 50px; cursor: pointer"
-                                @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&sampleName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
+                                @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                             `
                           }
                         </div>
