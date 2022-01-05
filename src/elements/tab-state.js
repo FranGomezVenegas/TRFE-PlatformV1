@@ -79,6 +79,30 @@ let tabObj = [
     "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
   },
   {
+    "lp_frontend_page_name": "ReviewTesting",
+    "route": "procedures?procName=proc-deploy&viewName=ReviewTesting&filterName=RT-FQ",
+    "tabLabel_en": "Water (proc-deploy)-FQ Review Testing",
+    "tabLabel_es": "Agua (proc-Deploy)-Ensayos revisión FQ"
+  },
+  {
+    "lp_frontend_page_name": "ReviewTesting",
+    "route": "procedures?procName=proc-deploy&viewName=ReviewTesting&filterName=RT-MB",
+    "tabLabel_en": "Water (proc-deploy)-MB Review Testing",
+    "tabLabel_es": "Agua (proc-Deploy)-Ensayos revisión MB"
+  },
+  {
+    "lp_frontend_page_name": "ReviewTestingGroup",
+    "route": "procedures?procName=proc-deploy&viewName=ReviewTestingGroup&filterName=RTG-FQ",
+    "tabLabel_en": "Water (proc-deploy)-FQ Review Testing Group",
+    "tabLabel_es": "Agua (proc-Deploy)-Grupo Analítico revisión FQ"
+  },
+  {
+    "lp_frontend_page_name": "ReviewTestingGroup",
+    "route": "procedures?procName=proc-deploy&viewName=ReviewTestingGroup&filterName=RTG-MB",
+    "tabLabel_en": "Water (proc-deploy)-MB Review Testing Group",
+    "tabLabel_es": "Agua (proc-Deploy)-Grupo Ensayos revisión MB"
+  },
+  {
     "lp_frontend_page_name": "incident-management",
     "route": "incidents",
     "tabName": "incident-management",
