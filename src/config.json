@@ -13,6 +13,7 @@
   "ApiEnvMonitUrl": "/moduleenvmon/EnvMonAPI",
   "frontEndEnvMonitIncubationUrl": "/moduleenvmon/frontend/EnvMonIncubationAPIfrontend",
   "frontEndEnvMonitUrl": "/moduleenvmon/frontend/EnvMonAPIfrontend",
+  "ApiEnvMonitProdLotUrl": "/moduleenvmon/EnvMonProdLotAPI",
   "businessRules": {
     "enableLockSession": true,
     "minsLockSession": 2,

@@ -13,6 +13,12 @@ let tabObj = [
     "tabLabel_es": "Aire (em-demo-a)-Registrar Nuevas Muestras"
   },
   {
+    "lp_frontend_page_name": "ProductionLots",
+    "route": "procedures?procName=em-demo-a&viewName=ProductionLots&filterName=SampleLot",
+    "tabLabel_en": "Air (em-demo-a)-Production Lots",
+    "tabLabel_es": "Aire (em-demo-a)-Lotes en producción"
+  },
+  {
     "lp_frontend_page_name": "SamplePendingSampling",
     "route": "procedures?procName=em-demo-a&viewName=SamplePendingSampling&filterName=SamplingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
@@ -61,6 +67,12 @@ let tabObj = [
     "tabLabel_es": "Agua (proc-Deploy)-Registrar Nuevas Muestras"
   },
   {
+    "lp_frontend_page_name": "ProductionLots",
+    "route": "procedures?procName=proc-deploy&viewName=ProductionLots&filterName=SampleLot",
+    "tabLabel_en": "Water (proc-deploy)-Production Lots",
+    "tabLabel_es": "Agua (proc-Deploy)-Lotes en producción"
+  },
+  {
     "lp_frontend_page_name": "SamplePending",
     "route": "procedures?procName=proc-deploy&viewName=SamplePending&filterName=sampling",
     "tabLabel_en": "Water (proc-deploy)-Sampling",
@@ -101,6 +113,12 @@ let tabObj = [
     "route": "procedures?procName=proc-deploy&viewName=ReviewTestingGroup&filterName=RTG-MB",
     "tabLabel_en": "Water (proc-deploy)-MB Review Testing Group",
     "tabLabel_es": "Agua (proc-Deploy)-Grupo Ensayos revisión MB"
+  },
+  {
+    "lp_frontend_page_name": "ReviewSample",
+    "route": "procedures?procName=proc-deploy&viewName=ReviewSample&filterName=Review",
+    "tabLabel_en": "Water (proc-deploy)-Review Samples",
+    "tabLabel_es": "Agua (proc-Deploy)-Revisar Muestras"
   },
   {
     "lp_frontend_page_name": "incident-management",
