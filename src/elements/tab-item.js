@@ -45,5 +45,11 @@ export class TabItem extends LitElement {
     super();
     this.tab = {};
   }
+
+  firstUpdated() {
+    this.updateComplete.then(() => {
+      this.dispatchEvent(new CustomEvent("tab-rendered"))
+    })
+  }
 }
 customElements.define('tab-item', TabItem);

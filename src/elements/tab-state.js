@@ -208,23 +208,77 @@ export class TabState extends navigator(LitElement) {
         display: block;
         margin: 0 auto;
       }
+      .tabContainer {
+        overflow: auto;
+      }
+      .tabContainer::-webkit-scrollbar {
+        display: none;
+      }
+      .tabContainer > * {
+        display: inline-block;
+        flex-shrink: 0;
+      }
       mwc-button {
         --mdc-typography-button-text-transform: none;
+      }
+      mwc-icon-button[hidden] {
+        visibility: hidden;
       }
     `];
   }
 
   render() {
     return html`
-      <div class="layout horizontal center flex wrap">
-        <mwc-icon-button icon="save" @click=${this.saveTabs}></mwc-icon-button>
-        ${this.tabs.map(t=>
-          html`<tab-item .lang=${this.lang} .tab=${t} 
-            @tab-change=${this.tabChanged}
-            @tab-remove=${this.tabRemoved}></tab-item>`
-        )}
+      <div class="layout horizontal center">
+        <mwc-icon-button icon="navigate_before" @click=${this.prevTab} ?hidden=${!this.prev}></mwc-icon-button>
+        <div class="tabContainer layout horizontal flex center">
+          <mwc-icon-button icon="save" @click=${this.saveTabs}></mwc-icon-button>
+          ${this.tabs.map(t=>
+            html`<tab-item .lang=${this.lang} .tab=${t} 
+              @tab-rendered=${this.isScroll}
+              @tab-change=${this.tabChanged}
+              @tab-remove=${this.tabRemoved}></tab-item>`
+          )}
+        </div>
+        <mwc-icon-button icon="navigate_next" @click=${this.nextTab} ?hidden=${!this.next}></mwc-icon-button>
       </div>
     `;
+  }
+
+  get tabContainer() {
+    return this.shadowRoot.querySelector(".tabContainer")
+  }
+
+  prevTab() {
+    this.tabContainer.scrollLeft = this.tabContainer.scrollLeft - 200
+  }
+
+  nextTab() {
+    this.tabContainer.scrollLeft = this.tabContainer.scrollLeft + 200
+  }
+
+  isScroll() {
+    if (this.tabContainer.offsetWidth < this.tabContainer.scrollWidth) {
+      this.next = true
+    } else {
+      this.next = false
+    }
+  }
+
+  firstUpdated() {
+    super.firstUpdated()
+    this.tabContainer.addEventListener('scroll', ()=>{
+      if (this.tabContainer.scrollLeft == 0) {
+        this.prev = false
+      } else {
+        this.prev = true
+      }
+      if (this.tabContainer.offsetWidth + this.tabContainer.scrollLeft == this.tabContainer.scrollWidth) {
+        this.next = false
+      } else {
+        this.next = true
+      }
+    })
   }
 
   tabChanged(e) {
@@ -259,12 +313,16 @@ export class TabState extends navigator(LitElement) {
       config: { type: Object },
       params: { type: Object }, // route params which is passed from parent element (root app)
       query: { type: Object }, // route query which is passed from parent element (root app)
-      lang: { type: String}
+      lang: { type: String},
+      prev: { type: Boolean },
+      next: { type: Boolean }
     };
   }
 
   constructor() {
     super();
+    this.prev = false;
+    this.next = false;
     this.params = {};
     this.query = {};
     this.tabs = [];
