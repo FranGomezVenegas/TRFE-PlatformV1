@@ -206,7 +206,6 @@ export class TabState extends navigator(LitElement) {
       css`
       :host {
         display: block;
-        margin: 0 auto;
       }
       .tabContainer {
         overflow: auto;
