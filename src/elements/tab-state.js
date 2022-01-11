@@ -7,6 +7,12 @@ import './tab-item';
 
 let tabObj = [
   {
+    "lp_frontend_page_name": "Programs",
+    "route": "procedures?procName=em-demo-a&viewName=Programs&filterName=Programs",
+    "tabLabel_en": "Air (em-demo-a)-Programs",
+    "tabLabel_es": "Aire (em-demo-a)-Programas"
+  },
+  {
     "lp_frontend_page_name": "LogSamples",
     "route": "procedures?procName=em-demo-a&viewName=LogSamples&filterName=SampleLogin",
     "tabLabel_en": "Air (em-demo-a)-Login New Samples",
