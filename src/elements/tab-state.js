@@ -43,6 +43,18 @@ let tabObj = [
     "tabLabel_es": "Aire (em-demo-a)-Muestreo"
   },
   {
+    "lp_frontend_page_name": "SamplePendingSamplingInterval",
+    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSamplingInterval&filterName=SamplingSMP",
+    "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
+  },
+  {
+    "lp_frontend_page_name": "SamplePendingSamplingInterval",
+    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSamplingInterval&filterName=SamplingPERS",
+    "tabLabel_en": "Air (em-demo-a)-Sampling",
+    "tabLabel_es": "Aire (em-demo-a)-Muestreo"
+  },
+  {
     "lp_frontend_page_name": "SamplePlateReading",
     "route": "procedures?procName=em-demo-a&viewName=SamplePlateReading&filterName=PlateReadingSMP",
     "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
@@ -143,6 +155,18 @@ let tabObj = [
     "route": "procedures?procName=proc-deploy&viewName=ReviewSample&filterName=Review",
     "tabLabel_en": "Water (proc-deploy)-Review Samples",
     "tabLabel_es": "Agua (proc-Deploy)-Revisar Muestras"
+  },
+  {
+    "lp_frontend_page_name": "PlatformInstruments",
+    "route": "procedures?procName=app-proc&viewName=PlatformInstruments&filterName=Review",
+    "tabLabel_en": "Active Instruments",
+    "tabLabel_es": "Instrumentos activos"
+  },
+  {
+    "lp_frontend_page_name": "EventsInProgress",
+    "route": "procedures?procName=app-proc&viewName=EventsInProgress&filterName=Review",
+    "tabLabel_en": "Events in progress",
+    "tabLabel_es": "Eventos en curso"
   },
   {
     "lp_frontend_page_name": "incident-management",
