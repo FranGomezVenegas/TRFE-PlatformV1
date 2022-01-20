@@ -22,5 +22,5 @@
     "showTimingInConsole": true,
     "secondsNextTimeChecker": 5
   },
-  "local": true
+  "local": false
 }
