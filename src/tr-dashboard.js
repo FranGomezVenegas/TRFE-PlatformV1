@@ -5,6 +5,8 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
+import '@spectrum-web-components/accordion/sp-accordion.js';
+import '@spectrum-web-components/accordion/sp-accordion-item.js';
 import '@spectrum-web-components/action-menu/sync/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-settings.js';
@@ -334,11 +336,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </div>
         </mwc-drawer>
         <main class="layout vertical flex">
-          <tab-state .lang=${this.lang} 
-            .config=${this.config} 
-            .params=${this.params} 
-            .query=${this.query}
-            .selectedProc=${this.selectedProc}></tab-state>
+          ${this.desktop ? 
+            html`${this.tabState()}` :
+            html`
+              <sp-accordion allow-multiple>
+                <sp-accordion-item label="Tab Menu">
+                  ${this.tabState()}
+                </sp-accordion-item>
+              </sp-accordion>
+            `
+          }
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
           <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
@@ -356,6 +363,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       </div>
       <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>
     `;
+  }
+
+  tabState() {
+    return html`
+      <tab-state .lang=${this.lang} 
+        .config=${this.config} 
+        .params=${this.params} 
+        .query=${this.query}
+        .selectedProc=${this.selectedProc}></tab-state>
+    `
   }
 
   get tabBar() {

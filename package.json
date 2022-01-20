@@ -29,6 +29,7 @@
     "@material/mwc-top-app-bar-fixed": "^0.25.3",
     "@pwabuilder/pwainstall": "^1.6.7",
     "@pwabuilder/pwaupdate": "^0.2.0",
+    "@spectrum-web-components/accordion": "^0.6.2",
     "@spectrum-web-components/action-menu": "^0.11.5",
     "@spectrum-web-components/button": "^0.15.0",
     "@spectrum-web-components/divider": "^0.2.8",
