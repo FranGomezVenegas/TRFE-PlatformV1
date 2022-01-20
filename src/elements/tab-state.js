@@ -13,6 +13,12 @@ let tabObj = [
     "tabLabel_es": "Aire (em-demo-a)-Programas"
   },
   {
+    "lp_frontend_page_name": "Deviation",
+    "route": "procedures?procName=em-demo-a&viewName=Deviation&filterName=Deviation",
+    "tabLabel_en": "Air (em-demo-a)-Deviation",
+    "tabLabel_es": "Aire (em-demo-a)-Desviación"
+  },
+  {
     "lp_frontend_page_name": "LogSamples",
     "route": "procedures?procName=em-demo-a&viewName=LogSamples&filterName=SampleLogin",
     "tabLabel_en": "Air (em-demo-a)-Login New Samples",
@@ -65,6 +71,18 @@ let tabObj = [
     "route": "procedures?procName=em-demo-a&viewName=SampleMicroorganism&filterName=MicroOrganismPERS",
     "tabLabel_en": "Air (em-demo-a)-Microorganism Identification",
     "tabLabel_es": "Aire (em-demo-a)-Identificación de microorganismos"
+  },
+  {
+    "lp_frontend_page_name": "Programs",
+    "route": "procedures?procName=proc-deploy&viewName=Programs&filterName=Programs",
+    "tabLabel_en": "Water (proc-deploy)-Programs",
+    "tabLabel_es": "Agua (proc-Deploy)-Programas"
+  },
+  {
+    "lp_frontend_page_name": "Deviation",
+    "route": "procedures?procName=proc-deploy&viewName=Deviation&filterName=Deviation",
+    "tabLabel_en": "Water (proc-deploy)-Deviation",
+    "tabLabel_es": "Agua (proc-Deploy)-Desviación"
   },
   {
     "lp_frontend_page_name": "LogSamples",
