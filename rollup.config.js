@@ -34,7 +34,8 @@ export default merge(baseConfig, {
       targets: [
         { src: 'utils/*', dest: outputDir+'/utils' },
         { src: 'images/*', dest: outputDir+'/images' },
-        { src: 'src/config.json', dest: outputDir+'/src' }
+        { src: 'src/config.json', dest: outputDir+'/src' },
+        { src: 'node_modules/@lrnwebcomponents/*', dest: outputDir+'/node_modules/@lrnwebcomponents'}
       ],
       // set flatten to false to preserve folder structure
       flatten: true,
