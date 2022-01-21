@@ -1,12 +1,10 @@
-import { html, css, unsafeCSS } from 'lit';
+import { html, css, unsafeCSS, nothing } from 'lit';
 import { ProceduresMenu } from './elements/procedures-menu';
 import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
-import '@spectrum-web-components/accordion/sp-accordion.js';
-import '@spectrum-web-components/accordion/sp-accordion-item.js';
 import '@spectrum-web-components/action-menu/sync/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-settings.js';
@@ -16,6 +14,7 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
+import '@material/mwc-icon-button-toggle';
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
@@ -161,6 +160,12 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         #sessionLabel {
           line-height:normal;
           font-size:10px;
+        }
+        main {
+          padding: 0 10px 10px;
+        }
+        main div.content {
+          margin-left: 60px;
         }
       }
     `];
@@ -339,26 +344,25 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           ${this.desktop ? 
             html`${this.tabState()}` :
             html`
-              <sp-accordion allow-multiple>
-                <sp-accordion-item label="Tab Menu">
-                  ${this.tabState()}
-                </sp-accordion-item>
-              </sp-accordion>
+              <mwc-icon-button-toggle style="position:absolute;top:65px;" onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
+              <div ?hidden=${!this.showTab} style="margin-top:10px">${this.tabState()}</div>
             `
           }
-          <tr-default ?hidden=${this.params.menu}></tr-default>
-          <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
-          <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
-          </procedure-management>
-          <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
-          <my-certifications .lang=${this.lang} .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
-          </my-certifications>
-          <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
-          </my-incidents>
-          <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
-            .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
-          <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
-            .params=${this.params}></video-tutorial>
+          <div class="content">
+            <tr-default ?hidden=${this.params.menu}></tr-default>
+            <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
+            <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
+            </procedure-management>
+            <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
+            <my-certifications .lang=${this.lang} .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
+            </my-certifications>
+            <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
+            </my-incidents>
+            <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
+              .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
+            <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
+              .params=${this.params}></video-tutorial>
+          </div>
         </main>
       </div>
       <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>
@@ -419,7 +423,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       airCollapse: { type: Boolean },
       waterCollapse: { type: Boolean },
       certCollapse: { type: Boolean },
-      personalCollapse: { type: Boolean }
+      personalCollapse: { type: Boolean },
+      showTab: { type: Boolean }
     };
   }
 
@@ -433,6 +438,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.sops = [];
     this.analytics = [];
     this.notifs = [];
+    this.showTab = false;
   }
 
   allPending() {
