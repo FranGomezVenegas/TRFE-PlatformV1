@@ -522,8 +522,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         this.trProc.viewName = this.query.viewName
         this.trProc.filterName = this.query.filterName
         this.trProc.resetView()
-        this.trProc.render()
         this.trProc.authorized()
+        this.trProc.render()
         break;
       case 'procedure':
         import('@trazit/procedure-management/procedure-management');
