@@ -164,9 +164,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         main {
           padding: 0 10px 10px;
         }
-        main div.content {
-          margin-left: 60px;
-        }
       }
     `];
   }
@@ -342,13 +339,21 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         </mwc-drawer>
         <main class="layout vertical flex">
           ${this.desktop ? 
-            html`${this.tabState()}` :
-            html`
-              <mwc-icon-button-toggle style="position:absolute;top:65px;" onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
-              <div ?hidden=${!this.showTab} style="margin-top:10px">${this.tabState()}</div>
-            `
+            html`${this.tabState()}` : nothing
           }
           <div class="content">
+            ${this.desktop ? 
+              nothing :
+              html`
+                <div class="layout horizontal flex" style="margin-top: 5px;">
+                  <mwc-icon-button-toggle onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
+                  ${this.showTab ? 
+                    html`${this.tabState()}` :
+                    nothing
+                  }
+                </div>
+              `
+            }
             <tr-default ?hidden=${this.params.menu}></tr-default>
             <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
             <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
