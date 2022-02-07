@@ -338,7 +338,7 @@ export class TabState extends navigator(LitElement) {
     this.tabs = this.tabs.filter(t => t.route != e.detail.route)
     await this.requestUpdate()
     if (e.detail.route != this.currentTab) { // keep on the same route
-
+      console.log("not current router")
     } else { // change to the next tab route
       if (currentIdx >= this.tabs.length) { // decrease 1 if current index higher than tabs length
         --currentIdx;
@@ -398,6 +398,7 @@ export class TabState extends navigator(LitElement) {
           tab[0]
         ]
       }
+      this.currentTab = tab[0].route
     }
   }
 
