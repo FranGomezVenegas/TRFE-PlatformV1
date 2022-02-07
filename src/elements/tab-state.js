@@ -296,6 +296,10 @@ export class TabState extends navigator(LitElement) {
     return this.shadowRoot.querySelector(".tabContainer")
   }
 
+  get tabElems() {
+    return this.shadowRoot.querySelectorAll('tab-item')
+  }
+
   prevTab() {
     this.tabContainer.scrollLeft = this.tabContainer.scrollLeft - 200
   }
@@ -310,6 +314,13 @@ export class TabState extends navigator(LitElement) {
     } else {
       this.next = false
     }
+    this.tabElems.forEach(t => {
+      if (t.tab.route == this.currentTab) {
+        t.activeTab = true
+      } else {
+        t.activeTab = false
+      }
+    })
   }
 
   firstUpdated() {
@@ -331,6 +342,13 @@ export class TabState extends navigator(LitElement) {
   tabChanged(e) {
     this.currentTab = e.detail.route
     this.navigate("/dashboard/"+ e.detail.route)
+    this.tabElems.forEach(t => {
+      if (t.tab.route == this.currentTab) {
+        t.activeTab = true
+      } else {
+        t.activeTab = false
+      }
+    })
   }
 
   async tabRemoved(e) {
@@ -350,6 +368,13 @@ export class TabState extends navigator(LitElement) {
         this.navigate("/dashboard")
         this.currentTab = ""
       }
+      this.tabElems.forEach(t => {
+        if (t.tab.route == this.currentTab) {
+          t.activeTab = true
+        } else {
+          t.activeTab = false
+        }
+      })  
     }
   }
 
@@ -399,6 +424,7 @@ export class TabState extends navigator(LitElement) {
         ]
       }
       this.currentTab = tab[0].route
+      this.requestUpdate()
     }
   }
 

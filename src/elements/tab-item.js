@@ -13,6 +13,9 @@ export class TabItem extends LitElement {
         margin-right: 3px;
         background-color: #03a9f4;
       }
+      div.t-item.active {
+        background-color: #ccc;
+      }
       mwc-button {
         --mdc-typography-button-text-transform: none;
         --mdc-typography-button-font-size: 10px;
@@ -23,7 +26,7 @@ export class TabItem extends LitElement {
 
   render() {
     return html`
-      <div class="t-item">
+      <div class="t-item ${this.activeTab ? 'active' : null}">
         <mwc-button .label="${this.lang=="en"?this.tab.tabLabel_en:this.tab.tabLabel_es}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
           detail: this.tab
         }))}></mwc-button>
@@ -37,13 +40,15 @@ export class TabItem extends LitElement {
   static get properties() {
     return {
       lang: { type: String },
-      tab: { type: Object }
+      tab: { type: Object },
+      activeTab: { type: Boolean }
     };
   }
 
   constructor() {
     super();
     this.tab = {};
+    this.activeTab = false;
   }
 
   firstUpdated() {
