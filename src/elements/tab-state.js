@@ -255,6 +255,9 @@ export class TabState extends navigator(LitElement) {
       :host {
         display: block;
       }
+      :host([hidden]) {
+        visibility: hidden;
+      }
       .tabContainer {
         overflow: auto;
       }

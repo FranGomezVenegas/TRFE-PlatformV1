@@ -347,10 +347,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               html`
                 <div class="layout horizontal flex" style="margin-top: 5px;">
                   <mwc-icon-button-toggle onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
-                  ${this.showTab ? 
-                    html`${this.tabState()}` :
-                    nothing
-                  }
+                  ${this.tabMobileState()}
                 </div>
               `
             }
@@ -377,6 +374,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   tabState() {
     return html`
       <tab-state .lang=${this.lang} 
+        .config=${this.config} 
+        .params=${this.params} 
+        .query=${this.query}
+        .selectedProc=${this.selectedProc}></tab-state>
+    `
+  }
+
+  tabMobileState() {
+    return html`
+      <tab-state ?hidden=${!this.showTab} .lang=${this.lang} 
         .config=${this.config} 
         .params=${this.params} 
         .query=${this.query}
