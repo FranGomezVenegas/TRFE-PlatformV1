@@ -30,6 +30,13 @@ export class ProceduresMenu extends LitElement {
     this.procAccess = userSession.procedures_list.procedures.map(p => p)
   }
 
+  // updating the menu state once sops mark completed
+  updateProceduresMenu() {
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.procAccess = userSession.procedures_list.procedures.map(p => p)
+    this.requestUpdate()
+  }
+
   mobileVersion() {
     return html`
       <mwc-list class="sublist" ?hidden="${!this.procCollapse}">

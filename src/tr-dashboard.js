@@ -358,7 +358,12 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
             </procedure-management>
             <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
-            <my-certifications .lang=${this.lang} .config=${this.config} .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} .params=${this.params}>
+            <my-certifications 
+              .lang=${this.lang} 
+              .config=${this.config} 
+              .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} 
+              .params=${this.params}
+              @certs-updated=${this.certsUpdated}>
             </my-certifications>
             <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
             </my-incidents>
@@ -371,6 +376,17 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       </div>
       <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>
     `;
+  }
+
+  /**
+   * updating the cert number state once mark completed done
+   */
+  certsUpdated() {
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
+    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    this.requestUpdate()
+    this.updateProceduresMenu()
   }
 
   tabState() {
