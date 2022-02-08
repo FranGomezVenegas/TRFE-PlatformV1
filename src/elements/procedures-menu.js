@@ -44,8 +44,8 @@ export class ProceduresMenu extends LitElement {
                   <div class="subproc">
                     ${this.procAccess[0].icons_up.map(up => 
                       html`${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
+                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:10px;">search</mwc-icon>` :
+                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:10px;">`
                       }`
                     )}
                   </div>
@@ -65,14 +65,14 @@ export class ProceduresMenu extends LitElement {
                           html`
                             ${def.icons.map((subProc,i) => 
                               html`
-                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
+                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
                                   @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 10px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
+                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 5px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
                           ` :
                           html`
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 50px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 65px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                               @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
                         }
@@ -86,8 +86,8 @@ export class ProceduresMenu extends LitElement {
               html`
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
-                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;">
-                    <label style="margin-left: 25px; pointer-events: none;">${down["label_"+this.lang]}</label>
+                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;margin-right:10px;">
+                    <label style="margin-left: 40px; pointer-events: none;">${down["label_"+this.lang]}</label>
                   </div>
                 </mwc-list-item>
               `
@@ -105,8 +105,8 @@ export class ProceduresMenu extends LitElement {
                   <div class="subproc">
                     ${this.procAccess[1].icons_up.map(up => 
                       html`${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;">search</mwc-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;">`
+                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:10px;">search</mwc-icon>` :
+                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:10px;">`
                       }`
                     )}
                   </div>
@@ -126,14 +126,14 @@ export class ProceduresMenu extends LitElement {
                           html`
                             ${def.icons.map((subProc,i) => 
                               html`
-                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
+                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
                                   @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 10px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
+                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 5px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
                           ` :
                           html`
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 50px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 65px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                               @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                           `
                         }
@@ -148,7 +148,7 @@ export class ProceduresMenu extends LitElement {
                 <mwc-list-item style="pointer-events: none">
                   <div class="subproc">
                     ${this.procAccess[1].icons_down.map(down => 
-                      html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
+                      html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;margin-right:10px;">`
                     )}
                   </div>
                 </mwc-list-item>
