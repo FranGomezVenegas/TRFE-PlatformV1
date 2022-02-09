@@ -416,7 +416,43 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    let tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
+    let tab = []
+    if (this.params.menu == "procedures") {
+      if (this.config.local) {
+        tab = tabObj.filter(t => t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
+      } else {
+        // validating the procName, viewName, filterName do they exist on the new_definition
+        let validProc = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures.filter(p => p.name == this.query.procName);
+        if (validProc.length) {
+          let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName)
+          if (validView.length) {
+            let validFilter = false, label_en = "", label_es = ""
+            if (validView[0].icons) {
+              validFilter = validView[0].icons.filter(f => f.name == this.query.filterName)
+              if (validFilter.length) {
+                label_en = validFilter[0].label_en
+                label_es = validFilter[0].label_es
+                validFilter = true
+              }
+            } else {
+              label_en = validView[0].label_en
+              label_es = validView[0].label_es
+              validFilter = (validView[0].name == this.query.filterName)
+            }
+            if (validFilter) {
+              tab = [{
+                "lp_frontend_page_name": this.query.viewName,
+                "route": "procedures?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName,
+                "tabLabel_en": validProc[0].label_en +"-"+ label_en,
+                "tabLabel_es": validProc[0].label_es +"-"+ label_es
+              }]
+            }
+          }
+        }
+      }
+    } else {
+      tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
+    }
     if (tab.length) {
       let exist = this.tabs.filter(t => t.route == tab[0].route)
       // dont add if found existing one
