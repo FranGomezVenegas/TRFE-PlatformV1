@@ -63,20 +63,18 @@ export class ProceduresMenu extends LitElement {
               html`
                 ${def.label_en ? 
                   html`
-                    <mwc-list-item style=${def.icons ? 
-                        def.sops_passed==false ?
-                          "" : 
-                          "pointer-events: none;" : ""}>
+                    <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
                       <div class="subproc">
                         ${def.icons ?
                           html`
                             ${def.icons.map((subProc,i) => 
                               html`
-                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
+                                <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
+                                  src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
                                   @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 5px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
+                            <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 5px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
                           ` :
                           html`
                             <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 65px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
@@ -124,20 +122,18 @@ export class ProceduresMenu extends LitElement {
               html`
                 ${def.label_en ? 
                   html`
-                    <mwc-list-item style=${def.icons ? 
-                        def.sops_passed==false ?
-                          "" : 
-                          "pointer-events: none;" : ""}>
+                    <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
                       <div class="subproc">
                         ${def.icons ?
                           html`
                             ${def.icons.map((subProc,i) => 
                               html`
-                                <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
-                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
+                                  src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
+                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                               `
                             )}
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 5px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
+                            <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 5px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
                           ` :
                           html`
                             <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 65px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
@@ -165,6 +161,21 @@ export class ProceduresMenu extends LitElement {
         </div>
       </mwc-list>
     `
+  }
+
+  setCertifiedLabel(icons) {
+    let nonCertified = icons.filter(i => i.sops_passed == false)
+    return nonCertified.length ? langConfig.windowOpenable[this.lang] : null
+  }
+
+  setCertifiedColor(icons) {
+    let nonCertified = icons.filter(i => i.sops_passed == false)
+    return nonCertified.length ? 'red' : 'auto'
+  }
+
+  setCertifiedPointer(icons) {
+    let nonCertified = icons.filter(i => i.sops_passed == false)
+    return nonCertified.length ? "" : "pointer-events: none;"
   }
 
   desktopVersion() {
@@ -198,23 +209,21 @@ export class ProceduresMenu extends LitElement {
                 html`
                   ${def.label_en ? 
                     html`
-                      <sp-menu-item style='height: 45px; width: 255px;${def.icons ? 
-                          def.sops_passed==false ?
-                          "" : 
-                          "pointer-events: none;" : ""}'>
+                      <sp-menu-item style='height: 45px; width: 255px;${def.icons ? this.setCertifiedPointer(def.icons) : ""}'>
                         <div style="display: flex;align-items: center;color: white">
                           ${def.icons ?
                             html`
                               ${def.icons.map((subProc,i) => 
                                 html`
-                                  <img title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" src="/images/${subProc.icon_name||`noImage${i}.png`}" style="width:20px; pointer-events: auto;"
-                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                  <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
+                                    src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
+                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                                 `
                               )}
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 10px; color: ${def.sops_passed==false?'red':'auto'}">${def["label_"+this.lang]}</label>
+                              <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 10px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
                             ` :
                             html`
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 50px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                                 @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                             `
                           }
