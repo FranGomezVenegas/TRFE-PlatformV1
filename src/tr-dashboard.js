@@ -85,6 +85,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         color: #2ec3ec;
         padding-top: 10px;
         background-color: #d6e9f8;
+        --mdc-drawer-width: 300px;
       }
       mwc-top-app-bar-fixed {
         --mdc-theme-primary: #d6e9f8;
@@ -186,8 +187,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
     this.updateComplete.then(() => {
       this.dispatchEvent(new CustomEvent('completed'))
-      // adjust the drawer size to relaxing the icon space
-      this.shadowRoot.querySelector("mwc-drawer").shadowRoot.querySelector(".mdc-drawer").style.width = "300px"
       this.tabBar.updateComplete.then(() => {
         this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
       })
