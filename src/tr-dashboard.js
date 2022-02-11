@@ -346,7 +346,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             ${this.desktop ? 
               nothing :
               html`
-                <div class="layout horizontal flex" style="margin-top: 5px;">
+                <div class="layout horizontal flex" style="margin-top:5px">
                   <mwc-icon-button-toggle onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
                   ${this.tabMobileState()}
                 </div>
@@ -390,7 +390,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 
   tabState() {
     return html`
-      <tab-state .lang=${this.lang} 
+      <tab-state
+        .lang=${this.lang} 
         .config=${this.config} 
         .params=${this.params} 
         .query=${this.query}
@@ -400,7 +401,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 
   tabMobileState() {
     return html`
-      <tab-state ?hidden=${!this.showTab} .lang=${this.lang} 
+      <tab-state
+        ?hidden=${!this.showTab} 
+        .lang=${this.lang} 
         .config=${this.config} 
         .params=${this.params} 
         .query=${this.query}

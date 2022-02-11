@@ -1,5 +1,6 @@
-import { LitElement, html, css } from 'lit';
-import { Layouts } from '@collaborne/lit-flexbox-literals';
+import { LitElement, html, css, unsafeCSS } from 'lit';
+import { centerAligned, centerJustified, displayFlex, horizontal } from '@collaborne/lit-flexbox-literals';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import '@material/mwc-icon-button';
 import '@material/mwc-button';
@@ -249,17 +250,23 @@ let tabObj = [
 
 export class TabState extends navigator(LitElement) {
   static get styles() {
-    return [
-      Layouts,
-      css`
+    return css`
       :host {
         display: block;
       }
       :host([hidden]) {
         visibility: hidden;
       }
+      .tabWrap {
+        ${unsafeCSS(displayFlex)}
+        ${unsafeCSS(horizontal)}
+        ${unsafeCSS(centerJustified)}
+      }
       .tabContainer {
         overflow: auto;
+        ${unsafeCSS(displayFlex)}
+        ${unsafeCSS(horizontal)}
+        ${unsafeCSS(centerAligned)}
       }
       .tabContainer::-webkit-scrollbar {
         display: none;
@@ -272,16 +279,21 @@ export class TabState extends navigator(LitElement) {
         --mdc-typography-button-text-transform: none;
       }
       mwc-icon-button[hidden] {
-        visibility: hidden;
+        display: none;
       }
-    `];
+      @media (max-width: 460px) {
+        .tabContainer {
+          width: 70vw;
+        }
+      }
+    `;
   }
 
   render() {
     return html`
-      <div class="layout horizontal center">
+      <div class="tabWrap">
         <mwc-icon-button icon="navigate_before" @click=${this.prevTab} ?hidden=${!this.prev}></mwc-icon-button>
-        <div class="tabContainer layout horizontal flex center">
+        <div class="tabContainer">
           <mwc-icon-button icon="save" @click=${this.saveTabs}></mwc-icon-button>
           ${this.tabs.map(t=>
             html`<tab-item .lang=${this.lang} .tab=${t} 
@@ -328,6 +340,9 @@ export class TabState extends navigator(LitElement) {
 
   firstUpdated() {
     super.firstUpdated()
+    installMediaQueryWatcher(`(max-width: 460px)`, mobile => {
+      this.mobile = mobile
+    });
     this.tabContainer.addEventListener('scroll', ()=>{
       if (this.tabContainer.scrollLeft == 0) {
         this.prev = false
@@ -336,8 +351,18 @@ export class TabState extends navigator(LitElement) {
       }
       if (this.tabContainer.offsetWidth + this.tabContainer.scrollLeft == this.tabContainer.scrollWidth) {
         this.next = false
+        if (this.mobile) {
+          this.tabContainer.style.width = "70vw"
+        }
       } else {
         this.next = true
+        if (this.mobile) {
+          if (this.tabContainer.scrollLeft == 0) {
+            this.tabContainer.style.width = "70vw"
+          } else {
+            this.tabContainer.style.width = "57vw"
+          }  
+        }
       }
     })
   }
@@ -390,7 +415,8 @@ export class TabState extends navigator(LitElement) {
       query: { type: Object }, // route query which is passed from parent element (root app)
       lang: { type: String},
       prev: { type: Boolean },
-      next: { type: Boolean }
+      next: { type: Boolean },
+      mobile: { type: Boolean }
     };
   }
 
@@ -403,6 +429,7 @@ export class TabState extends navigator(LitElement) {
     this.tabs = [];
     this.currentTab = "";
     this.config = {};
+    this.mobile = false;
   }
 
   updated(updates) {
