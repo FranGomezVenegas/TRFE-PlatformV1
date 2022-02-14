@@ -354,7 +354,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             }
             <tr-default ?hidden=${this.params.menu}></tr-default>
             <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
-            <procedure-management .lang=${this.lang} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
+            <procedure-management .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
             </procedure-management>
             <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
             <my-certifications 
