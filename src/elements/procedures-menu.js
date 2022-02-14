@@ -15,18 +15,22 @@ const langConfig = {
 export class ProceduresMenu extends LitElement {
   static get properties() {
     return {
-      procAccess: { type: Array }
+      procAccess: { type: Array },
+      collapses: { type: Array } // collapsing between proc menu list
     };
   }
 
   constructor() {
     super()
     this.procAccess = []
+    this.collapses = []
   }
 
   firstUpdated() {
     // need to be fixed later
+    this.collapses = []
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    userSession.procedures_list.procedures.forEach(p => this.collapses.push({proc: p.procInstanceName, val: false}))
     this.procAccess = userSession.procedures_list.procedures.map(p => p)
   }
 
@@ -37,128 +41,88 @@ export class ProceduresMenu extends LitElement {
     this.requestUpdate()
   }
 
+  setCollapses(proc) {
+    this.collapses.forEach(c => {
+      if (c.proc == proc.procInstanceName) {
+        c.val = !c.val
+      } else {
+        c.val = false
+      }
+    })
+    this.requestUpdate()
+  }
+
+  getCollapse(proc) {
+    let collapse = this.collapses.filter(c => c.proc == proc.procInstanceName)
+    return collapse[0].val
+  }
+
   mobileVersion() {
     return html`
       <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
-        <div class="${this.procAccess[0]&&this.procAccess[0].procInstanceName}">
-          <mwc-list-item @click="${()=>{this.airCollapse=!this.airCollapse;this.waterCollapse=false}}">
-            <span style="margin-left:20px">${this.procAccess[0]&&this.procAccess[0]["label_"+this.lang]}</span>
-          </mwc-list-item>
-          <mwc-list class="sublist two" ?hidden="${!this.airCollapse}">
-            ${this.procAccess[0]&&this.procAccess[0].icons_up.length ?
-              html`
-                <mwc-list-item style="pointer-events: none">
-                  <div class="subproc">
-                    ${this.procAccess[0].icons_up.map(up => 
-                      html`${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:15px;">search</mwc-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;">`
-                      }`
-                    )}
-                  </div>
-                </mwc-list-item>
-              ` : nothing
-            }
-            ${this.procAccess[0]&&this.procAccess[0].new_definition.map(def => 
-              html`
-                ${def.label_en ? 
-                  html`
-                    <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
-                      <div class="subproc">
-                        ${def.icons ?
-                          html`
-                            ${def.icons.map((subProc,i) => 
-                              html`
-                                <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
-                                  src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:15px;"
-                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
-                              `
-                            )}
-                            <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 5px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                          ` :
-                          html`
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 75px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
-                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                          `
-                        }
-                      </div>
-                    </mwc-list-item>
-                  ` : nothing
-                }
-              `
-            )}
-            ${this.procAccess[0]&&this.procAccess[0].icons_down.map(down => 
-              html`
-                <mwc-list-item style="pointer-events: none">
-                  <div class="subproc">
-                    <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;margin-right:15px;">
-                    <label style="margin-left: 40px; pointer-events: none;">${down["label_"+this.lang]}</label>
-                  </div>
-                </mwc-list-item>
-              `
-            )}
-          </mwc-list>
-        </div>
-        <div class="${this.procAccess[1]&&this.procAccess[1].procInstanceName}">
-          <mwc-list-item @click="${()=>{this.waterCollapse=!this.waterCollapse;this.airCollapse=false}}">
-            <span style="margin-left:20px">${this.procAccess[1]&&this.procAccess[1]["label_"+this.lang]}</span>
-          </mwc-list-item>
-          <mwc-list class="sublist two" ?hidden="${!this.waterCollapse}">
-            ${this.procAccess[1]&&this.procAccess[1].icons_up.length ?
-              html`
-                <mwc-list-item style="pointer-events: none">
-                  <div class="subproc">
-                    ${this.procAccess[1].icons_up.map(up => 
-                      html`${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:15px;">search</mwc-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;">`
-                      }`
-                    )}
-                  </div>
-                </mwc-list-item>
-              ` : nothing
-            }
-            ${this.procAccess[1]&&this.procAccess[1].new_definition.map(def => 
-              html`
-                ${def.label_en ? 
-                  html`
-                    <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
-                      <div class="subproc">
-                        ${def.icons ?
-                          html`
-                            ${def.icons.map((subProc,i) => 
-                              html`
-                                <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
-                                  src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:15px;"
-                                  @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
-                              `
-                            )}
-                            <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 5px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                          ` :
-                          html`
-                            <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 75px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
-                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[1].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                          `
-                        }
-                      </div>
-                    </mwc-list-item>
-                  ` : nothing
-                }
-              `
-            )}
-            ${this.procAccess[1]&&this.procAccess[1].icons_down.length ?
-              html`
-                <mwc-list-item style="pointer-events: none">
-                  <div class="subproc">
-                    ${this.procAccess[1].icons_down.map(down => 
-                      html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;">`
-                    )}
-                  </div>
-                </mwc-list-item>
-              ` : nothing
-            }
-          </mwc-list>
-        </div>
+        ${this.procAccess.map(proc =>
+          html`
+          <div class="${proc.procInstanceName}">
+            <mwc-list-item @click="${()=>this.setCollapses(proc)}">
+              <span style="margin-left:20px">${proc["label_"+this.lang]}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist two" ?hidden="${!this.getCollapse(proc)}">
+              ${proc.icons_up.length ?
+                html`
+                  <mwc-list-item style="pointer-events: none">
+                    <div class="subproc">
+                      ${proc.icons_up.map(up => 
+                        html`${up.icon_name=="icons:search" ?
+                          html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:15px;">search</mwc-icon>` :
+                          html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;">`
+                        }`
+                      )}
+                    </div>
+                  </mwc-list-item>
+                ` : nothing
+              }
+              ${proc.new_definition.map(def => 
+                html`
+                  ${def.label_en ? 
+                    html`
+                      <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
+                        <div class="subproc">
+                          ${def.icons ?
+                            html`
+                              ${def.icons.map((subProc,i) => 
+                                html`
+                                  <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
+                                    src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:15px;"
+                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                `
+                              )}
+                              <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 5px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
+                            ` :
+                            html`
+                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 75px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                                @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
+                            `
+                          }
+                        </div>
+                      </mwc-list-item>
+                    ` : nothing
+                  }
+                `
+              )}
+              ${proc.icons_down.map(down => 
+                html`
+                  <mwc-list-item style="pointer-events: none">
+                    <div class="subproc">
+                      <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;margin-right:15px;">
+                      <label style="margin-left: 40px; pointer-events: none;">${down["label_"+this.lang]}</label>
+                    </div>
+                  </mwc-list-item>
+                `
+              )}
+            </mwc-list>
+          </div>
+          `
+        )}
       </mwc-list>
     `
   }
@@ -217,7 +181,7 @@ export class ProceduresMenu extends LitElement {
                                 html`
                                   <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
                                     src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
-                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${this.procAccess[0].procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                                 `
                               )}
                               <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 10px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
