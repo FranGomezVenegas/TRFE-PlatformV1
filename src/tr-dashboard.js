@@ -14,7 +14,7 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
-import '@material/mwc-icon-button-toggle';
+import '@material/mwc-fab';
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
@@ -164,6 +164,14 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         }
         main {
           padding: 0 10px 10px;
+        }
+        #tabFab {
+          --mdc-theme-secondary: #2ec3ec;
+          --mdc-theme-on-secondary: white;
+          position: fixed;
+          bottom: 5px;
+          right: 5px;
+          z-index: 999;
         }
       }
     `];
@@ -346,8 +354,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             ${this.desktop ? 
               nothing :
               html`
+                <mwc-fab mini id="tabFab" icon="visibility" @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}></mwc-fab>
                 <div class="layout horizontal flex" style="margin-top:5px">
-                  <mwc-icon-button-toggle onIcon="arrow_drop_down" offIcon="arrow_right" @click=${e=>this.showTab=e.target.on}></mwc-icon-button-toggle>
                   ${this.tabMobileState()}
                 </div>
               `

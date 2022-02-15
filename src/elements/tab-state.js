@@ -255,7 +255,7 @@ export class TabState extends navigator(LitElement) {
         display: block;
       }
       :host([hidden]) {
-        visibility: hidden;
+        display: none;
       }
       .tabWrap {
         ${unsafeCSS(displayFlex)}
@@ -283,7 +283,7 @@ export class TabState extends navigator(LitElement) {
       }
       @media (max-width: 460px) {
         .tabContainer {
-          width: 70vw;
+          width: 82vw;
         }
       }
     `;
@@ -352,15 +352,15 @@ export class TabState extends navigator(LitElement) {
       if (this.tabContainer.offsetWidth + this.tabContainer.scrollLeft == this.tabContainer.scrollWidth) {
         this.next = false
         if (this.mobile) {
-          this.tabContainer.style.width = "70vw"
+          this.tabContainer.style.width = "82vw"
         }
       } else {
         this.next = true
         if (this.mobile) {
           if (this.tabContainer.scrollLeft == 0) {
-            this.tabContainer.style.width = "70vw"
+            this.tabContainer.style.width = "82vw"
           } else {
-            this.tabContainer.style.width = "57vw"
+            this.tabContainer.style.width = "68vw"
           }  
         }
       }
