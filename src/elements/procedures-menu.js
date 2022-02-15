@@ -151,7 +151,7 @@ export class ProceduresMenu extends LitElement {
         ${this.procAccess.map(proc => 
           html`
           <sp-menu-item>
-            <sp-action-menu class="topMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
+            <sp-action-menu class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
               <span slot="label" style="color: white">${proc["label_"+this.lang]}</span>
@@ -223,14 +223,14 @@ export class ProceduresMenu extends LitElement {
         e.target.open = false // fix bug when re-hover the closed sub menu
         e.target.open = true
       } else {
-        if (e.target.id == "em-demo-a" || e.target.id == "proc-deploy") {
+        if (e.target.getAttribute("class") == "topMenu procMenu") {
           this.openedSubMenu.open = false
           e.target.open = true
           this.openedSubMenu = e.target
         }
       }
     } else {
-      if (e.target.id == "em-demo-a" || e.target.id == "proc-deploy") {
+      if (e.target.getAttribute("class") == "topMenu procMenu") {
         e.target.open = true
         this.openedSubMenu = e.target
       }
