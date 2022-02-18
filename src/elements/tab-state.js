@@ -283,7 +283,7 @@ export class TabState extends navigator(LitElement) {
       }
       @media (max-width: 460px) {
         .tabContainer {
-          width: 82vw;
+          width: 75vw;
         }
       }
     `;
@@ -352,15 +352,15 @@ export class TabState extends navigator(LitElement) {
       if (this.tabContainer.offsetWidth + this.tabContainer.scrollLeft == this.tabContainer.scrollWidth) {
         this.next = false
         if (this.mobile) {
-          this.tabContainer.style.width = "82vw"
+          this.tabContainer.style.width = "75vw"
         }
       } else {
         this.next = true
         if (this.mobile) {
           if (this.tabContainer.scrollLeft == 0) {
-            this.tabContainer.style.width = "82vw"
+            this.tabContainer.style.width = "75vw"
           } else {
-            this.tabContainer.style.width = "68vw"
+            this.tabContainer.style.width = "61vw"
           }  
         }
       }

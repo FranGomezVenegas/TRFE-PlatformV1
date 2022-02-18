@@ -14,7 +14,6 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-top-app-bar-fixed';
 import '@material/mwc-icon-button';
-import '@material/mwc-fab';
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
@@ -165,13 +164,28 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         main {
           padding: 0 10px 10px;
         }
-        #tabFab {
-          --mdc-theme-secondary: #2ec3ec;
-          --mdc-theme-on-secondary: white;
-          position: fixed;
-          bottom: 5px;
-          right: 5px;
+        #tabHandle {
+          position: absolute;
+          top: 20px; right: 0;
+          transform-origin: right bottom;
+          transform: rotate(-90deg);
+          cursor: pointer;
           z-index: 999;
+        }
+        #tabHandle mwc-icon {
+          --mdc-icon-size: 35px;
+          color: #03a9f4;
+        }
+        #tabHandle div {
+          border-radius: 10%;
+          text-align: center;
+          font-size: 10px;
+          font-weight: bold;
+          font-family: arial;
+          background: #03a9f4;
+          color: white;
+          padding: 5px;
+          margin-top: -18px;
         }
       }
     `];
@@ -354,7 +368,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             ${this.desktop ? 
               nothing :
               html`
-                <mwc-fab mini id="tabFab" icon="visibility" @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}></mwc-fab>
+                <div id="tabHandle" 
+                  @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>
+                  <mwc-icon>arrow_drop_up</mwc-icon>
+                  <div>Tab</div>
+                </div>
                 <div class="layout horizontal flex" style="margin-top:5px">
                   ${this.tabMobileState()}
                 </div>
