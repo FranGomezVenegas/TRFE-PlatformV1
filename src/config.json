@@ -5,7 +5,7 @@
   "frontEndVideoTutorialsUrl": "/frontend/VideoTutorialAPIfrontend",
   "frontEndIncidentsUrl": "/frontend/IncidentAPIfrontend",
   "ApiIncidentsUrl": "/app/IncidentAPI",
-  "ApiSopUserUrl": "/app/SopUserAPI",
+  "apiSopUserUrl": "/app/SopUserAPI",
   "frontEndSopUrl": "/frontend/SopUserAPIfrontend",
   "apiAnalysisUrl": "/app/CertifyAnalysisMethodAPI",
   "frontEndAnalysisUrl": "/frontend/AnalysisMethodCertifUserAPIfrontend",
