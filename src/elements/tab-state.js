@@ -544,6 +544,7 @@ export class TabState extends navigator(LitElement) {
    * @param {*} feedback will be show up the user feedback
    */
   fetchApi(urlParams, log=true, feedback=true) {
+    urlParams.isForTesting = this.config.isForTesting
     this.dispatchEvent(new CustomEvent('set-activity', {bubbles: true, composed: true}))
     return fetch(urlParams).then(async r => {
       if (r.status == 200) {
