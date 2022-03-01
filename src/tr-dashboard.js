@@ -225,7 +225,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       return html`
         <label id="sessionLabel">
           ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-          ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId}<br>
+          ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} (${this.config.dbName}${this.config.isForTesting ? " - Testing" : null})<br>
           ${this.desktop ? this.lang == "en" ? "Date: " : "Fecha: " : null}${userSession.appSessionStartDate}
         </label>
       `
