@@ -204,6 +204,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
       return this.navigate("/")
     }
+    // populate the notifs session state
+    if (sessionStorage.getItem("notifs")) {
+      this.notifs = JSON.parse(sessionStorage.getItem("notifs"))
+    }
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
@@ -536,6 +540,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         ...this.notifs,
         e.detail
       ]
+      sessionStorage.setItem("notifs", JSON.stringify(this.notifs))
       this.requestUpdate()
     }
   }
