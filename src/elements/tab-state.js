@@ -540,10 +540,8 @@ export class TabState extends navigator(LitElement) {
   /**
    * Populating fetch api
    * @param {*} urlParams the url api with params
-   * @param {*} log will be logged into notifications or no? default true
-   * @param {*} feedback will be show up the user feedback
    */
-  fetchApi(urlParams, log=true, feedback=true) {
+  fetchApi(urlParams) {
     urlParams.isForTesting = this.config.isForTesting
     this.dispatchEvent(new CustomEvent('set-activity', {bubbles: true, composed: true}))
     return fetch(urlParams).then(async r => {
@@ -555,14 +553,14 @@ export class TabState extends navigator(LitElement) {
       }
     }).then(j => {
       this.dispatchEvent(new CustomEvent('success', {
-        detail: {...j, log: log},
+        detail: {...j},
         bubbles: true,
         composed: true
       }))
       return j
     }).catch(e => {
       this.dispatchEvent(new CustomEvent("error", {
-        detail: {...e, log: true},
+        detail: {...e},
         bubbles: true,
         composed: true
       }))
