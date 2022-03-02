@@ -58,6 +58,10 @@ const langConfig = {
       "label_en": "Video Tutorial",
       "label_es": "Tutorial en Video"
     },
+    "endpoint": {
+      "label_en": "Endpoints List",
+      "label_es": "Lista de punto API"
+    },
     "doLogout": {
       "label_en": "Close Session",
       "label_es": "Cerrar Sesión"
@@ -287,6 +291,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                 <span>${langConfig.personalOption.video["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">video_library</mwc-icon>
               </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
+                <span>${langConfig.personalOption.endpoint["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">list</mwc-icon>
+              </mwc-list-item>
             </mwc-list>
             <sp-divider size="m"></sp-divider>
             <mwc-list-item @click=${this.logout}>
@@ -351,6 +359,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                     <mwc-icon slot="icon">video_library</mwc-icon>
                     ${langConfig.personalOption.video["label_" + this.lang]}
                   </sp-menu-item>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:white">
+                    <mwc-icon slot="icon">list</mwc-icon>
+                    ${langConfig.personalOption.endpoint["label_" + this.lang]}
+                  </sp-menu-item>
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item @click=${this.logout} style="color:white">
                     <mwc-icon slot="icon">logout</mwc-icon>
@@ -400,6 +412,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
             <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
               .params=${this.params}></video-tutorial>
+            <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
+              .params=${this.params}></endpoints-list>
           </div>
         </main>
       </div>
@@ -605,6 +619,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         break;
       case 'tutorial':
         import('@trazit/video-tutorial/video-tutorial');
+        break;
+      case 'endpoints':
+        import('@trazit/endpoints-list/endpoints-list');
         break;
       default:
         import('./tr-default');

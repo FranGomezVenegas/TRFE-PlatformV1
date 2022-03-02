@@ -245,6 +245,17 @@ let tabObj = [
     "systemTab": true,
     "tabEsignRequired": false,
     "tabConfirmUserRequired": true
+  },
+  {
+    "lp_frontend_page_name": "endpoints-tab",
+    "route": "endpoints",
+    "tabName": "endpoints-tab",
+    "tabLabel_en": "Endpoints List",
+    "tabLabel_es": "Lista de punto API",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": true
   }
 ]
 
