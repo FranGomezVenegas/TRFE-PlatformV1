@@ -66,10 +66,12 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     if (e.detail["message_"+ this.lang]) {
       msg = e.detail["message_"+ this.lang];
     }
-    if (e.detail.is_error) {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#a33";
-    } else {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
+    if (e.detail.hasOwnProperty('is_error')) {
+      if (e.detail.is_error) {
+        this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#a33";
+      } else {
+        this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
+      }
     }
     if (msg) {
       this.toast.labelText = msg;
