@@ -544,7 +544,8 @@ export class TabState extends navigator(LitElement) {
     this.fetchApi(this.config.backendUrl + this.config.appAuthenticateApiUrl + '?' + new URLSearchParams({
       finalToken: JSON.parse(sessionStorage.getItem("userSession")).finalToken,
       actionName: 'SET_DEFAULT_TABS_ON_LOGIN',
-      tabsString: tabsString
+      tabsString: tabsString,
+      isForTesting: this.config.isForTesting
     }))
   }
 
@@ -553,7 +554,6 @@ export class TabState extends navigator(LitElement) {
    * @param {*} urlParams the url api with params
    */
   fetchApi(urlParams) {
-    urlParams.isForTesting = this.config.isForTesting
     this.dispatchEvent(new CustomEvent('set-activity', {bubbles: true, composed: true}))
     return fetch(urlParams).then(async r => {
       if (r.status == 200) {
