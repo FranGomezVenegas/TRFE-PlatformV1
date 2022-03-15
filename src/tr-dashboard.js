@@ -595,6 +595,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (this.params.menu) {
       case 'procedures':
+        this.trProc.ready = false
         this.trProc.procName = this.query.procName
         this.trProc.viewName = this.query.viewName
         this.trProc.filterName = this.query.filterName
