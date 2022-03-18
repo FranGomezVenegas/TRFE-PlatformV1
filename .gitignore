@@ -4,3 +4,4 @@ package-lock.json
 yalc.lock
 build
 awsSetup.sh
+awsSetupDemo.sh
