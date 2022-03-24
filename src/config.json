@@ -24,9 +24,9 @@
   "ApiInstrumentsAPIqueriesUrl": "/app/procs/InstrumentsAPIqueries",
   "businessRules": {
     "enableLockSession": true,
-    "minsLockSession": 2,
+    "minsLockSession": 1,
     "enableLogoutSession": true,
-    "minsLogoutSession": 20,
+    "minsLogoutSession": 1,
     "showTimingInConsole": true,
     "secondsNextTimeChecker": 5
   },
