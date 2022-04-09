@@ -72,6 +72,8 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       } else {
         this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
       }
+    } else {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
     }
     if (msg) {
       this.toast.labelText = msg;
