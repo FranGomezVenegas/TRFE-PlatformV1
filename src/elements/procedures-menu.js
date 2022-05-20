@@ -173,10 +173,10 @@ export class ProceduresMenu extends LitElement {
                 html`
                   ${def.label_en ? 
                     html`
-                      <sp-menu-item style='height: 45px; width: 255px;${def.icons ? this.setCertifiedPointer(def.icons) : ""}'>
-                        <div style="display: flex;align-items: center;color: white">
-                          ${def.icons ?
-                            html`
+                      ${def.icons ?
+                        html`
+                          <sp-menu-item style='height: 45px; width: 255px;${this.setCertifiedPointer(def.icons)}'>
+                            <div style="display: flex;align-items: center;color: white">
                               ${def.icons.map((subProc,i) => 
                                 html`
                                   <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
@@ -185,14 +185,18 @@ export class ProceduresMenu extends LitElement {
                                 `
                               )}
                               <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 10px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                            ` :
-                            html`
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                            </div>
+                          </sp-menu-item>
+                        ` :
+                        html`
+                          <sp-menu-item style='height: 45px; width: 255px; pointer-events: none;'>
+                            <div style="display: flex;align-items: center;color: white">
+                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; pointer-events: auto; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                                 @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                            `
-                          }
-                        </div>
-                      </sp-menu-item>
+                            </div>
+                          </sp-menu-item>
+                        `
+                      }
                     `
                     : nothing
                   }
