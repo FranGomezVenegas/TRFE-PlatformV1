@@ -73,8 +73,9 @@ export class ProceduresMenu extends LitElement {
                     <div class="subproc">
                       ${proc.icons_up.map(up => 
                         html`${up.icon_name=="icons:search" ?
-                          html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:15px;">search</mwc-icon>` :
-                          html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;">`
+                          html`<mwc-icon style="--mdc-icon-size:20px;pointer-events: auto;margin-right:15px;"
+                          @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</mwc-icon>` :
+                          html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;margin-right:15px;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
                         }`
                       )}
                     </div>
