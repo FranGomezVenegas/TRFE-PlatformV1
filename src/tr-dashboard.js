@@ -94,6 +94,32 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         background-color: #d6e9f8;
         --mdc-drawer-width: 300px;
       }
+      mwc-drawer.isfortesting.false {
+        height: 80px;
+        color: #2ec3ec;
+        padding-top: 10px;
+        background-color: #d6e9f8;
+        --mdc-drawer-width: 300px;
+      }
+      mwc-drawer.isfortesting.true {
+        height: 80px;
+        color: #2ec3ec;
+        padding-top: 10px;
+        background-color: #414a94;
+        --mdc-drawer-width: 300px;
+      }
+      mwc-top-app-bar-fixed {
+   $     --mdc-theme-primary: #d6e9f8;
+        --mdc-theme-on-primary: #2ec3ec;
+      }
+      mwc-top-app-bar-fixed.isfortesting.false {
+        --mdc-theme-primary: #d6e9f8;
+        --mdc-theme-on-primary: #2ec3ec;
+      }
+      mwc-top-app-bar-fixed.isfortesting.true {
+        --mdc-theme-primary: #414a94; //#f8d8d6;
+        --mdc-theme-on-primary: #2ec3ec;
+      }      
       mwc-top-app-bar-fixed {
         --mdc-theme-primary: #d6e9f8;
         --mdc-theme-on-primary: #2ec3ec;
@@ -247,7 +273,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   render() {
     return html`
       <div class="container layout vertical">
-        <mwc-drawer type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+      <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
           <mwc-list>
             <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
               <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
