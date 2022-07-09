@@ -170,6 +170,12 @@ let tabObj = [
     "tabLabel_es": "Eventos en curso"
   },
   {
+  "lp_frontend_page_name": "ProjectManager",
+  "route": "procedures?procName=genoma-1&viewName=ProjectManager",
+  "tabLabel_en": "(genoma-1)-Clinical Studies",
+  "tabLabel_es": "(genoma-1)-Estudios Clínicos"
+  },  
+  {
     "lp_frontend_page_name": "incident-management",
     "route": "incidents",
     "tabName": "incident-management",
@@ -252,6 +258,17 @@ let tabObj = [
     "tabName": "endpoints-tab",
     "tabLabel_en": "Endpoints List",
     "tabLabel_es": "Lista de punto API",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": true
+  },
+  {
+    "lp_frontend_page_name": "holidayscalendar-tab",
+    "route": "holidayscalendar",
+    "tabName": "endpoints-tab",
+    "tabLabel_en": "Holidays Calendars",
+    "tabLabel_es": "Calendarios Vacaciones",
     "tabType": "systab",
     "systemTab": true,
     "tabEsignRequired": false,

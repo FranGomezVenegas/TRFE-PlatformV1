@@ -62,6 +62,10 @@ const langConfig = {
       "label_en": "Endpoints List",
       "label_es": "Lista de punto API"
     },
+    "holidaysCalendar": {
+      "label_en": "Holidays Calendar",
+      "label_es": "Calendarios de Vacaciones"
+    },
     "doLogout": {
       "label_en": "Close Session",
       "label_es": "Cerrar Sesión"
@@ -295,6 +299,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                 <span>${langConfig.personalOption.endpoint["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">list</mwc-icon>
               </mwc-list-item>
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
+                <span>${langConfig.personalOption.holidaysCalendar["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">holidays_calendar</mwc-icon>
+              </mwc-list-item>              
             </mwc-list>
             <sp-divider size="m"></sp-divider>
             <mwc-list-item @click=${this.logout}>
@@ -363,6 +371,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                     <mwc-icon slot="icon">list</mwc-icon>
                     ${langConfig.personalOption.endpoint["label_" + this.lang]}
                   </sp-menu-item>
+                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:white">
+                    <mwc-icon slot="icon">list</mwc-icon>
+                    ${langConfig.personalOption.holidaysCalendar["label_" + this.lang]}
+                  </sp-menu-item>                  
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item @click=${this.logout} style="color:white">
                     <mwc-icon slot="icon">logout</mwc-icon>
@@ -414,6 +426,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               .params=${this.params}></video-tutorial>
             <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
               .params=${this.params}></endpoints-list>
+            <holiday-calendars .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'holidayscalendar' ? false : true} .params=${this.params}>
+            </holiday-calendars>              
           </div>
         </main>
       </div>

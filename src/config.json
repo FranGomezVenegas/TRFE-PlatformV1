@@ -1,11 +1,12 @@
 {
   "dbName": "labplanet",
   "isForTesting": false,
-  "fullscreen": true,
+  "fullscreen": false,
+  "local": false,
   "backendUrl": "http://51.75.202.142:8888/LabPLANET-API",
   "appAuthenticateApiUrl": "/frontend/AuthenticationAPI",
-  "PlatformAdminAPIactionsUrl": "/app/PlatformAdminActions",
-  "PlatformAdminAPIqueriesUrl": "/app/PlatformAdminQueries",
+  "appPlatformAdminActions": "/app/PlatformAdminActions",
+  "appPlatformAdminQueries": "/app/PlatformAdminQueries",
   "endpointsDocApiUrl": "/Doc/EndpointsDocAPIqueries",
   "frontEndVideoTutorialsUrl": "/frontend/VideoTutorialAPIfrontend",
   "frontEndIncidentsUrl": "/frontend/IncidentAPIfrontend",
@@ -24,13 +25,16 @@
   "procDefinitionApiUrl": "/frontend/ProcedureDefinitionfrontend",
   "ApiInstrumentsAPIactionsUrl": "/app/procs/InstrumentsAPIactions",
   "ApiInstrumentsAPIqueriesUrl": "/app/procs/InstrumentsAPIqueries",
+  "GenomaStudyAPIactionsUrl": "/modulegenoma/GenomaStudyAPI",
+  "GenomaStudyAPIqueriesUrl": "/modulegenoma/GenomaStudyAPIFrontend",
+  "HolidayCalendarAPIactionsUrl": "/app/HolidayCalendarAPIactions",
+  "HolidayCalendarAPIqueriesUrl": "/app/HolidayCalendarAPIqueries",
   "businessRules": {
-    "enableLockSession": true,
+    "enableLockSession": false,
     "minsLockSession": 1,
-    "enableLogoutSession": true,
+    "enableLogoutSession": false,
     "minsLogoutSession": 1,
     "showTimingInConsole": true,
     "secondsNextTimeChecker": 5
-  },
-  "local": false
+  }
 }

@@ -35,6 +35,7 @@
     "@spectrum-web-components/menu": "^0.9.5",
     "@spectrum-web-components/theme": "^0.8.14",
     "@trazit/endpoints-list": "file:.yalc/@trazit/endpoints-list",
+    "@trazit/holiday-calendars": "file:.yalc/@trazit/holiday-calendars",
     "@trazit/my-certifications": "file:.yalc/@trazit/my-certifications",
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
