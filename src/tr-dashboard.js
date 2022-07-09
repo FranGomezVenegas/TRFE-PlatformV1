@@ -241,6 +241,24 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     // populate the notifs session state
     if (sessionStorage.getItem("notifs")) {
       this.notifs = JSON.parse(sessionStorage.getItem("notifs"))
+
+      var maxNumNotifs=10
+      if (this.notifs.length>0){
+        var inotifs=0;
+        for (inotifs = 0; inotifs < maxNumNotifs; inotifs++) { 
+          if (inotifs<=this.notifs.length-1){
+            this.lastNotifs[inotifs]=this.notifs[inotifs]
+          }
+        }
+        if (this.notifs.length>maxNumNotifs
+          ){
+          var fakeLastNotif={}
+          fakeLastNotif.message_en='... (Click to open view)'
+          fakeLastNotif.message_es='... (Pulsa para abrir ventana)'
+          this.lastNotifs[9]=fakeLastNotif
+        }
+      }
+
     }
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
@@ -336,7 +354,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             </mwc-list-item>
           </mwc-list>
           <div slot="appContent">
-            <mwc-top-app-bar-fixed>
+            <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
               <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
                 @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
               <div class="header" slot="title">
@@ -350,10 +368,28 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               </nav>
               <nav slot="actionItems" ?hidden="${!this.desktop}">
                 ${this.desktopVersion()}
-                <sp-action-menu class="topMenu" id="notif" size="m" @mouseover=${() => this.menuHover("notif")}>
+                <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
-                </sp-action-menu>
+
+                  <div slot="icon"></div>
+                  ${this.lastNotifs.map((n, index) =>
+                    html`
+                    ${index>9 ?
+                      html``: html`
+                      <sp-menu-item>
+                        <div style="display:flex;align-items:center;color:white">
+                          <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/notifications")}>${n["message_" + this.lang]}
+                          </div>
+                          ${this.pendingSOP()}
+                        </div>
+                      </sp-menu-item>
+                      `}
+                    `
+                )}
+
+
+                  </sp-action-menu>
                 <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${langConfig.certOption["tabLabel_" + this.lang]}
@@ -535,6 +571,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       sops: { type: Array },
       analytics: { type: Array },
       notifs: { type: Array },
+      lastNotifs: { type: Array },
+      notifsCollapse: { type: Boolean },      
       procCollapse: { type: Boolean },
       airCollapse: { type: Boolean },
       waterCollapse: { type: Boolean },
@@ -554,6 +592,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.sops = [];
     this.analytics = [];
     this.notifs = [];
+    this.lastNotifs = [];    
     this.showTab = false;
   }
 
@@ -664,6 +703,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       case 'endpoints':
         import('@trazit/endpoints-list/endpoints-list');
         break;
+        case 'holidayscalendar':
+          import('@trazit/holiday-calendars/holiday-calendars');
+          break;
       default:
         import('./tr-default');
     }
@@ -671,6 +713,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   }
 
   menuHover(menu) {
+    console.log('menuHover', menu)
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
       if (s.id == menu) {
         s.open = true;
