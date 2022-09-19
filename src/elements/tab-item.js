@@ -11,15 +11,36 @@ export class TabItem extends LitElement {
         align-items: center;
         padding: 0;
         margin-right: 3px;
-        background-color: #03a9f4;
+        background-color: #D6E9F8;
+        font-family : Myriad Pro;
+        border-radius : 11px;
+        -moz-border-radius : 11px;
+        -webkit-border-radius : 11px;
+        border-style:outset;
+        border-color:rgb214, 233, 248);
+        border-width: 0px 3px 3px 0px;
       }
       div.t-item.active {
-        background-color: #ccc;
+        background-color: #24C0EB;
+        font-family : Myriad Pro;
+        border-radius : 11px;
+        -moz-border-radius : 11px;
+        -webkit-border-radius : 11px;
+        border-style:outset;
+        border-color:rgb(3, 169, 244);
+        border-width: 0px 3px 3px 0px;
       }
       mwc-button {
         --mdc-typography-button-text-transform: none;
-        --mdc-typography-button-font-size: 10px;
+        --mdc-typography-button-font-size: 8px;
         --mdc-theme-primary: #ffffff;
+      }
+      mwc-icon-button {
+        color: aliceblue;
+        --mdc-icon-button-size: 16px;
+        --mdc-icon-size: 15px;
+        --mdc-button-horizontal-padding: 3px;
+        --mdc-button-horizontal-padding: 0px;
       }
     `;
   }
@@ -30,7 +51,7 @@ export class TabItem extends LitElement {
         <mwc-button .label="${this.lang=="en"?this.tab.tabLabel_en:this.tab.tabLabel_es}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
           detail: this.tab
         }))}></mwc-button>
-        <mwc-icon-button style="--mdc-icon-button-size: 30px;--mdc-icon-size: 20px;" @click=${()=>this.dispatchEvent(new CustomEvent('tab-remove', {
+        <mwc-icon-button @click=${()=>this.dispatchEvent(new CustomEvent('tab-remove', {
           detail: this.tab
         }))} icon="close"></mwc-icon-button>
       </div>

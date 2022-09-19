@@ -59,6 +59,19 @@ export class ProceduresMenu extends LitElement {
 
   mobileVersion() {
     return html`
+      <style>
+      mwc-icon{
+        color: #32C3EC;
+      }
+      mwc-list-item {
+        font-size: 4vw !important;
+        font-family: Myriad Pro;
+        color: rgb(36, 192, 235);
+        font-weight: bold;
+        height:7vw;
+        
+      }
+      </style>
       <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
         ${this.procAccess.map(proc =>
           html`
@@ -67,7 +80,7 @@ export class ProceduresMenu extends LitElement {
               <span style="margin-left:20px">${proc["label_"+this.lang]}</span>
             </mwc-list-item>
             <mwc-list class="sublist two" ?hidden="${!this.getCollapse(proc)}">
-              ${proc.icons_up.length ?
+              ${proc.icons_up!==undefined&&proc.icons_up.length ?
                 html`
                   <mwc-list-item style="pointer-events: none">
                     <div class="subproc">
@@ -82,6 +95,8 @@ export class ProceduresMenu extends LitElement {
                   </mwc-list-item>
                 ` : nothing
               }
+              ${proc.new_definition===undefined ? html``:
+              html`
               ${proc.new_definition.map(def => 
                 html`
                   ${def.label_en ? 
@@ -110,16 +125,22 @@ export class ProceduresMenu extends LitElement {
                   }
                 `
               )}
-              ${proc.icons_down.map(down => 
-                html`
-                  <mwc-list-item style="pointer-events: none">
-                    <div class="subproc">
-                      <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;margin-right:15px;">
-                      <label style="margin-left: 40px; pointer-events: none;">${down["label_"+this.lang]}</label>
-                    </div>
-                  </mwc-list-item>
-                `
-              )}
+              `}
+
+              ${proc.icons_up!==undefined&&proc.icons_up.length ?
+                html`              
+                ${proc.icons_down.map(down => 
+                  html`
+                    <mwc-list-item style="pointer-events: none">
+                      <div class="subproc">
+                        <img src="/images/noImage1.png" style="width:25px; pointer-events: auto;margin-right:15px;">
+                        <label style="margin-left: 40px; pointer-events: none;">${down["label_"+this.lang]}</label>
+                      </div>
+                    </mwc-list-item>
+                  `
+                )}
+                `:nothing
+                }
             </mwc-list>
           </div>
           `
@@ -151,15 +172,15 @@ export class ProceduresMenu extends LitElement {
         <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
         ${this.procAccess.map(proc => 
           html`
-          <sp-menu-item>
+          <sp-menu-item style="color:rgb(36, 192, 235);font-weight:bold;background-color:#E3F0FA;">
             <sp-action-menu class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
-              <span slot="label" style="color: white">${proc["label_"+this.lang]}</span>
+              <span slot="label" style="rgb(36, 192, 235);font-weight:bold;">${proc["label_"+this.lang]}</span>
               ${proc.icons_up.length ?
                 html`
-                  <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
-                    <div style="display: flex;align-items: center;color: white">
+                  <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 35px; width: 275px">
+                    <div style="display: flex;align-items:center;color:rgb(36, 192, 235); font-weight:bold;">
                       ${proc.icons_up.map(up =>
                         html`${up.icon_name=="icons:search" ?
                         html`<mwc-icon style="--mdc-icon-size:20px; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</mwc-icon>` :
@@ -176,8 +197,8 @@ export class ProceduresMenu extends LitElement {
                     html`
                       ${def.icons ?
                         html`
-                          <sp-menu-item style='height: 45px; width: 255px;${this.setCertifiedPointer(def.icons)}'>
-                            <div style="display: flex;align-items: center;color: white">
+                          <sp-menu-item style='; background-color:#E3F0FA; height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
+                            <div style="display: flex;align-items: center;color: rgb(36, 192, 235);font-weight:bold;">
                               ${def.icons.map((subProc,i) => 
                                 html`
                                   <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
@@ -190,8 +211,8 @@ export class ProceduresMenu extends LitElement {
                           </sp-menu-item>
                         ` :
                         html`
-                          <sp-menu-item style='height: 45px; width: 255px; pointer-events: none;'>
-                            <div style="display: flex;align-items: center;color: white">
+                          <sp-menu-item style='background-color:#E3F0FA; height: 35px; width: 275px; pointer-events: none;'>
+                            <div style="display: flex;align-items: center;color: rgb(36, 192, 235); font-weight:bold;">
                               <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; pointer-events: auto; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                                 @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                             </div>
@@ -205,8 +226,8 @@ export class ProceduresMenu extends LitElement {
               )}
               ${proc.icons_down.length ?
                 html`
-                  <sp-menu-item style="pointer-events: none; height: 45px; width: 255px">
-                    <div style="display: flex;align-items: center;color: white">
+                  <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 45px; width: 275px">
+                    <div style="display: flex;align-items: center;color: white; background-color:#D6E9F8;" >
                       ${proc.icons_down.map(down =>
                         html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
                       )}
@@ -252,7 +273,7 @@ export class ProceduresMenu extends LitElement {
           pMenu.forEach(m => {
             if (m.tabIndex < 0) {
               m.style.margin = "0"
-              m.style.width = "260px"
+              m.style.width = "280px"
             }
           })
           let spMenu = p.querySelectorAll("sp-menu-item")

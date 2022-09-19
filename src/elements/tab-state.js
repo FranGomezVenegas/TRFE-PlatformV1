@@ -292,9 +292,12 @@ export class TabState extends navigator(LitElement) {
       }
       .tabContainer {
         overflow: auto;
+        position:relative;
+        top:-12px;
         ${unsafeCSS(displayFlex)}
         ${unsafeCSS(horizontal)}
         ${unsafeCSS(centerAligned)}
+
       }
       .tabContainer::-webkit-scrollbar {
         display: none;
@@ -305,6 +308,9 @@ export class TabState extends navigator(LitElement) {
       }
       mwc-button {
         --mdc-typography-button-text-transform: none;
+      }
+      mwc-icon-button {
+        color : rgba(36, 192, 235, 1);
       }
       mwc-icon-button[hidden] {
         display: none;
@@ -471,13 +477,14 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
+//    console.log('pushTab')
     let tab = []
     if (this.params.menu == "procedures") {
       if (this.config.local) {
         tab = tabObj.filter(t => t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
       } else {
         // validating the procName, viewName, filterName do they exist on the new_definition
-        let validProc = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures.filter(p => p.name == this.query.procName);
+        let validProc = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures.filter(p => p.proc_instance_name == this.query.procName);
         if (validProc.length) {
           let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName)
           if (validView.length) {

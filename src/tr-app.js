@@ -25,6 +25,8 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         position: fixed;
         top : 50%;
         left: calc(50% - 25px);
+        color : #FFFFFF;
+        color : rgba(36, 192, 235, 1);
       }
     `;
   }
@@ -56,6 +58,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   }
 
   setNotif(e) {
+    console.log('setNotif', e)
     if (e.detail.waiting) {
       this.waiting.closed = false
     }

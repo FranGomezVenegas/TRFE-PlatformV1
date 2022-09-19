@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@collaborne/lit-flexbox-literals": "^0.2.2",
+    "@doubletrade/lit-datatable": "^2.0.0",
     "@lrnwebcomponents/deduping-fix": "^4.0.0",
     "@material/mwc-circular-progress": "^0.25.3",
     "@material/mwc-drawer": "^0.25.3",
@@ -40,6 +41,7 @@
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
+    "@trazit/proc-management-home": "file:.yalc/@trazit/proc-management-home",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
     "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",
     "@trazit/tr-procedures": "file:.yalc/@trazit/tr-procedures",

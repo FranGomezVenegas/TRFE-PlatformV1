@@ -3,7 +3,16 @@ import { LitElement, html, css } from 'lit';
 export class TrDefault extends LitElement {
   render() {
     return html`
-      <h1>Welcome to trazit platform</h1>
+      <style>
+      h1 {        
+        color : rgba(36, 192, 235, 1);
+        font-family : Montserrat;
+        font-weight : bold;
+        font-size:calc(12px + 1.5vw);
+        text-align: center;
+      }    
+      </style>
+      <h1>Welcome to the Trazit Traceability Procedures Platform</h1>
     `;
   }
 

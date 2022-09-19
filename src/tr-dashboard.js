@@ -17,61 +17,9 @@ import '@material/mwc-icon-button';
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
+import '@trazit/proc-management-home';
+import { PlatformModel} from './PlatformModel'
 
-const langConfig = {
-  "proceduresOption": {
-    "tabLabel_en": "Procedures",
-    "tabLabel_es": "Procesos"
-  },
-  "notificationsOption": {
-    "tabLabel_en": "Notifications",
-    "tabLabel_es": "Notificaciones"
-  },
-  "certOption": {
-    "tabLabel_en": "My Certifications",
-    "tabLabel_es": "Mi Certificaciones",
-    "sop": {
-      "label_en": "SOP",
-      "label_es": "SOP"
-    },
-    "analytic": {
-      "label_en": "Analytical Method",
-      "label_es": "Método analítico"
-    }
-  },
-  "personalOption": {
-    "tabLabel_en": "My Settings",
-    "tabLabel_es": "Mi Espacio",
-    "procedure": {
-      "label_en": "Procedure",
-      "label_es": "Proceso"
-    },
-    "incidents": {
-      "label_en": "Incidents",
-      "label_es": "Incidencias"
-    },
-    "user": {
-      "label_en": "User",
-      "label_es": "Usuario"
-    },
-    "video": {
-      "label_en": "Video Tutorial",
-      "label_es": "Tutorial en Video"
-    },
-    "endpoint": {
-      "label_en": "Endpoints List",
-      "label_es": "Lista de punto API"
-    },
-    "holidaysCalendar": {
-      "label_en": "Holidays Calendar",
-      "label_es": "Calendarios de Vacaciones"
-    },
-    "doLogout": {
-      "label_en": "Close Session",
-      "label_es": "Cerrar Sesión"
-    }
-  }
-}
 
 export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   static get styles() {
@@ -84,51 +32,69 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       .container {
         height: 100vh;
       }
+      div#headerContent{
+        padding: 3px;
+      }
+      div#procmgr { 
+        background-image: url(/images/background_proc_management.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        width: 100%;        
+      }
       div[hidden] {
         display: none;
       }
       mwc-drawer {
         height: 80px;
-        color: #2ec3ec;
-        padding-top: 10px;
-        background-color: #d6e9f8;
-        --mdc-drawer-width: 300px;
+        --mdc-drawer-width: 70%;        
       }
       mwc-drawer.isfortesting.false {
         height: 80px;
-        color: #2ec3ec;
-        padding-top: 10px;
-        background-color: #d6e9f8;
-        --mdc-drawer-width: 300px;
+        --mdc-drawer-width: 70%;
       }
       mwc-drawer.isfortesting.true {
         height: 80px;
-        color: #2ec3ec;
-        padding-top: 10px;
-        background-color: #414a94;
-        --mdc-drawer-width: 300px;
-      }
-      mwc-top-app-bar-fixed {
-   $     --mdc-theme-primary: #d6e9f8;
-        --mdc-theme-on-primary: #2ec3ec;
+        --mdc-drawer-width: 70%;        
       }
       mwc-top-app-bar-fixed.isfortesting.false {
-        --mdc-theme-primary: #d6e9f8;
-        --mdc-theme-on-primary: #2ec3ec;
+          background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(214, 233, 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
+          background : -webkit-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+          background : -webkit-gradient(linear,46.71% -341.1% ,53.29% 441.1% ,color-stop(0.4385,rgba(214, 233, 248, 1) ),color-stop(0.5866,rgba(255, 255, 255, 1) ));
+          background : -o-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+          background : -ms-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8', endColorstr='#FFFFFF' ,GradientType=0)";
+          background : linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+          border-radius : 12px;
+          -moz-border-radius : 12px;
+          -webkit-border-radius : 12px;
+          box-shadow : 2.77px 2.77px 4.62px rgba(20, 78, 117, 0.5);
+          filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2.77, Off=2.77, Color='#144E75') progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8',endColorstr='#FFFFFF' , GradientType=1);        
       }
       mwc-top-app-bar-fixed.isfortesting.true {
-        --mdc-theme-primary: #414a94; //#f8d8d6;
-        --mdc-theme-on-primary: #2ec3ec;
+        background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(214, 233, 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
+        background : -webkit-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+        background : -webkit-gradient(linear,46.71% -341.1% ,53.29% 441.1% ,color-stop(0.4385,rgba(214, 233, 248, 1) ),color-stop(0.5866,rgba(255, 255, 255, 1) ));
+        background : -o-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+        background : -ms-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8', endColorstr='#FFFFFF' ,GradientType=0)";
+        background : linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+        border-radius : 12px;
+        -moz-border-radius : 12px;
+        -webkit-border-radius : 12px;
+        box-shadow : 2.77px 2.77px 4.62px rgba(20, 78, 117, 0.5);
+        filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2.77, Off=2.77, Color='#144E75') progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8',endColorstr='#FFFFFF' , GradientType=1);        
       }      
       mwc-top-app-bar-fixed {
-        --mdc-theme-primary: #d6e9f8;
-        --mdc-theme-on-primary: #2ec3ec;
+        --mdc-theme-primary: transparent;
+        --mdc-theme-on-primary: #57cbee;
       }
-      .header {
+      .header { 
         ${unsafeCSS(displayFlex)}
         ${unsafeCSS(horizontal)}
         ${unsafeCSS(centerAligned)}
-        font-family: 'Open Sans', sans-serif;
+        font-family: Myriad Pro;
         font-style: normal;
       }
       .header img {
@@ -156,24 +122,27 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         margin-right: 20px;
         cursor: pointer;
       }
-      main {
-        padding: 0 20px 20px;
-      }
       sp-action-menu {
         margin-right: 5px;
       }
       sp-action-menu * {
-        color: white;
+        font-family : Myriad Pro;
+        font-size : 18px;
+        color : #24C0EB;
+        color : rgb(36, 192, 235);   
       }
       #sessionLabel {
-        line-height:normal;
-        font-size:14px;
+        font-family : Myriad Pro;
+        font-size : 14px;
+        line-height : 21px;
+        color : #24C0EB;
+        color : rgb(36, 192, 235);        
       }
       .sublist[hidden] {
         display: none;
       }
       mwc-list-item {
-        font-size: 12px;
+        font-size: 12px;        
       }
       .subproc {
         margin-left: 15px;
@@ -197,18 +166,21 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         }
         main {
           padding: 0 10px 10px;
+          margin-top:-15px;
         }
         #tabHandle {
           position: absolute;
-          top: 20px; right: 0;
+          top: 0px; 
           transform-origin: right bottom;
-          transform: rotate(-90deg);
+          transform: rotate(-180deg);
           cursor: pointer;
-          z-index: 999;
+          
+          /* left:-40px; */
+          right: 60px;
         }
         #tabHandle mwc-icon {
-          --mdc-icon-size: 35px;
-          color: #03a9f4;
+          --mdc-icon-size: 50px;
+          color: rgb(82, 193, 245);
         }
         #tabHandle div {
           border-radius: 10%;
@@ -219,13 +191,23 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           background: #03a9f4;
           color: white;
           padding: 5px;
-          margin-top: -18px;
+          margin-top: -18px;  
+                
         }
+        hr{
+          height:100vh;
+          width:.5vw;
+          border-width:0;
+          color:#000;
+          background-color:#000;
+        }     
+                
       }
     `];
   }
 
   firstUpdated() {
+    console.log('PlatformModel', this.PlatformModel)
     super.firstUpdated()
     this.startSession = new Date().getTime()
     const container = this.drawer.parentNode;
@@ -260,6 +242,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       }
 
     }
+    
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
@@ -270,7 +253,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       })
       this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
       this.actMenu.forEach(a => {
-        a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "rgb(3, 169, 244)"
+        a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
+        a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
       })
     })
   }
@@ -288,215 +272,36 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     }
   }
 
-  render() {
+  render() {    
     return html`
-      <div class="container layout vertical">
-      <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
-          <mwc-list>
-            <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
-              <span>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
-            </mwc-list-item>
-            ${this.mobileVersion()}
-            <mwc-list-item @click="${() => this.selectedMenu("/dashboard/notifications")}">
-              <span>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
-            </mwc-list-item>
-            <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
-              <span>${langConfig.certOption["tabLabel_" + this.lang]} ${this.allPending()}</span>
-            </mwc-list-item>
-            <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
-              <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]} 
-                    (<span style="color: blue">${this.sops.length}</span>)</div>
-                    ${this.pendingSOP()}
-                </div>
-              </mwc-list-item>
-              <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]} 
-                  (<span style="color: blue">${this.analytics.length}</span>)</div>
-                  ${this.pendingAnalytic()}
-                </div>
-              </mwc-list-item>
-            </mwc-list>
-            <mwc-list-item @click="${() => this.personalCollapse=!this.personalCollapse}">
-              <span>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
-            </mwc-list-item>
-            <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/procedure")}>
-                <span>${langConfig.personalOption.procedure["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">route</mwc-icon>
-              </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/incidents")}>
-                <span>${langConfig.personalOption.incidents["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">bug_report</mwc-icon>
-              </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/user")}>
-                <span>${langConfig.personalOption.user["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">person</mwc-icon>
-              </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
-                <span>${langConfig.personalOption.video["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">video_library</mwc-icon>
-              </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
-                <span>${langConfig.personalOption.endpoint["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">list</mwc-icon>
-              </mwc-list-item>
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
-                <span>${langConfig.personalOption.holidaysCalendar["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">holidays_calendar</mwc-icon>
-              </mwc-list-item>              
-            </mwc-list>
-            <sp-divider size="m"></sp-divider>
-            <mwc-list-item @click=${this.logout}>
-              <span>${langConfig.personalOption.doLogout["label_" + this.lang]}</span>
-            </mwc-list-item>
-          </mwc-list>
-          <div slot="appContent">
-            <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
-              <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
-                @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-              <div class="header" slot="title">
-                <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
-                ${this.userSession()}
-              </div>
-              <nav slot="actionItems" ?hidden="${this.desktop}">
-                <mwc-icon-button @click=${this.changeLang}>
-                  <img .src="/images/${this.flag}.png" />
-                </mwc-icon-button>
-              </nav>
-              <nav slot="actionItems" ?hidden="${!this.desktop}">
-                ${this.desktopVersion()}
-                <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
-                  <div slot="icon"></div>
-                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${langConfig.notificationsOption["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
-
-                  <div slot="icon"></div>
-                  ${this.lastNotifs.map((n, index) =>
-                    html`
-                    ${index>9 ?
-                      html``: html`
-                      <sp-menu-item>
-                        <div style="display:flex;align-items:center;color:white">
-                          <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/notifications")}>${n["message_" + this.lang]}
-                          </div>
-                          ${this.pendingSOP()}
-                        </div>
-                      </sp-menu-item>
-                      `}
-                    `
-                )}
-
-
-                  </sp-action-menu>
-                <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
-                  <div slot="icon"></div>
-                  <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${langConfig.certOption["tabLabel_" + this.lang]}
-                    ${this.allPending()}</span>
-                  <sp-menu-item>
-                    <div style="display:flex;align-items:center;color:white">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${langConfig.certOption.sop["label_" + this.lang]}
-                      (<span style="color: blue">${this.sops.length}</span>)</div>
-                      ${this.pendingSOP()}
-                    </div>
-                  </sp-menu-item>
-                  <sp-menu-item>
-                    <div style="display:flex;align-items:center;width:150px;color:white">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${langConfig.certOption.analytic["label_" + this.lang]}
-                      (<span style="color: blue">${this.analytics.length}</span>)</div>
-                      ${this.pendingAnalytic()}
-                    </div>
-                  </sp-menu-item>
-                </sp-action-menu>
-                <sp-action-menu class="topMenu" id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
-                  <sp-icon-settings slot="icon"></sp-icon-settings>
-                  <span slot="label"
-                    @mouseover=${() => this.menuHover("settings")}>${langConfig.personalOption["tabLabel_" + this.lang]}</span>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:white">
-                    <mwc-icon slot="icon">route</mwc-icon>
-                    ${langConfig.personalOption.procedure["label_" + this.lang]}
-                  </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:white">
-                    <mwc-icon slot="icon">bug_report</mwc-icon>
-                    ${langConfig.personalOption.incidents["label_" + this.lang]}
-                  </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:white">
-                    <mwc-icon slot="icon">person</mwc-icon>
-                    ${langConfig.personalOption.user["label_" + this.lang]}
-                  </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:white">
-                    <mwc-icon slot="icon">video_library</mwc-icon>
-                    ${langConfig.personalOption.video["label_" + this.lang]}
-                  </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:white">
-                    <mwc-icon slot="icon">list</mwc-icon>
-                    ${langConfig.personalOption.endpoint["label_" + this.lang]}
-                  </sp-menu-item>
-                  <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:white">
-                    <mwc-icon slot="icon">list</mwc-icon>
-                    ${langConfig.personalOption.holidaysCalendar["label_" + this.lang]}
-                  </sp-menu-item>                  
-                  <sp-divider size="m"></sp-divider>
-                  <sp-menu-item @click=${this.logout} style="color:white">
-                    <mwc-icon slot="icon">logout</mwc-icon>
-                    ${langConfig.personalOption.doLogout["label_" + this.lang]}
-                  </sp-menu-item>
-                </sp-action-menu>
-                <mwc-icon-button @click=${this.changeLang}>
-                  <img .src="/images/${this.flag}.png" />
-                </mwc-icon-button>
-              </nav>
-            </mwc-top-app-bar-fixed>
-          </div>
-        </mwc-drawer>
-        <main class="layout vertical flex">
-          ${this.desktop ? 
-            html`${this.tabState()}` : nothing
-          }
-          <div class="content">
-            ${this.desktop ? 
-              nothing :
-              html`
-                <div id="tabHandle" 
-                  @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>
-                  <mwc-icon>arrow_drop_up</mwc-icon>
-                  <div>Tab</div>
-                </div>
-                <div class="layout horizontal flex" style="margin-top:5px">
-                  ${this.tabMobileState()}
-                </div>
-              `
-            }
-            <tr-default ?hidden=${this.params.menu}></tr-default>
-            <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
-            <procedure-management .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
-            </procedure-management>
-            <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
-            <my-certifications 
-              .lang=${this.lang} 
-              .config=${this.config} 
-              .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} 
-              .params=${this.params}
-              @certs-updated=${this.certsUpdated}>
-            </my-certifications>
-            <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
-            </my-incidents>
-            <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
-              .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
-            <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
-              .params=${this.params}></video-tutorial>
-            <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
-              .params=${this.params}></endpoints-list>
-            <holiday-calendars .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'holidayscalendar' ? false : true} .params=${this.params}>
-            </holiday-calendars>              
-          </div>
-        </main>
-      </div>
-      <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>
-    `;
+      ${this.userRole==="proc_management" ?
+      html`
+        ${this.proceduresManagementPlatform()}
+      `
+      :html`
+        ${this.proceduresOperationPlatform()}
+      `}
+      
+      
+    ` 
+    ;
   }
-
+  // <!-- ${this.setStyle()} -->
+  setStyle(){
+    console.log('setStyle')
+    //let chartObj=this.shadowRoot.querySelector("section#actions")
+    let chartObj = this.shadowRoot.querySelectorAll("mwc-top-app-bar-fixed")
+    
+    //let chartObj = document.querySelector("mdc-top-app-bar")
+    if (chartObj!==undefined&&chartObj!==null&&chartObj.length>0){
+      chartObj.forEach((r, i) => {
+        console.log(i, r)
+      })
+      //let violetObj = chartObj.querySelectorAll.map
+      //alert("Esooo")
+    }
+    console.log('chartObj', chartObj)
+  }
   /**
    * updating the cert number state once mark completed done
    */
@@ -578,7 +383,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       waterCollapse: { type: Boolean },
       certCollapse: { type: Boolean },
       personalCollapse: { type: Boolean },
-      showTab: { type: Boolean }
+      showTab: { type: Boolean },
+      PlatformModel: { type: Object},
+      userRole: {type: String}
     };
   }
 
@@ -594,6 +401,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.notifs = [];
     this.lastNotifs = [];    
     this.showTab = false;
+    this.PlatformModel = {};
+    this.PlatformModel = PlatformModel;
   }
 
   allPending() {
@@ -713,7 +522,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   }
 
   menuHover(menu) {
-    console.log('menuHover', menu)
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
       if (s.id == menu) {
         s.open = true;
@@ -752,6 +560,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   stateChanged(state) {
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
+      console.log(this.config)
+      if (this.config.local===true){
+        this.PlatformModel = PlatformModel;
+      }else{
+        let userSession = JSON.parse(sessionStorage.getItem("userSession"))        
+        this.PlatformModel = userSession.platform_settings;
+        this.userRole=userSession.userRole
+      }
+  
+
     }
     if (this.lang != state.app.lang) {
       this.lang = state.app.lang;
@@ -760,6 +578,289 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       // if any api activities, reset the startSession to current datetime
       this.startSession = new Date().getTime()
     }
+  }
+
+
+  proceduresManagementPlatform(){
+    return html`
+    <div class="container layout vertical" id="procmgr">  
+    <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+    </mwc-drawer>
+      <div class="container layout vertical" id="header"> 
+        <h1>Welcome to the next level!!!</h1>   
+        <sp-menu-item @click=${this.logout} style="color:#03a9f4"><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+        <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
+        <proc-management-home></proc-management-home>
+      </div>
+    </div>
+
+    `
+  }
+  proceduresOperationPlatform(){
+    console.log('proceduresOperationPlatform', this.PlatformModel.headerAreas)
+    return html`
+    <div class="container layout vertical">
+    
+    <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+        <mwc-list>
+          <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
+            <span>${this.PlatformModel.headerAreas.proceduresOption["tabLabel_" + this.lang]}</span>
+          </mwc-list-item>
+          ${this.mobileVersion()}
+          ${this.PlatformModel.headerAreas.notifications.display!==true ? nothing : 
+          html`
+            
+            <mwc-list-item @click="${() => this.selectedMenu("/dashboard/notifications")}">
+              <span>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
+            </mwc-list-item>            
+          `}
+          ${this.PlatformModel.headerAreas.myCertifications.display ===true ? nothing : 
+          html`        
+            <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
+              <span>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]} ${this.allPending()}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
+              <mwc-list-item>
+                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
+                    (<span style="color: blue">${this.sops.length}</span>)</div>
+                    ${this.pendingSOP()}
+                </div>
+              </mwc-list-item>
+              <mwc-list-item>
+                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
+                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
+                  (<span style="color: blue">${this.analytics.length}</span>)</div>
+                  ${this.pendingAnalytic()}
+                </div>
+              </mwc-list-item>
+            </mwc-list>
+          `}
+          ${this.PlatformModel.headerAreas.mySettings.display !==true ? nothing : 
+          html`              
+            <mwc-list-item @click="${() => this.personalCollapse=!this.personalCollapse}">
+              <span>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
+            </mwc-list-item>
+            <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
+            ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
+            html`
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/procedure")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">route</mwc-icon>
+              </mwc-list-item>
+            `}
+            ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
+            html`  
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/incidents")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">bug_report</mwc-icon>
+              </mwc-list-item>
+            `}
+            ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
+            html`  
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/user")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">person</mwc-icon>
+              </mwc-list-item>
+            `}
+            ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
+            html`  
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">video_library</mwc-icon>
+              </mwc-list-item>
+            `}
+            ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
+            html`  
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">list</mwc-icon>
+              </mwc-list-item>
+            `}
+            ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
+            html`  
+              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
+                <span>${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}</span>
+                <mwc-icon slot="graphic">holidays_calendar</mwc-icon>
+              </mwc-list-item>              
+            `}
+            </mwc-list>
+          `}
+          <sp-divider size="m"></sp-divider>
+          <mwc-list-item @click=${this.logout}>
+            <span>${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}</span>
+          </mwc-list-item>
+        </mwc-list>
+        
+        <div id="headerContent" slot="appContent">
+          <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
+            <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
+              @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
+            <div class="header" slot="title">
+              <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
+              ${this.userSession()}
+            </div>
+            <nav slot="actionItems" ?hidden="${this.desktop}">
+              <mwc-icon-button style="color:#03a9f4" @click=${this.changeLang}>${this.lang}</mwc-icon-button>
+            </nav>
+            
+            <nav slot="actionItems" ?hidden="${!this.desktop}">
+              ${this.desktopVersion()}
+              ${this.PlatformModel.headerAreas.notifications.display !==true ? nothing : 
+              html`      
+                <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
+                  <div slot="icon"></div>
+                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
+
+                  <div slot="icon"></div>
+                  ${this.lastNotifs.map((n, index) =>
+                    html`
+                    ${index>9 ?
+                      html``: html`
+                      <sp-menu-item>
+                        <div style="display:flex;align-items:center;color:white">
+                          <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/notifications")}>${n["message_" + this.lang]}
+                          </div>
+                          ${this.pendingSOP()}
+                        </div>
+                      </sp-menu-item>
+                      `}
+                    `
+                )}
+                </sp-action-menu>
+              `}
+              ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
+              html`        
+                <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
+                  <div slot="icon"></div>
+                  <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]}
+                    ${this.allPending()}</span>
+                  <sp-menu-item>
+                    <div style="display:flex;align-items:center;color:white">
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]}
+                      (<span style="color: blue">${this.sops.length}</span>)</div>
+                      ${this.pendingSOP()}
+                    </div>
+                  </sp-menu-item>
+                  <sp-menu-item>
+                    <div style="display:flex;align-items:center;width:150px;color:white">
+                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]}
+                      (<span style="color: blue">${this.analytics.length}</span>)</div>
+                      ${this.pendingAnalytic()}
+                    </div>
+                  </sp-menu-item>
+                </sp-action-menu>
+              `}
+            ${this.PlatformModel.headerAreas.mySettings.display !==true ? 
+              html`
+              `: html`                    
+                <sp-action-menu class="topMenu" id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
+                  <sp-icon-settings slot="icon"></sp-icon-settings>
+                  <span slot="label"
+                    @mouseover=${() => this.menuHover("settings")}>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
+                  ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
+                  html`
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:white">
+                      <mwc-icon slot="icon">route</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}
+                    </sp-menu-item>
+                  `}
+                  ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
+                  html`
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:white">
+                      <mwc-icon slot="icon">bug_report</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}
+                    </sp-menu-item>
+                  `}
+                  ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
+                  html`  
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:white">
+                      <mwc-icon slot="icon">person</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
+                    </sp-menu-item>
+                  `}
+                  ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
+                  html`  
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:white">
+                      <mwc-icon slot="icon">video_library</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}
+                    </sp-menu-item>
+                  `}
+                  ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
+                  html`  
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:white">
+                      <mwc-icon slot="icon">list</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}
+                    </sp-menu-item>
+                  `}
+                  ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
+                  html`  
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:white">
+                      <mwc-icon slot="icon">list</mwc-icon>
+                      ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}
+                    </sp-menu-item>                  
+                  `}
+                  <sp-divider size="m"></sp-divider>
+                  <sp-menu-item @click=${this.logout} style="color:#D6E9F8">
+                    <mwc-icon slot="icon">logout</mwc-icon>
+                    ${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}
+                  </sp-menu-item>
+                </sp-action-menu>
+              `}
+              <sp-menu-item @click=${this.logout} style="color:#D6E9F8">
+              <mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+
+              <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
+            </nav>
+          </mwc-top-app-bar-fixed>
+        </div>
+      </mwc-drawer>
+      <main class="layout vertical flex">
+        ${this.desktop ? 
+          html`${this.tabState()}` : nothing
+        }
+        <div class="content">
+          ${this.desktop ? 
+            nothing :
+            html`
+              <div id="tabHandle" 
+                >
+                <mwc-icon @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>arrow_drop_up</mwc-icon>
+                <div></div>
+              </div>
+              <div class="layout horizontal flex" style="margin-top:5px">
+                ${this.tabMobileState()}
+              </div>
+            `
+          }
+          <tr-default ?hidden=${this.params.menu}></tr-default>
+          <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
+          <procedure-management .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
+          </procedure-management>
+          <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
+          <my-certifications 
+            .lang=${this.lang} 
+            .config=${this.config} 
+            .filterData=${this.query.filterData} ?hidden=${this.params.menu == 'certifications' ? false : true} 
+            .params=${this.params}
+            @certs-updated=${this.certsUpdated}>
+          </my-certifications>
+          <my-incidents .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'incidents' ? false : true} .params=${this.params}>
+          </my-incidents>
+          <user-profile .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'user' ? false : true}
+            .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
+          <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
+            .params=${this.params}></video-tutorial>
+          <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
+            .params=${this.params}></endpoints-list>
+          <holiday-calendars .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'holidayscalendar' ? false : true} .params=${this.params}>
+          </holiday-calendars>              
+        </div>
+      </main>
+    </div>
+    <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>     
+    
+    `
   }
 }
 customElements.define('tr-dashboard', TrDashboard);
