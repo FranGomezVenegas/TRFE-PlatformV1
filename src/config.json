@@ -36,6 +36,9 @@
   "GenomaStudyAPIactionsUrl": "/modulegenoma/GenomaStudyAPIactions",
   "GenomaStudyAPIqueriesUrl": "/modulegenoma/GenomaStudyAPIqueries",
 
+  "SampleAPIactionsUrl": "/modulesample/SampleAPIactions",
+  "SampleAPIqueriesUrl": "/modulesample/SampleAPIqueries",
+
   "businessRules": {
     "enableLockSession": false,
     "minsLockSession": 1,
