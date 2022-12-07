@@ -142,7 +142,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         display: none;
       }
       mwc-list-item {
-        font-size: 12px;        
+        font-size: 12px;   
+        width: 90%;     
       }
       .subproc {
         margin-left: 15px;
@@ -196,12 +197,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         }
         hr{
           height:100vh;
-          width:.5vw;
+          width:.5vh;
           border-width:0;
           color:#000;
           background-color:#000;
         }     
-                
       }
     `];
   }
@@ -242,7 +242,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       }
 
     }
-    
+    if (this.tabBar===null){return}
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
@@ -418,7 +418,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   pendingSOP() {
     let p = this.sops.filter(s => s.status == "NOT_PASS")
     if (p.length) {
-      return html`<span style="color: red" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=psop")}>${p.length}</span>`
+      return html`<span style="color: #d73535cc;" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=psop")}>${p.length}</span>`
     } else {
       return null
     }
@@ -427,7 +427,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   pendingAnalytic() {
     let p = this.analytics.filter(s => s.status == "NOT_PASS")
     if (p.length) {
-      return html`<span style="color: red" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=panalytic")}>${p.length}</span>`
+      return html`<span style="color: #d73535cc;" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=panalytic")}>${p.length}</span>`
     } else {
       return null
     }
@@ -564,8 +564,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       if (this.config.local===true){
         this.PlatformModel = PlatformModel;
       }else{
-        let userSession = JSON.parse(sessionStorage.getItem("userSession"))        
-        this.PlatformModel = userSession.platform_settings;
+        let userSession = JSON.parse(sessionStorage.getItem("userSession"))     
+        if (userSession!==undefined&&userSession.platform_settings!==undefined){
+          this.PlatformModel = userSession.platform_settings;
+        }
         this.userRole=userSession.userRole
       }
   
@@ -614,23 +616,23 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               <span>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
             </mwc-list-item>            
           `}
-          ${this.PlatformModel.headerAreas.myCertifications.display ===true ? nothing : 
+          ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
           html`        
             <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
               <span>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]} ${this.allPending()}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
               <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
-                    (<span style="color: blue">${this.sops.length}</span>)</div>
+                <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
+                  <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
+                    (<span style="color: #24c0eb;font-weight: bold;">${this.sops.length}</span>)</div>
                     ${this.pendingSOP()}
                 </div>
               </mwc-list-item>
               <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;width:170px;">
-                  <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
-                  (<span style="color: blue">${this.analytics.length}</span>)</div>
+                <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
+                  <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
+                  (<span style="color: #24c0eb;font-weight: bold;">00${this.analytics.length}</span>)</div>
                   ${this.pendingAnalytic()}
                 </div>
               </mwc-list-item>
@@ -735,17 +737,17 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
-                  <sp-menu-item>
-                    <div style="display:flex;align-items:center;color:white">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]}
-                      (<span style="color: blue">${this.sops.length}</span>)</div>
+                  <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                    <div style="display:flex;align-items:center;width:170px;color:#24c0eb;font-weight: bold;">
+                      <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]}
+                      (<span style="color: #24c0eb;font-weight: bold;">${this.sops.length}</span>)</div>
                       ${this.pendingSOP()}
                     </div>
                   </sp-menu-item>
-                  <sp-menu-item>
-                    <div style="display:flex;align-items:center;width:150px;color:white">
-                      <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]}
-                      (<span style="color: blue">${this.analytics.length}</span>)</div>
+                  <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                    <div style="display:flex;align-items:center;width:170px;color:#24c0eb;font-weight: bold;">
+                      <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]}
+                      (<span style="color: #24c0eb;font-weight: bold;">${this.analytics.length}</span>)</div>
                       ${this.pendingAnalytic()}
                     </div>
                   </sp-menu-item>

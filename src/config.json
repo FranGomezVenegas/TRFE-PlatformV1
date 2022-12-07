@@ -1,5 +1,6 @@
 {
-  "dbName": "labplanet",
+  "dbName": "trazit_2023",
+  "dbNametrazit2023": "trazit_2023",
   "isForTesting": false,
   "fullscreen": false,
   "local": false,
@@ -16,7 +17,7 @@
   "frontEndIncidentsUrl": "/app/IncidentAPIqueries",
   "apiSopUserUrl": "/app/SopUserAPIactions",
   "frontEndSopUrl": "/app/SopUserAPIqueries",
-  "apiAnalysisUrl": "/app/CertifyAnalysisMethodAPI",
+  "apiAnalysisUrl": "/app/CertifyAnalysisMethodAPIactions",
   "frontEndAnalysisUrl": "/app/AnalysisMethodCertifUserAPIqueries",
   "appProcedureListApiUrl": "/app/AppProcedureListAPIqueries",
   "HolidayCalendarAPIactionsUrl": "/app/HolidayCalendarAPIactions",

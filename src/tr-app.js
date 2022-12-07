@@ -27,6 +27,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         left: calc(50% - 25px);
         color : #FFFFFF;
         color : rgba(36, 192, 235, 1);
+        --mdc-theme-primary: rgba(36, 192, 235, 1);
       }
     `;
   }
