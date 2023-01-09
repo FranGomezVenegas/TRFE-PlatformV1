@@ -209,6 +209,17 @@ let tabObj = [
     "tabConfirmUserRequired": false
   },
   {
+    "lp_frontend_page_name": "my-pending-certification-approvals",
+    "route": "certifications?filterData=myPendingCertificationApprovals",
+    "tabName": "cert-MyPendingApprovals",
+    "tabLabel_en": "My Pending Approvals",
+    "tabLabel_es": "Mis aprobaciones pendientes",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": false
+  },  
+  {
     "lp_frontend_page_name": "session-notifications",
     "route": "notifications",
     "tabName": "session-notifications",
@@ -547,7 +558,9 @@ export class TabState extends navigator(LitElement) {
         } else if (t.lp_frontend_page_name == "my-sops") {
           t.route = "certifications?filterData=sop"
         } else if (t.lp_frontend_page_name == "my-analysis") {
-          t.route = "certifications?filterData=analytic"
+          t.route = "certifications?filterData=analytic"        
+        } else if (t.lp_frontend_page_name == "my-pending-certification-approvals") {
+          t.route = "certifications?filterData=myPendingCertificationApprovals"
         }
       })
       this.tabs = tabs
