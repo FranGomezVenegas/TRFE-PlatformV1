@@ -34,6 +34,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       }
       div#headerContent{
         padding: 3px;
+        z-index: 1;
+        position: relative;
       }
       div#procmgr { 
         background-image: url(/images/background_proc_management.jpg);
@@ -246,6 +248,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
     this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    if (userSession.all_my_pending_certif_approvals.num_objects>0){
+      this.myPendingCertifApprovals = userSession.all_my_pending_certif_approvals.num_objects>0 ? userSession.all_my_pending_certif_approvals.objects : this.myPendingCertifApprovals
+    }
     this.updateComplete.then(() => {
       this.dispatchEvent(new CustomEvent('completed'))
       this.tabBar.updateComplete.then(() => {
@@ -398,6 +403,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     this.lang = "en";
     this.sops = [];
     this.analytics = [];
+    this.myPendingCertifApprovals = [];
     this.notifs = [];
     this.lastNotifs = [];    
     this.showTab = false;
@@ -432,7 +438,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       return null
     }
   }
+  myPendingCertificationApprovals() {
+    let p = this.analytics.filter(s => s.status == "NOT_PASS")
+    if (p.length) {
+      return html`<span style="color: #d73535cc;" @click=${()=>this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${p.length}</span>`
+    } else {
+      return null
+    }
+  }
 
+  
   setNotif(e) {
     if (e.detail.log) { // logging as required
       // delete unnecessity objects
@@ -599,7 +614,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     `
   }
   proceduresOperationPlatform(){
-    console.log('proceduresOperationPlatform', this.PlatformModel.headerAreas)
+    //console.log('proceduresOperationPlatform', this.PlatformModel.headerAreas)
     return html`
     <div class="container layout vertical">
     
@@ -636,6 +651,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   ${this.pendingAnalytic()}
                 </div>
               </mwc-list-item>
+              ${this.myPendingCertifApprovals===undefined||this.myPendingCertifApprovals.length===0 ? nothing :
+                html`  
+                  <mwc-list-item>
+                    <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
+                      <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]} 
+                      (<span style="color: #24c0eb;font-weight: bold;">00${this.myPendingCertifApprovals.length}</span>)</div>
+                      ${this.myPendingCertificationApprovals()}
+                    </div>
+                  </mwc-list-item>
+                `}
             </mwc-list>
           `}
           ${this.PlatformModel.headerAreas.mySettings.display !==true ? nothing : 
@@ -751,6 +776,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                       ${this.pendingAnalytic()}
                     </div>
                   </sp-menu-item>
+                  ${this.myPendingCertifApprovals===undefined||this.myPendingCertifApprovals.length===0 ? nothing :
+                    html`      
+                      <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                        <div style="display:flex;align-items:center;width:240px;color:#24c0eb;font-weight: bold;">
+                          <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]}
+                          (<span style="color: #24c0eb;font-weight: bold;">${this.myPendingCertifApprovals.length}</span>)</div>
+                          ${this.myPendingCertificationApprovals()}
+                        </div>
+                      </sp-menu-item>
+                  `}
                 </sp-action-menu>
               `}
             ${this.PlatformModel.headerAreas.mySettings.display !==true ? 
