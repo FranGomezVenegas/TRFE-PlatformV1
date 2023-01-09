@@ -21,7 +21,11 @@ export const PlatformModel = {
       "analytic": {
         "label_en": "Analytical Method",
         "label_es": "Método analítico"
-      }      
+      },    
+      "reviewerPendingSign": {
+        "label_en": "My Pending Approvals",
+        "label_es": "Mis aprobaciones pendientes"
+      }  
     },
     "mySettings":{
       "display": true,

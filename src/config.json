@@ -1,7 +1,7 @@
 {
-  "dbName": "trazit_2023",
-  "dbNametrazit2023": "trazit_2023",
-  "isForTesting": false,
+  "dbName": "labplanet",
+  "dbName2023": "trazit_2023",
+  "isForTesting": true,
   "fullscreen": false,
   "local": false,
   "backendUrl": "http://51.75.202.142:8888/LabPLANET-API",
