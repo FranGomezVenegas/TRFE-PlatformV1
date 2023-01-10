@@ -638,15 +638,15 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
               <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
-                  <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
+                <div style="display:flex;align-items:center;">
+                  <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
                     (<span style="color: #24c0eb;font-weight: bold;">${this.sops.length}</span>)</div>
                     ${this.pendingSOP()}
                 </div>
               </mwc-list-item>
               <mwc-list-item>
-                <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
-                  <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
+                <div style="display:flex;align-items:center;">
+                  <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
                   (<span style="color: #24c0eb;font-weight: bold;">00${this.analytics.length}</span>)</div>
                   ${this.pendingAnalytic()}
                 </div>
@@ -654,8 +654,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               ${this.myPendingCertifApprovals===undefined||this.myPendingCertifApprovals.length===0 ? nothing :
                 html`  
                   <mwc-list-item>
-                    <div style="margin-left:20px;display:flex;align-items:center;padding-left:10px;">
-                      <div style="flex-grow:10;padding-left:10px;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]} 
+                    <div style="display:flex;align-items:center;">
+                      <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]} 
                       (<span style="color: #24c0eb;font-weight: bold;">00${this.myPendingCertifApprovals.length}</span>)</div>
                       ${this.myPendingCertificationApprovals()}
                     </div>
