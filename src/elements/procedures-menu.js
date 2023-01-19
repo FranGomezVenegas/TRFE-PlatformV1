@@ -112,10 +112,10 @@ export class ProceduresMenu extends LitElement {
                                     @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                                 `
                               )}
-                              <label title="${this.setCertifiedLabel(def.icons)}" style="color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
+                              <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 0.2vw; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
                             ` :
                             html`
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
+                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 2vw; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                                 @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
                             `
                           }
