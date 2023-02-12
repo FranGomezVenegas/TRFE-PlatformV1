@@ -243,7 +243,7 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "user-profile",
-    "route": "user",
+    "route": "users",
     "tabName": "user-profile",
     "tabLabel_en": "User Profile",
     "tabLabel_es": "Perfil de usuario",
@@ -252,6 +252,17 @@ let tabObj = [
     "tabEsignRequired": false,
     "tabConfirmUserRequired": true
   },
+  {
+    "lp_frontend_page_name": "platform-usersesssions",
+    "route": "platformusersessions",
+    "tabName": "platform-usersesssions",
+    "tabLabel_en": "User Sessions",
+    "tabLabel_es": "Sesiones de usuario",
+    "tabType": "systab",
+    "systemTab": true,
+    "tabEsignRequired": false,
+    "tabConfirmUserRequired": true
+  },  
   {
     "lp_frontend_page_name": "videotutorial-tab",
     "route": "tutorial",

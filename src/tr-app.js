@@ -46,6 +46,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         @success=${this.setNotif} 
         @error=${this.setNotif}></tr-dashboard>
       <tr-view404 route='view404'></tr-view404>
+      <tr-resetpass route='resetpass'></tr-resetpass>
       <mwc-snackbar></mwc-snackbar>
       <mwc-circular-progress indeterminate closed=true></mwc-circular-progress>
     `;
@@ -58,28 +59,37 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.waiting.closed = true
   }
 
-  setNotif(e) {
-    console.log('setNotif', e)
+  setNotif(e) {    
     if (e.detail.waiting) {
       this.waiting.closed = false
     }
     if (e.detail.log && this.dashboard.style.display != "none" && e.detail["message_"+ this.lang]) {
       this.dashboard.setNotif(e)
     }
-    let msg = e.detail.message;
-    if (e.detail["message_"+ this.lang]) {
-      msg = e.detail["message_"+ this.lang];
+    let msg = undefined
+    if (e.detail.message_en!==undefined&&e.detail.message_en!=='.'){
+      msg = e.detail.message;
+      if (e.detail["message_"+ this.lang]) {
+        msg = e.detail["message_"+ this.lang];
+      }
     }
+    let toastColor=""
     if (e.detail.hasOwnProperty('is_error')) {
       if (e.detail.is_error) {
-        this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#a33";
+        toastColor="#a33" 
+        //this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#a33";
       } else {
-        this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
+        toastColor="#0085ff"
+        //this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
       }
     } else {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
+      toastColor="#0085ff"
+      //this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
     }
     if (msg) {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = toastColor;
+      console.log('toast about to show it', 'e.detail', e.detail, 'toastColor', toastColor)
+      
       this.toast.labelText = msg;
       this.toast.show();
     }
@@ -88,6 +98,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
 
   get dashboard() {
     return this.shadowRoot.querySelector("tr-dashboard")
+  }
+  get resetpass() {
+    return this.shadowRoot.querySelector("tr-resetpass")
   }
 
   get toast() {
@@ -134,6 +147,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       name: 'dashboard',
       pattern: 'dashboard/:menu'
     }, {
+      name: 'resetpass',
+      pattern: 'resetpass'
+    },{
       name: 'view404',
       pattern: '*'
     }];
@@ -144,6 +160,11 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.params = params;
     this.query = query;
     this.data = data;
+    if (route==='resetpass'){
+      window.location.href = "/resetpass/";
+      //this._routeChanged();
+      return
+    }
     // prevent unaccess history
     console.log(route, params, query, data)
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
@@ -202,7 +223,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (this.activeRoute == "") {
       this.page = "home";
-    } else if (['home', 'dashboard', 'view404'].indexOf(this.activeRoute) !== -1) {
+    } else if (['home', 'dashboard', 'view404', 'resetpass'].indexOf(this.activeRoute) !== -1) {
       this.page = this.activeRoute;
     } else {
       this.navigate("/view404");
@@ -221,6 +242,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       case 'view404':
         import('./tr-view404');
         break;
+      case 'resetpass':
+        import('./tr-resetpass');
+        break;        
     }
     if (this.page == 'home') {
       store.dispatch(initMetadata({

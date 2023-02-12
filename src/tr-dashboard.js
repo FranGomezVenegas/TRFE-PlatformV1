@@ -203,29 +203,28 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           border-width:0;
           color:#000;
           background-color:#000;
-        }     
+        }   
+        sp-menu-item.notif_item_divfalse{
+          display:flex;
+          align-items:center;          
+          color: red; //#0085ff;
+        }
+        sp-menu-item.notif_item_divtrue{
+          display:flex;
+          align-items:center;          
+          color: blue; // 
+          #a33;
+        }        
       }
     `];
   }
 
-  firstUpdated() {
-    console.log('PlatformModel', this.PlatformModel)
-    super.firstUpdated()
-    this.startSession = new Date().getTime()
-    const container = this.drawer.parentNode;
-    container.addEventListener('MDCTopAppBar:nav', () => {
-      this.drawer.open = !this.drawer.open;
-    });
-    installMediaQueryWatcher(`(min-width: 960px)`, desktop => {
-      this.desktop = desktop
-    });
-    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
-      return this.navigate("/")
-    }
+  notifsPipeChanged(updates) {
     // populate the notifs session state
-    if (sessionStorage.getItem("notifs")) {
-      this.notifs = JSON.parse(sessionStorage.getItem("notifs"))
-
+//    if (sessionStorage.getItem("notifs")) {
+//      this.notifs = JSON.parse(sessionStorage.getItem("notifs"))
+      this.notifs=this.notifs.reverse()
+//console.log('notifsPipeChanged', 'this.notifs', this.notifs)
       var maxNumNotifs=10
       if (this.notifs.length>0){
         var inotifs=0;
@@ -242,7 +241,22 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           this.lastNotifs[9]=fakeLastNotif
         }
       }
+//    }
 
+  }
+  firstUpdated() {
+    console.log('PlatformModel', this.PlatformModel)
+    super.firstUpdated()
+    this.startSession = new Date().getTime()
+    const container = this.drawer.parentNode;
+    container.addEventListener('MDCTopAppBar:nav', () => {
+      this.drawer.open = !this.drawer.open;
+    });
+    installMediaQueryWatcher(`(min-width: 960px)`, desktop => {
+      this.desktop = desktop
+    });
+    if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
+      return this.navigate("/")
     }
     if (this.tabBar===null){return}
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
@@ -449,6 +463,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 
   
   setNotif(e) {
+    if (e.detail.message_en==='.'){
+      return
+    }
     if (e.detail.log) { // logging as required
       // delete unnecessity objects
       delete e.detail.log
@@ -459,6 +476,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       ]
       sessionStorage.setItem("notifs", JSON.stringify(this.notifs))
       this.requestUpdate()
+      this.notifsPipeChanged()
     }
   }
 
@@ -527,18 +545,25 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       case 'endpoints':
         import('@trazit/endpoints-list/endpoints-list');
         break;
-        case 'holidayscalendar':
-          import('@trazit/holiday-calendars/holiday-calendars');
-          break;
+      case 'holidayscalendar':
+        import('@trazit/holiday-calendars/holiday-calendars');
+        break;
+      case 'platformusersessions':
+        import('@trazit/platform-usersessions/platform-usersessions');
+        break;  
       default:
         import('./tr-default');
     }
     this.drawerState = false;
   }
 
-  menuHover(menu) {
+  menuHoverShowLastNotif() {
+    let notifsArr=[{'id':1}, {'id':2}]
+    if (notifsArr===undefined||notifsArr.length==0){
+      return 
+    }    
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
-      if (s.id == menu) {
+      if (s.id == 'notif-menu') {
         s.open = true;
         // adjust menu and submenu styles
         setTimeout(() => {
@@ -562,16 +587,43 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     })
   }
 
+  menuHover(menu) {
+
+    this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
+      //alert(s.id)
+      if (s.id == menu) {
+        s.open = true;
+        // adjust menu and submenu styles
+        setTimeout(() => {
+          let popover = document.querySelectorAll("sp-popover")
+          popover.forEach(p => {
+            p.style.setProperty("--spectrum-popover-background-color", "rgb(227, 240, 250)")
+            p.style.borderBottom = "1px solid black"
+            p.style.boxShadow = "1px 1px #888"
+            let pMenu = p.querySelector("sp-menu")
+            pMenu.style.margin = "0"
+            let spMenu = p.querySelectorAll("sp-menu-item")
+            spMenu.forEach((s,i) => {
+              s.style.setProperty("--spectrum-popover-background-color", "rgb(36, 192, 235)")
+              s.style.borderBottom = "1px solid black"
+              s.style.boxShadow = "1px 1px #888"
+            })
+          })
+        })
+      } else {
+        s.open = false
+      }
+    })
+  }
+
   selectedMenu(route) {
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => s.open = false)
     this.navigate(route)
   }
-
   logout() {
     window.sessionStorage.clear();
     window.location.href = "/";
   }
-
   stateChanged(state) {
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
@@ -596,8 +648,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       this.startSession = new Date().getTime()
     }
   }
-
-
   proceduresManagementPlatform(){
     return html`
     <div class="container layout vertical" id="procmgr">  
@@ -690,6 +740,13 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                 <mwc-icon slot="graphic">person</mwc-icon>
               </mwc-list-item>
             `}
+            ${this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
+              html`  
+                <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
+                  <span>${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}</span>
+                  <mwc-icon slot="graphic">person</mwc-icon>
+                </mwc-list-item>
+              `}            
             ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
             html`  
               <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
@@ -737,15 +794,15 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               html`      
                 <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
                   <div slot="icon"></div>
-                  <span slot="label" @click=${() => this.selectedMenu("/dashboard/notifications")}>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
+                  <span slot="label" @mouseover=${() => this.menuHover("notif-menu")} @click=${() => this.selectedMenu("/dashboard/notifications")}>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
 
                   <div slot="icon"></div>
                   ${this.lastNotifs.map((n, index) =>
                     html`
                     ${index>9 ?
                       html``: html`
-                      <sp-menu-item>
-                        <div style="display:flex;align-items:center;color:white">
+                      <sp-menu-item id="notif-item" class="notif_item_div${n.is_error}">
+                        <div id="notif-item-div" style='display:flex;align-items:center;color:${this.notifItemColor(n)}'>
                           <div style="flex-grow:10;" @click=${() => this.selectedMenu("/dashboard/notifications")}>${n["message_" + this.lang]}
                           </div>
                           ${this.pendingSOP()}
@@ -797,48 +854,55 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                     @mouseover=${() => this.menuHover("settings")}>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
                   ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
                   html`
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:white">
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">route</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
                   html`
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:white">
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">bug_report</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:white">
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">person</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
                     </sp-menu-item>
                   `}
+                  ${this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
+                    html`  
+                      <sp-menu-item @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
+                        <mwc-icon slot="icon">person</mwc-icon>
+                        ${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}
+                      </sp-menu-item>
+                  `}
                   ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
-                  html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:white">
+                    html`  
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">video_library</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:white">
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:white">
+                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}
                     </sp-menu-item>                  
                   `}
                   <sp-divider size="m"></sp-divider>
-                  <sp-menu-item @click=${this.logout} style="color:#D6E9F8">
+                  <sp-menu-item @click=${this.logout} style="color:rgb(36, 192, 235)">
                     <mwc-icon slot="icon">logout</mwc-icon>
                     ${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}
                   </sp-menu-item>
@@ -890,6 +954,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             .params=${this.params}></video-tutorial>
           <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
             .params=${this.params}></endpoints-list>
+          <platform-usersessions .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'platformusersessions' ? false : true}
+            .params=${this.params}></platform-usersessions>
           <holiday-calendars .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'holidayscalendar' ? false : true} .params=${this.params}>
           </holiday-calendars>              
         </div>
@@ -898,6 +964,13 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>     
     
     `
+  }
+  notifItemColor(item){
+    if (item.is_error){
+      return '#a33'
+    }else{
+      return '#0085ff'
+    }
   }
 }
 customElements.define('tr-dashboard', TrDashboard);
