@@ -740,7 +740,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                 <mwc-icon slot="graphic">person</mwc-icon>
               </mwc-list-item>
             `}
-            ${this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
+            ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
               html`  
                 <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
                   <span>${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}</span>
@@ -873,7 +873,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                       ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
                     </sp-menu-item>
                   `}
-                  ${this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
+                  ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
                     html`  
                       <sp-menu-item @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
                         <mwc-icon slot="icon">person</mwc-icon>
