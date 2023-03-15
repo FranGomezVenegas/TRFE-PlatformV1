@@ -46,6 +46,11 @@ export const PlatformModel = {
         "label_en": "User",
         "label_es": "Usuario"
       },
+      "platformusersessions": {
+        "display": true,
+        "label_en": "User Platform Sessions",
+        "label_es": "Sesiones de Plataforma de Usuario"
+      },
       "video": {
         "display": true,
         "label_en": "Video Tutorial",
