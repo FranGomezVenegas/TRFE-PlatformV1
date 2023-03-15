@@ -64,11 +64,11 @@ export class ProceduresMenu extends LitElement {
         color: #32C3EC;
       }
       mwc-list-item {
-        font-size: 2.8vw !important;
+        font-size: 1.6vmax !important;
         font-family: Myriad Pro;
         color: rgb(36, 192, 235);
         font-weight: bold;
-        height: 3.5vw;
+        height: 1.6vmax;
         
       }
       </style>
