@@ -17,7 +17,7 @@ import '@material/mwc-icon-button';
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
-import '@trazit/proc-management-home';
+import '@trazit/tr-procedures/src/components/ProcManagement/proc-management-home';
 import { PlatformModel} from './PlatformModel'
 
 
@@ -225,9 +225,9 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 //      this.notifs = JSON.parse(sessionStorage.getItem("notifs"))
       this.notifs=this.notifs.reverse()
 //console.log('notifsPipeChanged', 'this.notifs', this.notifs)
-      var maxNumNotifs=10
+      let maxNumNotifs=10
       if (this.notifs.length>0){
-        var inotifs=0;
+        let inotifs=0;
         for (inotifs = 0; inotifs < maxNumNotifs; inotifs++) { 
           if (inotifs<=this.notifs.length-1){
             this.lastNotifs[inotifs]=this.notifs[inotifs]
@@ -235,7 +235,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         }
         if (this.notifs.length>maxNumNotifs
           ){
-          var fakeLastNotif={}
+          let fakeLastNotif={}
           fakeLastNotif.message_en='... (Click to open view)'
           fakeLastNotif.message_es='... (Pulsa para abrir ventana)'
           this.lastNotifs[9]=fakeLastNotif
@@ -258,13 +258,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
       return this.navigate("/")
     }
-    if (this.tabBar===null){return}
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
-    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
-    if (userSession.all_my_pending_certif_approvals.num_objects>0){
-      this.myPendingCertifApprovals = userSession.all_my_pending_certif_approvals.num_objects>0 ? userSession.all_my_pending_certif_approvals.objects : this.myPendingCertifApprovals
-    }
     this.updateComplete.then(() => {
       this.dispatchEvent(new CustomEvent('completed'))
       this.tabBar.updateComplete.then(() => {
@@ -275,7 +268,14 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
         a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
       })
-    })
+    })    
+    if (this.tabBar===null){return}
+    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
+    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
+    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    if (userSession.all_my_pending_certif_approvals.num_objects>0){
+      this.myPendingCertifApprovals = userSession.all_my_pending_certif_approvals.num_objects>0 ? userSession.all_my_pending_certif_approvals.objects : this.myPendingCertifApprovals
+    }
   }
 
   userSession() {
@@ -295,7 +295,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     return html`
       ${this.userRole==="proc_management" ?
       html`
-        ${this.proceduresManagementPlatform()}
+        ${this.proceduresManagementPlatform()}        
       `
       :html`
         ${this.proceduresOperationPlatform()}
@@ -523,9 +523,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         this.trProc.resetView()
         this.trProc.authorized()
         this.trProc.render()
+        this.drawerState = false;
         break;
       case 'procedure':
-        import('@trazit/procedure-management/procedure-management');
+        this.drawerState = false;
+        //import('@trazit/procedure-management/procedure-management');
         break;
       case 'notifications':
         import('@trazit/platform-notif/platform-notif');
@@ -590,7 +592,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   menuHover(menu) {
 
     this.shadowRoot.querySelectorAll("sp-action-menu").forEach(s => {
-      //alert(s.id)
       if (s.id == menu) {
         s.open = true;
         // adjust menu and submenu styles
@@ -650,17 +651,16 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   }
   proceduresManagementPlatform(){
     return html`
-    <div class="container layout vertical" id="procmgr">  
-    <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+    <div class="container layout " id="procmgr">  
+    <mwc-drawer style="display:none;" class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
     </mwc-drawer>
-      <div class="container layout vertical" id="header"> 
-        <h1>Welcome to the next level!!!</h1>   
-        <sp-menu-item @click=${this.logout} style="color:#03a9f4"><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
-        <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
-        <proc-management-home></proc-management-home>
+      <div class="layout horizontal center flex wrap" id="header"> 
+        <sp-menu-item style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+        <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
+        <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;">Procedures Definition</h1>   
       </div>
+      <proc-management-home .config=${this.config}></proc-management-home>
     </div>
-
     `
   }
   proceduresOperationPlatform(){
