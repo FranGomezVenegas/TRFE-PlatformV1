@@ -41,6 +41,7 @@
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
+    "@trazit/platform-usersessions": "file:.yalc/@trazit/platform-usersessions",
     "@trazit/proc-management-home": "file:.yalc/@trazit/proc-management-home",
     "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
     "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",

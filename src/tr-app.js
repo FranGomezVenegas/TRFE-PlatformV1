@@ -162,7 +162,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.data = data;
     if (route==='resetpass'){
       window.location.href = "/resetpass/";
-      //this._routeChanged();
+      this._routeChanged();
       return
     }
     // prevent unaccess history

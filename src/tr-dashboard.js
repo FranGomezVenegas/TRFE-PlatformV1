@@ -38,7 +38,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         position: relative;
       }
       div#procmgr { 
-        background-image: url(/images/background_proc_management.jpg);
+        /* background-image: url(/images/background_proc_management.jpg); */
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -214,7 +214,12 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           align-items:center;          
           color: blue; // 
           #a33;
-        }        
+        }       
+      }
+      div#headerout {
+        position: absolute;
+        z-index:9999;
+        right: 10px;
       }
     `];
   }
@@ -654,12 +659,26 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     <div class="container layout " id="procmgr">  
     <mwc-drawer style="display:none;" class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
     </mwc-drawer>
-      <div class="layout horizontal center flex wrap" id="header"> 
-        <sp-menu-item style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+
+    <div id="headerContent" slot="appContent">
+    <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
+<!--      <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
+        @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button> -->
+      <div class="header" slot="title">
+        <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
+        ${this.userSession()}
+        <div class="layout horizontal center flex wrap" id="headerout2">            
+        <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;">Procedures Definition</h1>
         <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
-        <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;">Procedures Definition</h1>   
+          <sp-menu-item style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+          </div>  
       </div>
-      <proc-management-home .config=${this.config}></proc-management-home>
+    </mwc-top-app-bar-fixed>
+    </div>  
+
+
+
+      <proc-management-home .lang=${this.lang} .config=${this.config}></proc-management-home>
     </div>
     `
   }
