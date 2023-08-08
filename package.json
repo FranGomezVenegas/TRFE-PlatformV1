@@ -22,7 +22,6 @@
     "@collaborne/lit-flexbox-literals": "^0.2.2",
     "@doubletrade/lit-datatable": "^2.0.0",
     "@lrnwebcomponents/deduping-fix": "^7.0.4",
-    "@material/chips": "^14.0.0",
     "@material/mwc-circular-progress": "^0.27.0",
     "@material/mwc-drawer": "^0.27.0",
     "@material/mwc-icon-button": "^0.27.0",

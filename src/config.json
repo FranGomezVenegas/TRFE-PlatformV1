@@ -1,7 +1,9 @@
 {
-  "dbName": "labplanet",
+  "dbNamelabp": "labplanet",
   "dbName2023": "trazit_2023",
+  "dbName": "demo_v0_9_1",
   "isForTesting": false,
+
   "fullscreen": false,
   "zzzfullscreenDesktop": false,
   "zzzfullscreenMobile": true,
