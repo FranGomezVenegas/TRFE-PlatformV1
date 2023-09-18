@@ -72,24 +72,27 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           -moz-border-radius : 12px;
           -webkit-border-radius : 12px;
           box-shadow : 2.77px 2.77px 4.62px rgba(20, 78, 117, 0.5);
+          --background-gradient:linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
           filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2.77, Off=2.77, Color='#144E75') progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8',endColorstr='#FFFFFF' , GradientType=1);        
+          
       }
       mwc-top-app-bar-fixed.isfortesting.true {
-        background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(214, 233, 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
+        background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(224 214 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
         background : -webkit-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         background : -webkit-gradient(linear,46.71% -341.1% ,53.29% 441.1% ,color-stop(0.4385,rgba(214, 233, 248, 1) ),color-stop(0.5866,rgba(255, 255, 255, 1) ));
         background : -o-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         background : -ms-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8', endColorstr='#FFFFFF' ,GradientType=0)";
-        background : linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
+        background : linear-gradient(166deg, rgba(224 214 248 / 81%) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         border-radius : 12px;
         -moz-border-radius : 12px;
         -webkit-border-radius : 12px;
         box-shadow : 2.77px 2.77px 4.62px rgba(20, 78, 117, 0.5);
+        --background-gradient: linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2.77, Off=2.77, Color='#144E75') progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8',endColorstr='#FFFFFF' , GradientType=1);        
       }      
       mwc-top-app-bar-fixed {
-        --mdc-theme-primary: transparent;
+        --mdc-theme-primary: var(--background-gradient);
         --mdc-theme-on-primary: #57cbee;
       }
       .header { 
@@ -267,6 +270,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       this.dispatchEvent(new CustomEvent('completed'))
       this.tabBar.updateComplete.then(() => {
         this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
+        if (this.isForTesting){
+          this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
+        }else{
+          this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
+        }
       })
       this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
       this.actMenu.forEach(a => {
@@ -556,7 +564,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         import('@trazit/holiday-calendars/holiday-calendars');
         break;
       case 'platformusersessions':
-        import('@trazit/platform-usersessions/platform-usersessions');
+        //import('@trazit/platform-usersessions/platform-usersessions');
         break;  
       default:
         import('./tr-default');
@@ -674,10 +682,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </div>  
       </div>
     </mwc-top-app-bar-fixed>
-    </div>  
-
-
-
+    </div>      
       <proc-management-home .lang=${this.lang} .config=${this.config}></proc-management-home>
     </div>
     `
