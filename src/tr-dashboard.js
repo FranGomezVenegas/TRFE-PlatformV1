@@ -683,7 +683,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       </div>
     </mwc-top-app-bar-fixed>
     </div>      
-      <proc-management-home .lang=${this.lang} .config=${this.config}></proc-management-home>
+      <proc-management-home  .area="app" .lang=${this.lang} .config=${this.config}></proc-management-home>
     </div>
     `
   }
