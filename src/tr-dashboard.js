@@ -297,7 +297,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       return html`
         <label id="sessionLabel">
           ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
-          ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} (${this.config.dbName}${this.config.isForTesting ? " - Testing" : null})<br>
+          ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} (${this.config.dbName}${this.config.isForTesting===true ? " - Testing" : ""})<br>
           ${this.desktop ? this.lang == "en" ? "Date: " : "Fecha: " : null}${userSession.appSessionStartDate}
         </label>
       `
@@ -664,7 +664,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   }
   proceduresManagementPlatform(){
     return html`
-    <div class="container layout " id="procmgr">  
+    <div class="container layout" id="procmgr">  
     <mwc-drawer style="display:none;" class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
     </mwc-drawer>
 
@@ -675,8 +675,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       <div class="header" slot="title">
         <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
         ${this.userSession()}
-        <div class="layout horizontal center flex wrap" id="headerout2">            
-        <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;">Procedures Definition</h1>
+        <div class="layout horizontal center flex wrap" id="headerout2">    
+        ${this.desktop?html`        
+          <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
+        `:nothing}
         <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
           <sp-menu-item style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
           </div>  
