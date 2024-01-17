@@ -284,9 +284,15 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     })    
     if (this.tabBar===null){return}
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
-    this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
-    if (userSession.all_my_pending_certif_approvals.num_objects>0){
+    this.sops = []
+    if (userSession!==undefined&&userSession.all_my_sops&&undefined){
+      this.sops = userSession.all_my_sops.length ? userSession.all_my_sops[0].my_sops : this.sops
+    }
+    this.analytics = []
+    if (userSession!==undefined&&userSession.all_my_analysis_methods&&undefined){
+      this.analytics = userSession.all_my_analysis_methods.length ? userSession.all_my_analysis_methods[0].my_analysis_method_certifications : this.analytics
+    }
+    if (userSession.all_my_pending_certif_approvals!==undefined&&userSession.all_my_pending_certif_approvals.num_objects>0){
       this.myPendingCertifApprovals = userSession.all_my_pending_certif_approvals.num_objects>0 ? userSession.all_my_pending_certif_approvals.objects : this.myPendingCertifApprovals
     }
   }
