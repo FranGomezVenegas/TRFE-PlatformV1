@@ -166,7 +166,7 @@ export class ProceduresMenu extends LitElement {
 
   desktopVersion() {
     return html`
-      <sp-action-menu class="topMenu" id="procedures" size="m" 
+      <sp-action-menu class="topMenu" id="dashboardprocedures" size="m" 
         @mouseover=${() => this.menuHover("procedures")}>
         <div slot="icon"></div>
         <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>

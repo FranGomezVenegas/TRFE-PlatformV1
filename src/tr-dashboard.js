@@ -685,8 +685,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         ${this.desktop?html`        
           <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
         `:nothing}
-        <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
-          <sp-menu-item style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+        <mwc-icon-button  style="color:#61c9f8" id="changelang" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
+          <sp-menu-item id="logout" style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
           </div>  
       </div>
     </mwc-top-app-bar-fixed>
@@ -702,20 +702,20 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     
     <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
         <mwc-list>
-          <mwc-list-item @click="${() => this.procCollapse=!this.procCollapse}">
+          <mwc-list-item id="dashboardmyprocedures" @click="${() => this.procCollapse=!this.procCollapse}">
             <span>${this.PlatformModel.headerAreas.proceduresOption["tabLabel_" + this.lang]}</span>
           </mwc-list-item>
           ${this.mobileVersion()}
           ${this.PlatformModel.headerAreas.notifications.display!==true ? nothing : 
           html`
             
-            <mwc-list-item @click="${() => this.selectedMenu("/dashboard/notifications")}">
+            <mwc-list-item id="dashboardnotifications" @click="${() => this.selectedMenu("/dashboard/notifications")}">
               <span>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
             </mwc-list-item>            
           `}
           ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
           html`        
-            <mwc-list-item @click="${() => this.certCollapse=!this.certCollapse}">
+            <mwc-list-item id="dashboardmycertifications" @click="${() => this.certCollapse=!this.certCollapse}">
               <span>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]} ${this.allPending()}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
@@ -747,55 +747,55 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           `}
           ${this.PlatformModel.headerAreas.mySettings.display !==true ? nothing : 
           html`              
-            <mwc-list-item @click="${() => this.personalCollapse=!this.personalCollapse}">
+            <mwc-list-item id="dashboardmysettings" @click="${() => this.personalCollapse=!this.personalCollapse}">
               <span>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
             ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
             html`
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/procedure")}>
+              <mwc-list-item graphic="avatar" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">route</mwc-icon>
               </mwc-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/incidents")}>
+              <mwc-list-item graphic="avatar" id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">bug_report</mwc-icon>
               </mwc-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/user")}>
+              <mwc-list-item graphic="avatar" id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">person</mwc-icon>
               </mwc-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
               html`  
-                <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
+                <mwc-list-item graphic="avatar" id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
                   <span>${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}</span>
                   <mwc-icon slot="graphic">person</mwc-icon>
                 </mwc-list-item>
               `}            
             ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
+              <mwc-list-item graphic="avatar" id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">video_library</mwc-icon>
               </mwc-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
+              <mwc-list-item graphic="avatar" id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">list</mwc-icon>
               </mwc-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
+              <mwc-list-item graphic="avatar" id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}</span>
                 <mwc-icon slot="graphic">holidays_calendar</mwc-icon>
               </mwc-list-item>              
@@ -803,7 +803,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             </mwc-list>
           `}
           <sp-divider size="m"></sp-divider>
-          <mwc-list-item @click=${this.logout}>
+          <mwc-list-item id="logout" @click=${this.logout}>
             <span>${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}</span>
           </mwc-list-item>
         </mwc-list>
@@ -817,14 +817,14 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               ${this.userSession()}
             </div>
             <nav slot="actionItems" ?hidden="${this.desktop}">
-              <mwc-icon-button style="color:#03a9f4" @click=${this.changeLang}>${this.lang}</mwc-icon-button>
+              <mwc-icon-button id="changelang" style="color:#03a9f4" @click=${this.changeLang}>${this.lang}</mwc-icon-button>
             </nav>
             
             <nav slot="actionItems" ?hidden="${!this.desktop}">
               ${this.desktopVersion()}
               ${this.PlatformModel.headerAreas.notifications.display !==true ? nothing : 
               html`      
-                <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
+                <sp-action-menu id="dashboardnotifications" class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("notif-menu")} @click=${() => this.selectedMenu("/dashboard/notifications")}>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
 
@@ -847,7 +847,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               `}
               ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
               html`        
-                <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
+                <sp-action-menu id="dashboardmycertifications" class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
@@ -880,70 +880,70 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             ${this.PlatformModel.headerAreas.mySettings.display !==true ? 
               html`
               `: html`                    
-                <sp-action-menu class="topMenu" id="settings" size="m" @mouseover=${e => this.menuHover("settings")}>
+                <sp-action-menu class="topMenu" id="dashboardmysettings" size="m" @mouseover=${e => this.menuHover("settings")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label"
                     @mouseover=${() => this.menuHover("settings")}>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
                   ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
                   html`
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">route</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
                   html`
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">bug_report</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">person</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
                     html`  
-                      <sp-menu-item @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
+                      <sp-menu-item id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
                         <mwc-icon slot="icon">person</mwc-icon>
                         ${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}
                       </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
                     html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">video_library</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
                   html`  
-                    <sp-menu-item @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}
                     </sp-menu-item>                  
                   `}
                   <sp-divider size="m"></sp-divider>
-                  <sp-menu-item @click=${this.logout} style="color:rgb(36, 192, 235)">
+                  <sp-menu-item id="mysettingslogout" @click=${this.logout} style="color:rgb(36, 192, 235)">
                     <mwc-icon slot="icon">logout</mwc-icon>
                     ${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}
                   </sp-menu-item>
                 </sp-action-menu>
               `}
-              <sp-menu-item @click=${this.logout} style="color:#D6E9F8">
+              <sp-menu-item id="logout" @click=${this.logout} style="color:#D6E9F8">
               <mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
 
-              <mwc-icon-button  style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
+              <mwc-icon-button  id="changelang" style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
             </nav>
           </mwc-top-app-bar-fixed>
         </div>
