@@ -544,10 +544,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         this.trProc.render()
         this.drawerState = false;
         break;
-      case 'procedure':
-        this.drawerState = false;
-        //import('@trazit/procedure-management/procedure-management');
-        break;
       case 'notifications':
         import('@trazit/platform-notif/platform-notif');
         break;
@@ -824,7 +820,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               ${this.desktopVersion()}
               ${this.PlatformModel.headerAreas.notifications.display !==true ? nothing : 
               html`      
-                <sp-action-menu id="dashboardnotifications" class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
+                <sp-action-menu class="topMenu" id="notif-menu" size="m" @mouseover=${() => this.menuHover("notif-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("notif-menu")} @click=${() => this.selectedMenu("/dashboard/notifications")}>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
 
@@ -847,7 +843,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               `}
               ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
               html`        
-                <sp-action-menu id="dashboardmycertifications" class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
+                <sp-action-menu class="topMenu" id="cert-menu" size="m" @mouseover=${() => this.menuHover("cert-menu")}>
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
@@ -968,8 +964,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           }
           <tr-default ?hidden=${this.params.menu}></tr-default>
           <tr-procedures .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedures' ? false : true}></tr-procedures>
-          <procedure-management .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'procedure' ? false : true} .params=${this.params}>
-          </procedure-management>
           <platform-notif .lang=${this.lang} .notifs=${this.notifs} ?hidden=${this.params.menu == 'notifications' ? false : true} .params=${this.params}></platform-notif>
           <my-certifications 
             .lang=${this.lang} 

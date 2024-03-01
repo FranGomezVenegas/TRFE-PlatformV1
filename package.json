@@ -43,7 +43,6 @@
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
     "@trazit/platform-usersessions": "file:.yalc/@trazit/platform-usersessions",
     "@trazit/proc-management-home": "file:.yalc/@trazit/proc-management-home",
-    "@trazit/procedure-management": "file:.yalc/@trazit/procedure-management",
     "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",
     "@trazit/tr-procedures": "file:.yalc/@trazit/tr-procedures",
     "@trazit/user-profile": "file:.yalc/@trazit/user-profile",

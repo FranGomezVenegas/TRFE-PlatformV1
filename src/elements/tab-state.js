@@ -231,17 +231,6 @@ let tabObj = [
     "tabConfirmUserRequired": false
   },
   {
-    "lp_frontend_page_name": "procedure-management",
-    "route": "procedure",
-    "tabName": "procedure-management",
-    "tabLabel_en": "Procedure Management",
-    "tabLabel_es": "Gestión de Proceso",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  },
-  {
     "lp_frontend_page_name": "user-profile",
     "route": "users",
     "tabName": "user-profile",
@@ -562,8 +551,6 @@ export class TabState extends navigator(LitElement) {
           t.route = "incidents"
         } else if (t.lp_frontend_page_name == "videotutorial-tab") {
           t.route = "tutorial"
-        } else if (t.lp_frontend_page_name == "procedure-management") {
-          t.route = "procedure"
         } else if (t.lp_frontend_page_name == "session-notifications") {
           t.route = "notifications"
         } else if (t.lp_frontend_page_name == "my-sops") {
