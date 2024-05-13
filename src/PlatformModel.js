@@ -31,11 +31,6 @@ export const PlatformModel = {
       "display": true,
       "tabLabel_en": "My Settings",
       "tabLabel_es": "Mi Espacio",
-      "procedure": {
-        "display": true,
-        "label_en": "Procedure",
-        "label_es": "Proceso"
-      },
       "incidents": {
         "display": true,
         "label_en": "Incidents",

@@ -2,7 +2,7 @@
   "dbName": "demo_v0_9_1",
   "dbName2023": "trazit_2023",
   "dbNameDemo": "demo_v0_9_1",
-  "isForTesting": "true",
+  "isForTesting": "false",
   "fullscreen": false,
   "zzzfullscreenDesktop": false,
   "zzzfullscreenMobile": true,
