@@ -60,7 +60,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         height: 80px;
         --mdc-drawer-width: 70%;        
       }
-      mwc-top-app-bar-fixed.isfortesting.false {
+     .isfortesting.false {
           background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(214, 233, 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
           background : -webkit-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
           background : -webkit-gradient(linear,46.71% -341.1% ,53.29% 441.1% ,color-stop(0.4385,rgba(214, 233, 248, 1) ),color-stop(0.5866,rgba(255, 255, 255, 1) ));
@@ -76,7 +76,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2.77, Off=2.77, Color='#144E75') progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8',endColorstr='#FFFFFF' , GradientType=1);        
           
       }
-      mwc-top-app-bar-fixed.isfortesting.true {
+      .isfortesting.true {
         background : -moz-linear-gradient(46.71% -341.1% -76deg,rgba(224 214 248, 1) 43.85%,rgba(255, 255, 255, 1) 58.66%);
         background : -webkit-linear-gradient(-76deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
         background : -webkit-gradient(linear,46.71% -341.1% ,53.29% 441.1% ,color-stop(0.4385,rgba(214, 233, 248, 1) ),color-stop(0.5866,rgba(255, 255, 255, 1) ));
@@ -312,6 +312,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 
   render() {    
     return html`
+
       ${this.userRole==="proc_management" ?
       html`
         ${this.proceduresManagementPlatform()}        
@@ -319,7 +320,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       :html`
         ${this.proceduresOperationPlatform()}
       `}
-      
+     
       
     ` 
     ;
@@ -587,9 +588,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           let popover = document.querySelectorAll("sp-popover")
           popover.forEach(p => {
             p.style.setProperty("--spectrum-popover-background-color", "rgb(3, 169, 244)")
+            p.style.setProperty("max-width", "calc(103% - var(--spectrum-overlay-animation-distance")
             p.style.borderBottom = "1px solid black"
             p.style.boxShadow = "1px 1px #888"
             let pMenu = p.querySelector("sp-menu")
+            pMenu.style.overflowX="hidden"
             pMenu.style.margin = "0"
             let spMenu = p.querySelectorAll("sp-menu-item")
             spMenu.forEach((s,i) => {
@@ -667,17 +670,17 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   proceduresManagementPlatform(){
     return html`
     <div class="container layout" id="procmgr">  
-    <mwc-drawer style="display:none;" class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+    <mwc-drawer style="display:none;"  type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
     </mwc-drawer>
 
-    <div id="headerContent" slot="appContent">
+    <div id="headerContent" slot="appContent" style="position:sticky; margin-top:15px;">
     <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
 <!--      <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
         @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button> -->
-      <div class="header" slot="title">
+      <div class="header isfortesting ${this.config.isForTesting}" slot="title" style="width:96vw;">
         <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
         ${this.userSession()}
-        <div class="layout horizontal center flex wrap" id="headerout2">    
+        <div class="layout horizontal center flex wrap" id="headerout2" style="display: flex; justify-content: flex-end;">    
         ${this.desktop?html`        
           <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
         `:nothing}
@@ -692,8 +695,30 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     `
   }
   proceduresOperationPlatform(){
+    
+    if (this.PlatformModel.proceduresOption===undefined){this.PlatformModel=PlatformModel}
     //console.log('proceduresOperationPlatform', this.PlatformModel.headerAreas)
     return html`
+    <style>
+    .mainbackground{
+      background-image: url(images/abstract.jpg);
+      /* display: flex; */
+      /* justify-content: center; */
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      background-image: url(/images/abstract.jpg);
+      /* background-color: #0465fb; */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background: url(/images/abstract.jpg), #ffffffb0;
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+      position: relative;      
+    }
+    </style>
+    
     <div class="container layout vertical">
     
     <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
@@ -747,7 +772,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
               <span>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
             </mwc-list-item>
             <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
-            ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
+            ${this.PlatformModel.headerAreas.mySettings.procedure ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
             html`
               <mwc-list-item graphic="avatar" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}</span>
@@ -804,11 +829,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </mwc-list-item>
         </mwc-list>
         
-        <div id="headerContent" slot="appContent">
+        <div id="headerContent" slot="appContent" style="position:sticky; margin-top:15px;">
           <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
             <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
               @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-            <div class="header" slot="title">
+            <div class="header isfortesting ${this.config.isForTesting}" slot="title" style="width:96vw;">
               <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
               ${this.userSession()}
             </div>
@@ -880,7 +905,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   <sp-icon-settings slot="icon"></sp-icon-settings>
                   <span slot="label"
                     @mouseover=${() => this.menuHover("settings")}>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
-                  ${this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
+                  ${this.PlatformModel.headerAreas.mySettings.procedure ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display ===undefined ||this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
                   html`
                     <sp-menu-item id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">route</mwc-icon>
@@ -944,6 +969,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </mwc-top-app-bar-fixed>
         </div>
       </mwc-drawer>
+      <div class="mainbackground">
       <main class="layout vertical flex">
         ${this.desktop ? 
           html`${this.tabState()}` : nothing
@@ -957,7 +983,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                 <mwc-icon @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>arrow_drop_up</mwc-icon>
                 <div></div>
               </div>
-              <div class="layout horizontal flex" style="margin-top:5px">
+              <div class="layout horizontal flex" style="margin-top:5px" style="display: flex; justify-content: flex-end;">
                 ${this.tabMobileState()}
               </div>
             `
@@ -986,6 +1012,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </holiday-calendars>              
         </div>
       </main>
+    </div>
     </div>
     <relogin-dialog .lang=${this.lang} .config=${this.config} @logout=${this.logout}></relogin-dialog>     
     

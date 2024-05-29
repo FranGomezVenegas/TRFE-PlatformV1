@@ -1,5 +1,5 @@
 import { LitElement, html, css, unsafeCSS } from 'lit';
-import { centerAligned, centerJustified, displayFlex, horizontal } from '@collaborne/lit-flexbox-literals';
+import { centerAligned, startAligned, centerJustified, displayFlex, horizontal } from '@collaborne/lit-flexbox-literals';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import '@material/mwc-icon-button';
@@ -299,12 +299,12 @@ export class TabState extends navigator(LitElement) {
       .tabWrap {
         ${unsafeCSS(displayFlex)}
         ${unsafeCSS(horizontal)}
-        ${unsafeCSS(centerJustified)}
+        ${unsafeCSS(startAligned)}
       }
       .tabContainer {
         overflow: auto;
         position:relative;
-        top:-12px;
+        top:0px;
         ${unsafeCSS(displayFlex)}
         ${unsafeCSS(horizontal)}
         ${unsafeCSS(centerAligned)}
@@ -513,12 +513,19 @@ export class TabState extends navigator(LitElement) {
               validFilter = (validView[0].name == this.query.filterName)
             }
             if (validFilter) {
+              //alert('tabState '+this.query.procName)
+              sessionStorage.setItem("viewFilterForQuery", undefined)
               tab = [{
                 "lp_frontend_page_name": this.query.viewName,
                 "route": "procedures?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName,
                 "tabLabel_en": validProc[0].label_en +"-"+ label_en,
-                "tabLabel_es": validProc[0].label_es +"-"+ label_es
+                "tabLabel_es": validProc[0].label_es +"-"+ label_es,
+                "procInstanceName": this.query.procName,
+                "viewName": this.query.viewName,
+                "filterName": this.query.filterName
               }]
+
+              sessionStorage.setItem("currentOpenView", JSON.stringify(tab[0]))
             }
           }
         }

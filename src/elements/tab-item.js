@@ -11,17 +11,18 @@ export class TabItem extends LitElement {
         align-items: center;
         padding: 0;
         margin-right: 3px;
-        background-color: #D6E9F8;
-        font-family : Myriad Pro;
+        background-color: rgba(78, 162, 240, 0.69);
+        font-family : Montserrat;
         border-radius : 11px;
         -moz-border-radius : 11px;
         -webkit-border-radius : 11px;
         border-style:outset;
         border-color:rgb214, 233, 248);
         border-width: 0px 3px 3px 0px;
+        font-size: 12px;
       }
       div.t-item.active {
-        background-color: #24C0EB;
+        background-color:  rgba(49, 130, 189, 1);
         font-family : Myriad Pro;
         border-radius : 11px;
         -moz-border-radius : 11px;
@@ -32,7 +33,7 @@ export class TabItem extends LitElement {
       }
       mwc-button {
         --mdc-typography-button-text-transform: none;
-        --mdc-typography-button-font-size: 8px;
+        --mdc-typography-button-font-size: 12px;
         --mdc-theme-primary: #ffffff;
       }
       mwc-icon-button {
