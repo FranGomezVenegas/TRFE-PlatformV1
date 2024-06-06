@@ -50,7 +50,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       }
       mwc-drawer {
         height: 80px;
-        --mdc-drawer-width: 70%;        
+        --mdc-drawer-width: 70%; 
+        position: sticky;
+        top: 0;
+        z-index: 10;       
       }
       mwc-drawer.isfortesting.false {
         height: 80px;
@@ -69,6 +72,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#D6E9F8', endColorstr='#FFFFFF' ,GradientType=0)";
           background : linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);
           border-radius : 12px;
+          position: sticky;
           -moz-border-radius : 12px;
           -webkit-border-radius : 12px;
           box-shadow : 2.77px 2.77px 4.62px rgba(20, 78, 117, 0.5);
@@ -564,7 +568,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         import('@trazit/endpoints-list/endpoints-list');
         break;
       case 'holidayscalendar':
-        import('@trazit/holiday-calendars/holiday-calendars');
+        //import('@trazit/holiday-calendars/holiday-calendars');
         break;
       case 'platformusersessions':
         //import('@trazit/platform-usersessions/platform-usersessions');
@@ -673,7 +677,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     <mwc-drawer style="display:none;"  type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
     </mwc-drawer>
 
-    <div id="headerContent" slot="appContent" style="position:sticky; margin-top:15px;">
+    <div id="headerContent" slot="appContent" style="position:sticky;">
     <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
 <!--      <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
         @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button> -->
@@ -720,8 +724,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     </style>
     
     <div class="container layout vertical">
-    
-    <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
+    <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" style="position:sticky;" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
         <mwc-list>
           <mwc-list-item id="dashboardmyprocedures" @click="${() => this.procCollapse=!this.procCollapse}">
             <span>${this.PlatformModel.headerAreas.proceduresOption["tabLabel_" + this.lang]}</span>
@@ -829,11 +832,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           </mwc-list-item>
         </mwc-list>
         
-        <div id="headerContent" slot="appContent" style="position:sticky; margin-top:15px;">
+        <div id="headerContent" slot="appContent" style="position:sticky;">
           <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
             <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
               @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
-            <div class="header isfortesting ${this.config.isForTesting}" slot="title" style="width:96vw;">
+            <div class="header  ${this.config.isForTesting}" slot="title" style="width:96vw;">
               <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
               ${this.userSession()}
             </div>
