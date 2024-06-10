@@ -18,7 +18,7 @@ import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
 import '@trazit/tr-procedures/src/components/ProcManagement/proc-management-home';
-import { PlatformModel} from './PlatformModel'
+import { PlatformModel} from './PlatformModel';
 
 
 export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
@@ -214,13 +214,12 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         sp-menu-item.notif_item_divfalse{
           display:flex;
           align-items:center;          
-          color: red; //#0085ff;
+          color: red; /* #0085ff; */
         }
         sp-menu-item.notif_item_divtrue{
           display:flex;
           align-items:center;          
-          color: blue; // 
-          #a33;
+          color: blue; /* #a33; */
         }       
       }
       div#headerout {
@@ -256,7 +255,17 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
 //    }
 
   }
+
+  async loadConfig() {
+    try {
+      const response = await fetch('../../config.json');
+      this.config = await response.json();
+    } catch (error) {
+      console.error('Error loading config:', error);
+    }
+  }  
   firstUpdated() {
+    this.loadConfig()
     console.log('PlatformModel', this.PlatformModel)
     super.firstUpdated()
     this.startSession = new Date().getTime()
@@ -568,7 +577,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         import('@trazit/endpoints-list/endpoints-list');
         break;
       case 'holidayscalendar':
-        //import('@trazit/holiday-calendars/holiday-calendars');
+        import('@trazit/holiday-calendars/holiday-calendars');
         break;
       case 'platformusersessions':
         //import('@trazit/platform-usersessions/platform-usersessions');
@@ -592,6 +601,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           let popover = document.querySelectorAll("sp-popover")
           popover.forEach(p => {
             p.style.setProperty("--spectrum-popover-background-color", "rgb(3, 169, 244)")
+            p.style.setProperty("background-color", "white")
             p.style.setProperty("max-width", "calc(103% - var(--spectrum-overlay-animation-distance")
             p.style.borderBottom = "1px solid black"
             p.style.boxShadow = "1px 1px #888"
