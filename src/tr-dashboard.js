@@ -885,14 +885,14 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   <div slot="icon"></div>
                   <span slot="label" @mouseover=${() => this.menuHover("cert-menu")}>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]}
                     ${this.allPending()}</span>
-                  <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                  <sp-menu-item style="background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;">
                     <div style="display:flex;align-items:center;width:170px;color:#24c0eb;font-weight: bold;">
                       <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]}
                       (<span style="color: #24c0eb;font-weight: bold;">${this.sops.length}</span>)</div>
                       ${this.pendingSOP()}
                     </div>
                   </sp-menu-item>
-                  <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                  <sp-menu-item style="background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;">
                     <div style="display:flex;align-items:center;width:170px;color:#24c0eb;font-weight: bold;">
                       <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]}
                       (<span style="color: #24c0eb;font-weight: bold;">${this.analytics.length}</span>)</div>
@@ -901,7 +901,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   </sp-menu-item>
                   ${this.myPendingCertifApprovals===undefined||this.myPendingCertifApprovals.length===0 ? nothing :
                     html`      
-                      <sp-menu-item style="background-color:rgb(227, 240, 250);color: #24c0eb;font-weight: bold;">
+                      <sp-menu-item style="background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;">
                         <div style="display:flex;align-items:center;width:240px;color:#24c0eb;font-weight: bold;">
                           <div style="flex-grow:10;rgb(36, 192, 235);" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]}
                           (<span style="color: #24c0eb;font-weight: bold;">${this.myPendingCertifApprovals.length}</span>)</div>
@@ -914,61 +914,60 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             ${this.PlatformModel.headerAreas.mySettings.display !==true ? 
               html`
               `: html`                    
-                <sp-action-menu class="topMenu" id="dashboardmysettings" size="m" @mouseover=${e => this.menuHover("settings")}>
+                <sp-action-menu class="topMenu" id="dashboardmysettings" size="m" @mouseover=${e => this.menuHover("dashboardmysettings")}>
                   <sp-icon-settings slot="icon"></sp-icon-settings>
-                  <span slot="label"
-                    @mouseover=${() => this.menuHover("settings")}>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
+                  <span slot="label">${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
                   ${this.PlatformModel.headerAreas.mySettings.procedure ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display ===undefined ||this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
                   html`
-                    <sp-menu-item id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">route</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
                   html`
-                    <sp-menu-item id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">bug_report</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
                   html`  
-                    <sp-menu-item id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">person</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
                     html`  
-                      <sp-menu-item id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
+                      <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
                         <mwc-icon slot="icon">person</mwc-icon>
                         ${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}
                       </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
                     html`  
-                    <sp-menu-item id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">video_library</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
                   html`  
-                    <sp-menu-item id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
                   html`  
-                    <sp-menu-item id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
+                    <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
                       <mwc-icon slot="icon">list</mwc-icon>
                       ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}
                     </sp-menu-item>                  
                   `}
                   <sp-divider size="m"></sp-divider>
-                  <sp-menu-item id="mysettingslogout" @click=${this.logout} style="color:rgb(36, 192, 235)">
+                  <sp-menu-item style="color: rgb(235 36 110); background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingslogout" @click=${this.logout} style="color:rgb(36, 192, 235)">
                     <mwc-icon slot="icon">logout</mwc-icon>
                     ${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}
                   </sp-menu-item>
