@@ -36,6 +36,9 @@ export class ProceduresMenu extends LitElement {
     .menu-item:hover mwc-icon {
       transform: scale(1.1);
     }
+    .sp-menu-item {
+      background: linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78));
+    }
   `;}
   static get properties() {
     return {
@@ -96,6 +99,7 @@ export class ProceduresMenu extends LitElement {
         height: 2.3em; /* Provides more space for each item */
         padding: 0.5em; /* Adds some padding for touch targets */
         position: relative; /* Required for positioning the pseudo-element */
+        linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%);
       }
       
       mwc-list-item::before {
@@ -228,7 +232,7 @@ export class ProceduresMenu extends LitElement {
               html`
                 ${def.icons ?
                   html`
-                    <sp-menu-item style='; background-color:#E3F0FA; height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
+                    <sp-menu-item style='; background:linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78)); height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
                       <div style="display: flex;align-items: center;color: rgb(36, 192, 235);font-weight:bold;">
                         ${def.icons.map((subProc,i) => 
                           html`
@@ -276,10 +280,10 @@ export class ProceduresMenu extends LitElement {
     return html`
     <sp-action-menu class="topMenu" id="dashboardprocedures" size="m">
       <div slot="icon"></div>
-      <span slot="label" @mouseover=${() => this.menuHover("procedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
+      <span slot="label" @mouseover=${() => this.menuHover("dashboardprocedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
       ${this.procAccess.map(proc => 
           html`
-          <sp-menu-item style="color:rgb(36, 192, 235);font-weight:bold;background-color:#E3F0FA;">
+          <sp-menu-item style="background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;">
             <sp-action-menu style="z-index:2; position:relative;" class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
@@ -304,7 +308,7 @@ export class ProceduresMenu extends LitElement {
                     html`
                       ${def.icons ?
                         html`
-                          <sp-menu-item style='; background-color:#E3F0FA; height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
+                          <sp-menu-item style='; background:linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%); height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
                             <div style="display: flex;align-items: center;color: rgb(36, 192, 235);font-weight:bold;">
                               ${def.icons.map((subProc,i) => 
                                 html`
@@ -318,7 +322,7 @@ export class ProceduresMenu extends LitElement {
                           </sp-menu-item>
                         ` :
                         html`
-                          <sp-menu-item style='background-color:#E3F0FA; height: 35px; width: 275px; pointer-events: none;'>
+                          <sp-menu-item style='background:linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%); height: 35px; width: 275px; pointer-events: none;'>
                             <div style="display: flex;align-items: center;color: rgb(36, 192, 235); font-weight:bold;">
                               <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; pointer-events: auto; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
                                 @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
@@ -333,7 +337,7 @@ export class ProceduresMenu extends LitElement {
               )}
               ${proc.icons_down.length ?
                 html`
-                  <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 45px; width: 275px">
+                  <sp-menu-item style="background:linear-gradient(166deg, rgba(224 214 248 / 81%) 43.85%, rgba(255, 255, 255, 1) 58.66%); pointer-events: none; height: 45px; width: 275px">
                     <div style="display: flex;align-items: center;color: white; background-color:#D6E9F8;" >
                       ${proc.icons_down.map(down =>
                         html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
