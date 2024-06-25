@@ -289,11 +289,11 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
         }
       })
-      this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
-      this.actMenu.forEach(a => {
-        a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
-        a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
-      })
+      // this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
+      // this.actMenu.forEach(a => {
+      //   a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
+      //   a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
+      // })
     })    
     if (this.tabBar===null){return}
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))

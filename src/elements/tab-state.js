@@ -232,7 +232,7 @@ let tabObj = [
   },
   {
     "lp_frontend_page_name": "user-profile",
-    "route": "users",
+    "route": "user",
     "tabName": "user-profile",
     "tabLabel_en": "User Profile",
     "tabLabel_es": "Perfil de usuario",
@@ -495,7 +495,8 @@ export class TabState extends navigator(LitElement) {
         tab = tabObj.filter(t => t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
       } else {
         // validating the procName, viewName, filterName do they exist on the new_definition
-        let validProc = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures.filter(p => p.proc_instance_name == this.query.procName);
+        let sessionProcedures=JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures
+        let validProc = sessionProcedures.filter(p => p.procInstanceName == this.query.procName);
         if (validProc.length) {
           let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName)
           if (validView.length) {
@@ -528,6 +529,8 @@ export class TabState extends navigator(LitElement) {
               sessionStorage.setItem("currentOpenView", JSON.stringify(tab[0]))
             }
           }
+        }else{
+          alert("Procedure "+this.query.procName+" not found")
         }
       }
     } else {

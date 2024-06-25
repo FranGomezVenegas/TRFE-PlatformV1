@@ -2,7 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
 import { navigator } from 'lit-element-router';
-import '@trazit/platform-login/platform-login';
+import '@trazit/platform-login/platform-login.js';
+//import '@trazit/platform-login/platform-login';
 
 export class TrHome extends connect(store)(navigator(LitElement)) {
   static get styles() {

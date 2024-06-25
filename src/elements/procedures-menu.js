@@ -287,7 +287,7 @@ export class ProceduresMenu extends LitElement {
             <sp-action-menu style="z-index:2; position:relative;" class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
-              <span slot="label" style="rgb(36, 192, 235);font-weight:bold;">${proc["label_"+this.lang]}</span>
+              <span slot="label" style="color:rgb(36, 192, 235);font-weight:bold;">${proc["label_"+this.lang]}</span>
               ${proc.icons_up.length ?
                 html`
                   <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 35px; width: 275px">
