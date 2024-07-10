@@ -324,9 +324,10 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   }
 
   render() {    
+    //alert(this.userRole)
     return html`
 
-      ${this.userRole==="proc_management" ?
+      ${this.userRole.includes("trazit_pm")||this.userRole==='proc_management' ?
       html`
         ${this.proceduresManagementPlatform()}        
       `
