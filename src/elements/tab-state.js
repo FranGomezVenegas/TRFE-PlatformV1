@@ -489,7 +489,7 @@ export class TabState extends navigator(LitElement) {
 
   pushTab() {
     //alert('pushTab')
-//    console.log('pushTab')
+    //    console.log('pushTab')
     let tab = []
     if (this.params.menu == "procedures") {
       if (this.config.local) {
