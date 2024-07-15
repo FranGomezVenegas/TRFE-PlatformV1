@@ -488,6 +488,7 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
+    //alert('pushTab')
 //    console.log('pushTab')
     let tab = []
     if (this.params.menu == "procedures") {
@@ -511,7 +512,12 @@ export class TabState extends navigator(LitElement) {
             } else {
               label_en = validView[0].label_en
               label_es = validView[0].label_es
-              validFilter = (validView[0].name == this.query.filterName)
+              if (this.query.filterName===undefined||this.query.filterName==='undefined'){
+                validFilter = (validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
+              }else{
+                validFilter = ((validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
+                  &&(validView[0].lp_frontend_page_filter == this.query.filterName))
+              }
             }
             if (validFilter) {
               //alert('tabState '+this.query.procName)

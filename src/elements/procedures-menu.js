@@ -435,4 +435,47 @@ export class ProceduresMenu extends LitElement {
       })
     }
   }
+  connectedCallback() {
+    super.connectedCallback();
+    // Otros listeners...
+  
+    // Listener para el evento 'open-tab'
+    window.addEventListener('open-tab', this.handleOpenTab.bind(this));
+  }
+  
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Otros removers...
+  
+    // Remover listener para el evento 'open-tab'
+    window.removeEventListener('open-tab', this.handleOpenTab.bind(this));
+  }
+  
+  handleOpenTab(event) {
+    alert('handleOpenTab')
+    
+    const { procName, vwName, fltrName } = event.detail;
+    this.query.procName=procName 
+    this.query.filterName =fltrName
+    this.query.viewName=vwName
+    this.selectedMenu(`/dashboard/procedures?procName=${procName}&viewName=${vwNamee}&filterName=${fltrName}`)
+    this.requestUpdate();
+    return
+    const newTab = {
+      lp_frontend_page_name: vwName,
+      route: `procedures?procName=${procName}&viewName=${vwName}&filterName=${fltrName}`,
+      tabLabel_en: `${procName}-${vwName}`,
+      tabLabel_es: `${procName}-${vwName}` // Traduce según sea necesario
+    };
+  
+    // Verificar si la pestaña ya existe
+    if (!this.tabs.some(tab => tab.route === newTab.route)) {
+      this.tabs = [...this.tabs, newTab];
+      this.requestUpdate();
+    }
+  
+    // Navegar a la nueva pestaña
+    this.currentTab = newTab.route;
+    this.navigate(`/dashboard/${newTab.route}`);
+  }  
 }

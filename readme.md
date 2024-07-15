@@ -22,4 +22,6 @@ Upload the files inside build folder to the server directory
 
 ## Versioning track
 
-v0.0.2 typo for User-Settings tab is called user, not users. and the filter for procValid by procInstanceName instead of proc_instance_name
+v0.0.2 typo for User-Settings tab is called user, not users. and the filter for procValid by 
+procInstanceName instead of proc_instance_name
+v0.0.3 Open views from other views

@@ -41,29 +41,13 @@ if [[ -f "README.md" ]]; then
   cp "README.md" "$components_info_dir/${main_project_name}${main_project_version}readme.md"
 fi
 
-# Iterar sobre los componentes en .yalc
-yalc_dir=".yalc"
-if [[ -d $yalc_dir ]]; then
-  for component_dir in $yalc_dir/*; do
-    if [[ -d $component_dir ]]; then
-      component_name=$(basename $component_dir)
-      component_package_json="$component_dir/package.json"
-      if [[ -f $component_package_json ]]; then
-        component_version=$(jq -r .version $component_package_json)
-        echo "Component: $component_name, Version: $component_version" >> $version_info_file
-
-        # Copiar y renombrar el README del componente a components_info
-        component_readme="$component_dir/README.md"
-        if [[ -f $component_readme ]]; then
-          cp "$component_readme" "$components_info_dir/${component_name}${component_version}readme.md"
-        else
-          echo "No README.md found for component: $component_name"
-        fi
-      fi
-    fi
-  done
+# Leer y agregar información de yalc.lock a version_info.txt
+yalc_lock_file="yalc.lock"
+if [[ -f $yalc_lock_file ]]; then
+  echo "Yalc.lock Components:" >> $version_info_file
+  jq -r '.packages | to_entries[] | "\(.key): \(.value.version)"' $yalc_lock_file >> $version_info_file
 else
-  echo "No .yalc directory found"
+  echo "No yalc.lock file found"
 fi
 
 # Cambiar a la carpeta build
