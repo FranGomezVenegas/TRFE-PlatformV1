@@ -14,6 +14,8 @@ import { initMetadata, initConfig, setLang, setActivity } from '../redux/actions
 import '@material/mwc-snackbar';
 import '@material/mwc-circular-progress';
 
+import './loading-logo';
+
 export class TrApp extends connect(store)(router(navigator(outlet(LitElement)))) {
   static get styles() {
     return css`
@@ -21,6 +23,12 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         display: block;
         background-color: white;
       }
+      loading-logo {
+        display: none;
+      }
+      loading-logo[active] {
+        display: block;
+      }        
       mwc-circular-progress {
         position: fixed;
         top : 50%;
@@ -48,20 +56,52 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       <tr-view404 route='view404'></tr-view404>
       <tr-resetpass route='resetpass'></tr-resetpass>
       <mwc-snackbar></mwc-snackbar>
-      <mwc-circular-progress indeterminate closed=true></mwc-circular-progress>
+      <mwc-circular-progress indeterminate closed></mwc-circular-progress>
+      <loading-logo id="loadingLogo"></loading-logo>
     `;
   }
 
-  /**
-   * once dashboard rendered for the first time
-   */
+  firstUpdated() {
+    super.firstUpdated();
+  
+    // Escuchar eventos personalizados para mostrar y ocultar el progreso circular
+    window.addEventListener('show-progress', this.showProgress.bind(this));
+    window.addEventListener('hide-progress', this.hideProgress.bind(this));
+  
+    fetch("/src/config.json").then(r => r.json()).then(j => {
+      store.dispatch(initConfig(j));
+    })
+    window.addEventListener('online', () => {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
+      this.toast.labelText = "You are now online"
+      this.toast.show()
+    })
+    window.addEventListener('offline', () => {
+      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
+      this.toast.labelText = "You are now offline"
+      this.toast.show()
+    })
+  }
+  
+  showProgress() {
+    this.waiting.closed = true;
+    this.loadingLogo.setAttribute('active', '');
+  }
+  
+  hideProgress() {
+    this.waiting.closed = true;
+    this.loadingLogo.removeAttribute('active');
+  }
+  
   completed() {
-    this.waiting.closed = true
+    this.waiting.closed = true;
+    this.loadingLogo.removeAttribute('active');
   }
 
   setNotif(e) {    
     if (e.detail.waiting) {
-      this.waiting.closed = false
+      this.showProgress()
+      this.waiting.closed = true;
     }
     if (e.detail.log && this.dashboard.style.display != "none" && e.detail["message_"+ this.lang]) {
       this.dashboard.setNotif(e)
@@ -110,6 +150,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   get waiting() {
     return this.shadowRoot.querySelector("mwc-circular-progress")
   }
+  get loadingLogo() {
+    return this.shadowRoot.querySelector("#loadingLogo")
+  }
 
   static get properties() {
     return {
@@ -137,7 +180,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       pattern: 'home',
       data: { 
         title: 'Home',
-        description: "Menuju sebuah bangsa mandiri energi",
+        description: "TRAZiT, Let's trace to the next level",
         img: "./images/logo.png"
       }
     }, {
@@ -197,22 +240,6 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     super.updated(updates)
     if (updates.has('page') || updates.has('params'))
       this._pageChanged();
-  }
-
-  firstUpdated() {
-    fetch("/src/config.json").then(r => r.json()).then(j => {
-      store.dispatch(initConfig(j));
-    })
-    window.addEventListener('online', () => {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
-      this.toast.labelText = "You are now online"
-      this.toast.show()
-    })
-    window.addEventListener('offline', () => {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "rgb(51, 51, 51)";
-      this.toast.labelText = "You are now offline"
-      this.toast.show()
-    })
   }
 
   async _routeChanged() {

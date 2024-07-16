@@ -25,3 +25,4 @@ Upload the files inside build folder to the server directory
 v0.0.2 typo for User-Settings tab is called user, not users. and the filter for procValid by 
 procInstanceName instead of proc_instance_name
 v0.0.3 Open views from other views
+v0.0.4 Added our own loading-logo spinning for GetViewData and all POST actions with files and hidden the standard mwc-circular-progress spinning
