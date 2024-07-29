@@ -14,7 +14,7 @@
     "rollup-plugin-workbox": "^8.0.1"
   },
   "name": "trazit-platform",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Trazit Platform",
   "author": "Trazit Team",
   "license": "MIT",

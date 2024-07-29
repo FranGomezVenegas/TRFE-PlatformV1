@@ -512,7 +512,7 @@ export class TabState extends navigator(LitElement) {
             } else {
               label_en = validView[0].label_en
               label_es = validView[0].label_es
-              if (this.query.filterName===undefined||this.query.filterName==='undefined'){
+              if (this.query.filterName===undefined||this.query.filterName==='undefined'||this.query.filterName===''){
                 validFilter = (validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
               }else{
                 validFilter = ((validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
