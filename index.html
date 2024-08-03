@@ -38,6 +38,23 @@
   <meta name="msapplication-tap-highlight" content="no">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone">
+  
+
+  <script src="./BrowserPrint-3.1.250.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      if (typeof BrowserPrint === 'undefined') {
+        console.error('BrowserPrint is not defined');
+      } else {
+        console.log('BrowserPrint loaded successfully');
+      }
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js"></script>
   <style>
     html,

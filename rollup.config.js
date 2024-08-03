@@ -35,7 +35,8 @@ export default merge(baseConfig, {
         { src: 'utils/*', dest: outputDir+'/utils' },
         { src: 'images/*', dest: outputDir+'/images' },
         { src: 'src/config.json', dest: outputDir+'/src' },
-        { src: 'node_modules/@lrnwebcomponents/*', dest: outputDir+'/node_modules/@lrnwebcomponents'}
+        { src: 'node_modules/@lrnwebcomponents/*', dest: outputDir+'/node_modules/@lrnwebcomponents'},
+        { src: 'BrowserPrint-3.1.250.min.js', dest: outputDir }
       ],
       // set flatten to false to preserve folder structure
       flatten: true,

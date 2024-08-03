@@ -3,8 +3,9 @@
   "dbName2023": "trazit_2023",
   "dbNameDemo": "demo_v0_9_1",
   "dbNameLabplanet": "labplanet",
-  "isForTesting": false,
-  "releaseDate": "2024-07-29 23:17",
+  "printLabelMode": "preview",
+  "isForTesting": true,
+  "releaseDate": "2024-08-03 04:21",
   "fullscreen": false,
   "zzzfullscreenDesktop": false,
   "zzzfullscreenMobile": true,
@@ -49,5 +50,7 @@
     "minsLogoutSession": 1,
     "showTimingInConsole": true,
     "secondsNextTimeChecker": 5
-  }
+  },
+  "bucketName": "demov0.9.2.testing",
+  "versionInfoPath": "components_info/version_info.txt"
 }
