@@ -314,7 +314,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     if (userSession) {
       return html`
-        <label id="sessionLabel">
+        <label id="sessionLabel" style="font-size:1vw;">
           ${userSession.header_info.first_name} ${userSession.header_info.last_name} (${userSession.userRole})<br>
           ${this.lang == "en" ? "Session" : "Sesión"} Id: ${userSession.appSessionId} (${this.config.dbName}${this.config.isForTesting===true ? " - Testing" : ""})<br>
           ${this.desktop ? this.lang == "en" ? "Date: " : "Fecha: " : null}${userSession.appSessionStartDate}
@@ -689,23 +689,21 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     </mwc-drawer>
 
     <div id="headerContent" slot="appContent" style="position:sticky;">
-    <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
-<!--      <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
-        @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button> -->
-      <div class="header isfortesting ${this.config.isForTesting}" slot="title" style="width:96vw;">
+    <!-- <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}"> -->
+      <div class="header isfortesting ${this.config.isForTesting}" slot="title" style="width:100%; max-height: 79px; position: fixed; top: 0; left: 0; z-index: 1000;">
         <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
         ${this.userSession()}
         <div class="layout horizontal center flex wrap" id="headerout2" style="display: flex; justify-content: flex-end;">    
         ${this.desktop?html`        
-          <h1 style="padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
+          <h1 style="font-size:2.7vw; padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
         `:nothing}
         <mwc-icon-button  style="color:#61c9f8" id="changelang" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
-          <sp-menu-item id="logout" style="padding-left:10px;color:#03a9f4;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+          <sp-menu-item id="logout" style="padding-left:10px;color:#03a9f4;margin-right: 17px;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
           </div>  
       </div>
-    </mwc-top-app-bar-fixed>
+    <!-- </mwc-top-app-bar-fixed> -->
     </div>      
-      <proc-management-home  .area="app" .lang=${this.lang} .config=${this.config}></proc-management-home>
+      <proc-management-home style="position:relative; top:80px;" .area="app" .lang=${this.lang} .config=${this.config}></proc-management-home>
     </div>
     `
   }

@@ -59,14 +59,28 @@ if [[ -f "README.md" ]]; then
   cp "README.md" "$components_info_dir/${main_project_name}${main_project_version}readme.md"
 fi
 
-# Leer y agregar información de yalc.lock a version_info.txt
-yalc_lock_file="yalc.lock"
-if [[ -f $yalc_lock_file ]]; then
-  echo "Yalc.lock Components:" >> $version_info_file
-  jq -r '.packages | to_entries[] | "\(.key): \(.value.version)"' $yalc_lock_file >> $version_info_file
-else
-  echo "No yalc.lock file found"
-fi
+# Archivo de salida
+final_versions_file="final-component-versions.txt"
+> $final_versions_file # Limpiar el archivo de versiones final
+
+# Leer cada componente desde yalc.lock usando jq
+components=$(jq -r '.packages | to_entries[] | "\(.key): \(.value.version)"' yalc.lock)
+
+# Recorrer cada componente y procesar su versión y subcomponentes
+while IFS= read -r component; do
+    echo "$component" >> $version_info_file
+    
+    # Extraer el nombre del componente (sin la versión)
+    component_name=$(echo "$component" | cut -d':' -f1)
+
+    # Buscar el archivo component-versions.txt en la carpeta .yalc correspondiente
+    component_versions_file_path=".yalc/$component_name/component-versions.txt"
+    if [ -f "$component_versions_file_path" ]; then
+        while IFS= read -r subcomponent_version; do
+            echo "      $subcomponent_version" >> $version_info_file
+        done < "$component_versions_file_path"
+    fi
+done <<< "$components"
 
 # Cambiar a la carpeta build
 cd $build_dir

@@ -28,3 +28,5 @@ v0.0.3 Open views from other views
 v0.0.4 Added our own loading-logo spinning for GetViewData and all POST actions with files and hidden the standard mwc-circular-progress spinning
 v0.0.5 fixed bug when filterName is not undefined but ''
 v0.0.6 Added label printer feature and new way to upload build to include bucket name into config.json
+v0.0.7 Fixed banner issue, double banner, text is now responsive and icons margin-right
+v0.0.8 new endpoints-list enhanced component, added images for program-proc and added script for componentstracking
