@@ -1,7 +1,7 @@
 #!/bin/bash
 profile='default'
-bucket='demov0.9.2'
-isForTesting=false
+bucket='demo.ff2024.testing'
+isForTesting=true
 dbName='demo_v0_9_2'
 
 # Actualizar el archivo config.json con bucketName y versionInfoPath
@@ -33,23 +33,29 @@ aws --profile $profile s3api head-object --bucket $bucket --key "backup/" || aws
 # Mover el contenido actual del bucket a una carpeta de backup (excepto la carpeta de backup)
 aws --profile $profile s3 mv s3://$bucket/ s3://$bucket/backup/backup_$current_date/ --recursive --exclude "backup/*"
 
-# Verificar la creación de la carpeta de backup
-echo "Contenido de la carpeta de backup después de mover el contenido actual:"
+# Verificar la creaciï¿½n de la carpeta de backup
+echo "Contenido de la carpeta de backup despuï¿½s de mover el contenido actual:"
 aws --profile $profile s3 ls s3://$bucket/backup/backup_$current_date/ --recursive
 
-# Ejecutar la compilación de la nueva versión
-npm run build
+# Ejecutar la compilaciï¿½n de la nueva versiï¿½n
+npm run build > build.testing.log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Build failed!"
+    exit 1
+else
+    echo "Build succeeded."
+fi
 
 # Crear la carpeta components_info en el directorio build
 build_dir="build"
 components_info_dir="$build_dir/components_info"
 mkdir -p $components_info_dir
 
-# Crear el archivo de información de versiones y nombres en components_info
+# Crear el archivo de informaciï¿½n de versiones y nombres en components_info
 version_info_file="$components_info_dir/version_info.txt"
 echo "Component Versions and Names:" > $version_info_file
 
-# Agregar nombre y versión del proyecto principal
+# Agregar nombre y versiï¿½n del proyecto principal
 main_project_name=$(jq -r .name package.json)
 main_project_version=$(jq -r .version package.json)
 echo "Main Project: $main_project_name, Version: $main_project_version" >> $version_info_file
@@ -66,11 +72,11 @@ final_versions_file="final-component-versions.txt"
 # Leer cada componente desde yalc.lock usando jq
 components=$(jq -r '.packages | to_entries[] | "\(.key): \(.value.version)"' yalc.lock)
 
-# Recorrer cada componente y procesar su versión y subcomponentes
+# Recorrer cada componente y procesar su versiï¿½n y subcomponentes
 while IFS= read -r component; do
     echo "$component" >> $version_info_file
     
-    # Extraer el nombre del componente (sin la versión)
+    # Extraer el nombre del componente (sin la versiï¿½n)
     component_name=$(echo "$component" | cut -d':' -f1)
 
     # Buscar el archivo component-versions.txt en la carpeta .yalc correspondiente
@@ -85,10 +91,10 @@ done <<< "$components"
 # Cambiar a la carpeta build
 cd $build_dir
 
-# Subir los nuevos archivos al bucket, reemplazando el contenido anterior en la raíz
+# Subir los nuevos archivos al bucket, reemplazando el contenido anterior en la raï¿½z
 aws --profile $profile s3 sync . s3://$bucket --delete --sse AES256 --cache-control no-cache
 
-# Actualizar los metadatos de los archivos específicos
+# Actualizar los metadatos de los archivos especï¿½ficos
 aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "/images/**/*" --include "/data/images/**/*" --recursive --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800
 aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "/src/config.json" --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800 --content-type application/json
 aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "*.js" --exclude "pwabuilder-sw.js" --exclude "/utils/**/*" --recursive --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800 --content-type application/javascript

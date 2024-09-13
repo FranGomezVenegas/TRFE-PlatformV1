@@ -63,7 +63,8 @@ try {
     // Añade más archivos según sea necesario
   ];
 
-  workbox.precaching.precacheAndRoute(precacheManifest);
+  //workbox.precaching.precacheAndRoute(precacheManifest);
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
 } catch (error) {
   console.error('Error en precaching:', error);
 }

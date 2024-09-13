@@ -2,8 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
 import { navigator } from 'lit-element-router';
-import '@trazit/platform-login/platform-login.js';
-//import '@trazit/platform-login/platform-login';
+import '@trazit/platform-login/platform-login';
 
 export class TrHome extends connect(store)(navigator(LitElement)) {
   static get styles() {
@@ -32,8 +31,47 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
     `];
   }
 
+  firstUpdated() {
+    this.setupConfig();
+  }
+  
+  async setupConfig() {
+    const pLoginElement = this.pLogin;
+    if (pLoginElement) {
+      try {
+        const response = await fetch("/src/config.json");
+        const config = await response.json();
+        pLoginElement.config = config;
+      } catch (error) {
+        console.error("Error fetching config:", error);
+      }
+    }
+  }
+  
   render() {
     return html`
+      <platform-login @authorized=${this.handleAuthorization}></platform-login>
+      <div ?hidden="${!this.auth}">
+        <h1>Welcome, you are authorized</h1>
+      </div>
+    `;
+  }
+  
+  handleAuthorization(event) {
+    this.auth = event.target.auth;
+    console.log('authorized')
+    this.dispatchEvent(new CustomEvent('authorized', { bubbles: true, composed: true }));
+  }
+  handleAuthorization20240828(event) {
+    this.auth = event.target.auth;
+  }
+
+
+  renderOld() {
+    if (this.pLogin===null){console.log('pLogin not loaded')}
+    console.log('tr-home')
+    return html`
+    s
       <platform-login .config=${this.config}></platform-login>
     `;
   }

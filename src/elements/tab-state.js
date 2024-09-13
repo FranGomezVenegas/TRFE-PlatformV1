@@ -1,9 +1,10 @@
 import { LitElement, html, css, unsafeCSS } from 'lit';
-import { centerAligned, startAligned, centerJustified, displayFlex, horizontal } from '@collaborne/lit-flexbox-literals';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
-import '@material/mwc-icon-button';
-import '@material/mwc-button';
+//import '@material/mwc-icon-button';
+//import '@material/mwc-button';
+import '@material/web/iconbutton/icon-button.js';
+//import '@material/web/button/filled-button';
+
 import './tab-item';
 
 let tabObj = [
@@ -297,18 +298,17 @@ export class TabState extends navigator(LitElement) {
         display: none;
       }
       .tabWrap {
-        ${unsafeCSS(displayFlex)}
-        ${unsafeCSS(horizontal)}
-        ${unsafeCSS(startAligned)}
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start; /* o center, dependiendo del diseño que desees */
       }
       .tabContainer {
         overflow: auto;
-        position:relative;
-        top:0px;
-        ${unsafeCSS(displayFlex)}
-        ${unsafeCSS(horizontal)}
-        ${unsafeCSS(centerAligned)}
-
+        position: relative;
+        top: 0px;
+        display: flex;
+        flex-direction: row;
+        align-items: center; /* o center, dependiendo del diseño que desees */
       }
       .tabContainer::-webkit-scrollbar {
         display: none;
@@ -321,7 +321,7 @@ export class TabState extends navigator(LitElement) {
         --mdc-typography-button-text-transform: none;
       }
       mwc-icon-button {
-        color : rgba(36, 192, 235, 1);
+        color: rgba(36, 192, 235, 1);
       }
       mwc-icon-button[hidden] {
         display: none;
@@ -333,13 +333,14 @@ export class TabState extends navigator(LitElement) {
       }
     `;
   }
+  
 
   render() {
     return html`
       <div class="tabWrap">
-        <mwc-icon-button icon="navigate_before" @click=${this.prevTab} ?hidden=${!this.prev}></mwc-icon-button>
+        <md-icon-button icon="navigate_before" @click=${this.prevTab} ?hidden=${!this.prev}></md-icon-button>
         <div class="tabContainer">
-          <mwc-icon-button icon="save" @click=${this.saveTabs}></mwc-icon-button>
+           <md-icon-button icon="save" @click=${this.saveTabs}></md-icon-button>
           ${this.tabs.map(t=>
             html`<tab-item .lang=${this.lang} .tab=${t} 
               @tab-rendered=${this.isScroll}
@@ -347,7 +348,7 @@ export class TabState extends navigator(LitElement) {
               @tab-remove=${this.tabRemoved}></tab-item>`
           )}
         </div>
-        <mwc-icon-button icon="navigate_next" @click=${this.nextTab} ?hidden=${!this.next}></mwc-icon-button>
+        <md-icon-button icon="navigate_next" @click=${this.nextTab} ?hidden=${!this.next}></md-icon-button>
       </div>
     `;
   }
@@ -384,6 +385,13 @@ export class TabState extends navigator(LitElement) {
   }
 
   firstUpdated() {
+    super.firstUpdated();
+    const mediaQuery = window.matchMedia('(max-width: 460px)');
+    this.mobile = mediaQuery.matches;
+    mediaQuery.addEventListener('change', (e) => this.mobile = e.matches);
+  }
+  
+  xxxfirstUpdated() { // 20240828 replaced by the one above to avoid lit-element, pwa-helpers/media-query.js uses lit-element 
     super.firstUpdated()
     installMediaQueryWatcher(`(max-width: 460px)`, mobile => {
       this.mobile = mobile

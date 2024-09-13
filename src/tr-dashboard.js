@@ -1,7 +1,6 @@
 import { html, css, unsafeCSS, nothing } from 'lit';
 import { ProceduresMenu } from './elements/procedures-menu';
-import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
+//import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { navigator } from 'lit-element-router';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
@@ -9,28 +8,34 @@ import '@spectrum-web-components/action-menu/sync/sp-action-menu.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-settings.js';
 import '@spectrum-web-components/divider/sp-divider.js';
-import '@material/mwc-drawer';
-import '@material/mwc-list/mwc-list';
-import '@material/mwc-list/mwc-list-item';
-import '@material/mwc-top-app-bar-fixed';
-import '@material/mwc-icon-button';
+import '@material/web/list/list.js';
+import '@material/web/list/list-item.js';
+import '@material/web/iconbutton/outlined-icon-button.js';
+import '@material/web/iconbutton/filled-icon-button.js';
+import '@material/web/iconbutton/filled-tonal-icon-button.js';
+import '@material/web/icon/icon.js';
+import '@material/web/iconbutton/icon-button';
+import '@material/mwc-drawer'; // Still not released for @material/web
+import '@material/mwc-top-app-bar-fixed'; // Still not released for @material/web
 import '@trazit/relogin-dialog/relogin-dialog';
 import '@trazit/tr-procedures/tr-procedures';
 import './elements/tab-state';
 import '@trazit/tr-procedures/src/components/ProcManagement/proc-management-home';
 import { PlatformModel} from './PlatformModel';
-
+import { MdFilledIconButtonStyles } from './md3-buttons-styles';
 
 export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
   static get styles() {
-    return [
-      Layouts,
+    return [          
+   
       css`
+      ${MdFilledIconButtonStyles}
+
       :host {
         display: block;
-      }
-      .container {
-        height: 100vh;
+          --md-icon-button-icon-size: 32px;
+  --md-sys-color-on-surface-variant: #dc362e;
+  background-color: #fff8f6;
       }
       div#headerContent{
         padding: 3px;
@@ -99,29 +104,42 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         --mdc-theme-primary: var(--background-gradient);
         --mdc-theme-on-primary: #57cbee;
       }
-      .header { 
-        ${unsafeCSS(displayFlex)}
-        ${unsafeCSS(horizontal)}
-        ${unsafeCSS(centerAligned)}
-        font-family: Myriad Pro;
-        font-style: normal;
-      }
+    .container {
+      height: 100vh;
+    }
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+    }
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-family: Myriad Pro;
+      font-style: normal;
+    }
       .header img {
         width: 80px;
         height: 80px;
         margin-right: 10px;
       }
-      mwc-icon-button[hidden] {
+      md-outlined-icon-button[hidden] {
         display: none;
       }
       nav[hidden] {
         display: none;
       }
-      nav {
-        ${unsafeCSS(displayFlex)}
-        ${unsafeCSS(horizontal)}
-        ${unsafeCSS(centerAligned)}
-      }
+    nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
       nav a {
         text-decoration: none;
         background-color: #2ec3ec;
@@ -150,7 +168,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       .sublist[hidden] {
         display: none;
       }
-      mwc-list-item {
+      md-list-item {
         font-size: 12px;   
         width: 90%;     
       }
@@ -188,7 +206,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
           /* left:-40px; */
           right: 60px;
         }
-        #tabHandle mwc-icon {
+        #tabHandle md-icon {
           --mdc-icon-size: 50px;
           color: rgb(82, 193, 245);
         }
@@ -273,28 +291,34 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     container.addEventListener('MDCTopAppBar:nav', () => {
       this.drawer.open = !this.drawer.open;
     });
-    installMediaQueryWatcher(`(min-width: 960px)`, desktop => {
-      this.desktop = desktop
-    });
+    // installMediaQueryWatcher(`(min-width: 960px)`, desktop => {
+    //   this.desktop = desktop
+    // });
+      const mediaQuery = window.matchMedia('(min-width: 960px)');
+      this.desktop = mediaQuery.matches;
+      mediaQuery.addEventListener('change', (e) => this.desktop = e.matches);
+
     if (!sessionStorage.getItem("partialToken") || !sessionStorage.getItem("userSession")) {
       return this.navigate("/")
     }
-    this.updateComplete.then(() => {
-      this.dispatchEvent(new CustomEvent('completed'))
-      this.tabBar.updateComplete.then(() => {
-        this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
-        if (this.isForTesting){
-          this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
-        }else{
-          this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
-        }
-      })
-      // this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
-      // this.actMenu.forEach(a => {
-      //   a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
-      //   a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
-      // })
-    })    
+    if (this.tabBar!=null){
+      this.updateComplete.then(() => {
+        this.dispatchEvent(new CustomEvent('completed'))
+        this.tabBar.updateComplete.then(() => {
+          this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.paddingLeft = "5px";
+          if (this.isForTesting){
+            this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(98, 0, 238, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
+          }else{
+            this.tabBar.shadowRoot.querySelector(".mdc-top-app-bar__title").style.background = "linear-gradient(166deg, rgba(214, 233, 248, 1) 43.85%, rgba(255, 255, 255, 1) 58.66%);";
+          }
+        })
+        // this.drawer.shadowRoot.querySelector(".mdc-drawer__content").style.backgroundColor = "#d6e9f8";
+        // this.actMenu.forEach(a => {
+        //   a.shadowRoot.querySelector("sp-action-button").style.color = "rgb(3, 169, 244)"
+        //   a.shadowRoot.querySelector("sp-action-button").style.backgroundColor = "transparent"
+        // })
+      })    
+    }
     if (this.tabBar===null){return}
     let userSession = JSON.parse(sessionStorage.getItem("userSession"))
     this.sops = []
@@ -581,7 +605,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         import('@trazit/holiday-calendars/holiday-calendars');
         break;
       case 'platformusersessions':
-        //import('@trazit/platform-usersessions/platform-usersessions');
+        ////import('@trazit/platform-usersessions/platform-usersessions');
         break;  
       default:
         import('./tr-default');
@@ -659,17 +683,19 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     window.location.href = "/";
   }
   stateChanged(state) {
+    let userSession = JSON.parse(sessionStorage.getItem("userSession")) 
+    this.userRole=userSession.userRole  
     if (JSON.stringify(this.config) != JSON.stringify(state.app.config)) {
       this.config = state.app.config;
       console.log(this.config)
       if (this.config.local===true){
         this.PlatformModel = PlatformModel;
       }else{
-        let userSession = JSON.parse(sessionStorage.getItem("userSession"))     
+          
         if (userSession!==undefined&&userSession.platform_settings!==undefined){
           this.PlatformModel = userSession.platform_settings;
         }
-        this.userRole=userSession.userRole
+        
       }
   
 
@@ -697,8 +723,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
         ${this.desktop?html`        
           <h1 style="font-size:2.7vw; padding-left:50px;color:#61c9f8;font-family: Montserrat;font-weight: bold;padding-right: 100px;flex-grow:1;">Procedures Definition</h1>
         `:nothing}
-        <mwc-icon-button  style="color:#61c9f8" id="changelang" @click=${this.changeLang}>${this.flag}</mwc-icon-button>        
-          <sp-menu-item id="logout" style="padding-left:10px;color:#03a9f4;margin-right: 17px;" @click=${this.logout} ><mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+        <md-outlined-icon-button  style="color:#61c9f8" id="changelang" @click=${this.changeLang}>${this.flag}</md-outlined-icon-button>        
+          <sp-menu-item id="logout" style="padding-left:10px;color:#03a9f4;margin-right: 17px;" @click=${this.logout} ><md-icon slot="icon">logout</md-icon></sp-menu-item>
           </div>  
       </div>
     <!-- </mwc-top-app-bar-fixed> -->
@@ -708,7 +734,6 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
     `
   }
   proceduresOperationPlatform(){
-    
     if (this.PlatformModel.proceduresOption===undefined){this.PlatformModel=PlatformModel}
     //console.log('proceduresOperationPlatform', this.PlatformModel.headerAreas)
     return html`
@@ -730,127 +755,133 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
       background-blend-mode: overlay;
       position: relative;      
     }
+
+    mwc-drawer::part(mdc-drawer-app-content) {
+      overflow: hidden;
+    }    
     </style>
     
     <div class="container layout vertical">
     <mwc-drawer class="isfortesting ${this.config.isForTesting}" type="modal" style="position:sticky;" ?open=${this.drawerState} @MDCDrawer:closed="${() => this.drawerState = false}">
-        <mwc-list>
-          <mwc-list-item id="dashboardmyprocedures" @click="${() => this.procCollapse=!this.procCollapse}">
+        <md-list>
+          <md-list-item id="dashboardmyprocedures" @click="${() => this.procCollapse=!this.procCollapse}">
             <span>${this.PlatformModel.headerAreas.proceduresOption["tabLabel_" + this.lang]}</span>
-          </mwc-list-item>
+          </md-list-item>
           ${this.mobileVersion()}
           ${this.PlatformModel.headerAreas.notifications.display!==true ? nothing : 
           html`
             
-            <mwc-list-item id="dashboardnotifications" @click="${() => this.selectedMenu("/dashboard/notifications")}">
+            <md-list-item id="dashboardnotifications" @click="${() => this.selectedMenu("/dashboard/notifications")}">
               <span>${this.PlatformModel.headerAreas.notifications["tabLabel_" + this.lang]}${this.notifs.length?' '+this.notifs.length:null}</span>
-            </mwc-list-item>            
+            </md-list-item>            
           `}
           ${this.PlatformModel.headerAreas.myCertifications.display !==true ? nothing : 
           html`        
-            <mwc-list-item id="dashboardmycertifications" @click="${() => this.certCollapse=!this.certCollapse}">
+            <md-list-item id="dashboardmycertifications" @click="${() => this.certCollapse=!this.certCollapse}">
               <span>${this.PlatformModel.headerAreas.myCertifications["tabLabel_" + this.lang]} ${this.allPending()}</span>
-            </mwc-list-item>
-            <mwc-list class="sublist" ?hidden="${!this.certCollapse}">
-              <mwc-list-item>
+            </md-list-item>
+            <md-list class="sublist" ?hidden="${!this.certCollapse}">
+              <md-list-item>
                 <div style="display:flex;align-items:center;">
                   <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=sop")}>${this.PlatformModel.headerAreas.myCertifications.sop["label_" + this.lang]} 
                     (<span style="color: #24c0eb;font-weight: bold;">${this.sops.length}</span>)</div>
                     ${this.pendingSOP()}
                 </div>
-              </mwc-list-item>
-              <mwc-list-item>
+              </md-list-item>
+              <md-list-item>
                 <div style="display:flex;align-items:center;">
                   <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=analytic")}>${this.PlatformModel.headerAreas.myCertifications.analytic["label_" + this.lang]} 
                   (<span style="color: #24c0eb;font-weight: bold;">00${this.analytics.length}</span>)</div>
                   ${this.pendingAnalytic()}
                 </div>
-              </mwc-list-item>
+              </md-list-item>
               ${this.myPendingCertifApprovals===undefined||this.myPendingCertifApprovals.length===0 ? nothing :
                 html`  
-                  <mwc-list-item>
+                  <md-list-item>
                     <div style="display:flex;align-items:center;">
                       <div style="flex-grow:5;margin-left: 2vw;" @click=${() => this.selectedMenu("/dashboard/certifications?filterData=myPendingCertificationApprovals")}>${this.PlatformModel.headerAreas.myCertifications.reviewerPendingSign["label_" + this.lang]} 
                       (<span style="color: #24c0eb;font-weight: bold;">00${this.myPendingCertifApprovals.length}</span>)</div>
                       ${this.myPendingCertificationApprovals()}
                     </div>
-                  </mwc-list-item>
+                  </md-list-item>
                 `}
-            </mwc-list>
+            </md-list>
           `}
           ${this.PlatformModel.headerAreas.mySettings.display !==true ? nothing : 
           html`              
-            <mwc-list-item id="dashboardmysettings" @click="${() => this.personalCollapse=!this.personalCollapse}">
+            <md-list-item id="dashboardmysettings" @click="${() => this.personalCollapse=!this.personalCollapse}">
               <span>${this.PlatformModel.headerAreas.mySettings["tabLabel_" + this.lang]}</span>
-            </mwc-list-item>
-            <mwc-list class="sublist" ?hidden="${!this.personalCollapse}">
+            </md-list-item>
+            <md-list class="sublist" ?hidden="${!this.personalCollapse}">
             ${this.PlatformModel.headerAreas.mySettings.procedure ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
             html`
-              <mwc-list-item graphic="avatar" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")}>
+              <md-list-item graphic="avatar" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">route</mwc-icon>
-              </mwc-list-item>
+                <md-icon slot="graphic">route</md-icon>
+              </md-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")}>
+              <md-list-item graphic="avatar" id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">bug_report</mwc-icon>
-              </mwc-list-item>
+                <md-filled-icon-button style="background-color: transparent; border: none;"><md-icon slot="graphic">bug_report</md-icon></md-filled-icon-button>
+              </md-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")}>
+              <md-list-item graphic="avatar" id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">person</mwc-icon>
-              </mwc-list-item>
+                <md-icon slot="graphic">person</md-icon>
+              </md-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
               html`  
-                <mwc-list-item graphic="avatar" id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
+                <md-list-item graphic="avatar" id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")}>
                   <span>${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}</span>
-                  <mwc-icon slot="graphic">person</mwc-icon>
-                </mwc-list-item>
+                  <md-icon slot="graphic">person</md-icon>
+                </md-list-item>
               `}            
             ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
+              <md-list-item graphic="avatar" id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">video_library</mwc-icon>
-              </mwc-list-item>
+                <md-icon slot="graphic">video_library</md-icon>
+              </md-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
+              <md-list-item graphic="avatar" id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">list</mwc-icon>
-              </mwc-list-item>
+                <md-icon slot="graphic">list</md-icon>
+              </md-list-item>
             `}
             ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
             html`  
-              <mwc-list-item graphic="avatar" id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
+              <md-list-item graphic="avatar" id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")}>
                 <span>${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}</span>
-                <mwc-icon slot="graphic">holidays_calendar</mwc-icon>
-              </mwc-list-item>              
+                <md-icon slot="graphic">holidays_calendar</md-icon>
+              </md-list-item>              
             `}
-            </mwc-list>
+            </md-list>
           `}
           <sp-divider size="m"></sp-divider>
-          <mwc-list-item id="logout" @click=${this.logout}>
+          <md-list-item id="logout" @click=${this.logout}>
             <span>${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}</span>
-          </mwc-list-item>
-        </mwc-list>
+          </md-list-item>
+        </md-list>
         
-        <div id="headerContent" slot="appContent" style="position:sticky;">
-          <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}">
-            <mwc-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
-              @click="${() => this.drawerState = !this.drawerState}"></mwc-icon-button>
+         <div id="headerContent" slot="appContent" style="position:sticky;"> 
+        <!--   <mwc-top-app-bar-fixed class="isfortesting ${this.config.isForTesting}"> -->
+            ${this.desktop?nothing:html`
+              <md-filled-icon-button slot="navigationIcon" class="menu" icon="menu" ?hidden="${this.desktop}"
+                @click="${() => this.drawerState = !this.drawerState}"><md-icon>menu</md-icon></md-filled-icon-button>
+            `}            
             <div class="header  ${this.config.isForTesting}" slot="title" style="width:96vw;">
               <img src="./images/LOGO_azul_10_SEG_LOOP.gif" />
               ${this.userSession()}
-            </div>
+            
             <nav slot="actionItems" ?hidden="${this.desktop}">
-              <mwc-icon-button id="changelang" style="color:#03a9f4" @click=${this.changeLang}>${this.lang}</mwc-icon-button>
+              <md-outlined-icon-button id="changelang" style="color:#03a9f4" @click=${this.changeLang}>${this.lang}</md-outlined-icon-button>
             </nav>
             
             <nav slot="actionItems" ?hidden="${!this.desktop}">
@@ -919,66 +950,70 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
                   ${this.PlatformModel.headerAreas.mySettings.procedure ===undefined || this.PlatformModel.headerAreas.mySettings.procedure.display ===undefined ||this.PlatformModel.headerAreas.mySettings.procedure.display !==true ? nothing :
                   html`
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsprocedure" @click=${() => this.selectedMenu("/dashboard/procedure")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">route</mwc-icon>
+                      <md-icon slot="icon">route</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.procedure["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.incidents.display !==true ? nothing :
                   html`
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsincidents" @click=${() => this.selectedMenu("/dashboard/incidents")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">bug_report</mwc-icon>
+                      <md-icon slot="icon">bug_report</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.incidents["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.user.display !==true ? nothing :
                   html`  
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsuser" @click=${() => this.selectedMenu("/dashboard/user")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">person</mwc-icon>
+                      <md-icon slot="icon">person</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.user["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.platformusersessions===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display===undefined||this.PlatformModel.headerAreas.mySettings.platformusersessions.display !==true ? nothing :
                     html`  
                       <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsplatformusersessions" @click=${() => this.selectedMenu("/dashboard/platformusersessions")} style="color:rgb(36, 192, 235)">
-                        <mwc-icon slot="icon">person</mwc-icon>
+                        <md-icon slot="icon">person</md-icon>
                         ${this.PlatformModel.headerAreas.mySettings.platformusersessions["label_" + this.lang]}
                       </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.video.display !==true ? nothing :
                     html`  
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingstutorial" @click=${() => this.selectedMenu("/dashboard/tutorial")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">video_library</mwc-icon>
+                      <md-icon slot="icon">video_library</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.video["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.endpoint.display !==true ? nothing :
                   html`  
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsendpoints" @click=${() => this.selectedMenu("/dashboard/endpoints")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">list</mwc-icon>
+                      <md-icon slot="icon">list</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.endpoint["label_" + this.lang]}
                     </sp-menu-item>
                   `}
                   ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar.display !==true ? nothing :
                   html`  
                     <sp-menu-item style="color: #37849c; background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingsholidayscalendar" @click=${() => this.selectedMenu("/dashboard/holidayscalendar")} style="color:rgb(36, 192, 235)">
-                      <mwc-icon slot="icon">list</mwc-icon>
+                      <md-icon slot="icon">list</md-icon>
                       ${this.PlatformModel.headerAreas.mySettings.holidaysCalendar["label_" + this.lang]}
                     </sp-menu-item>                  
                   `}
                   <sp-divider size="m"></sp-divider>
                   <sp-menu-item style="color: rgb(235 36 110); background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;" id="mysettingslogout" @click=${this.logout} style="color:rgb(36, 192, 235)">
-                    <mwc-icon slot="icon">logout</mwc-icon>
+                    <md-icon slot="icon">logout</md-icon>
                     ${this.PlatformModel.headerAreas.doLogout["label_" + this.lang]}
                   </sp-menu-item>
                 </sp-action-menu>
               `}
               <sp-menu-item id="logout" @click=${this.logout} style="color:#D6E9F8">
-              <mwc-icon slot="icon">logout</mwc-icon></sp-menu-item>
+              <md-filled-icon-button id="logout1" style="background-color: transparent; border: none;">
+                <md-icon>logout</md-icon></md-filled-icon-button>
+              </sp-menu-item>
 
-              <mwc-icon-button  id="changelang" style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</mwc-icon-button>
-            </nav>
-          </mwc-top-app-bar-fixed>
-        </div>
+              <md-icon-button  id="changelang" style="color:#61c9f8" @click=${this.changeLang}>${this.flag}</md-icon-button>
+
+              </nav>
+            </div>
+        <!--   </mwc-top-app-bar-fixed> -->
+         </div> 
       </mwc-drawer>
       <div class="mainbackground">
       <main class="layout vertical flex">
@@ -991,7 +1026,7 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             html`
               <div id="tabHandle" 
                 >
-                <mwc-icon @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>arrow_drop_up</mwc-icon>
+                <md-icon @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>arrow_drop_up</md-icon>
                 <div></div>
               </div>
               <div class="layout horizontal flex" style="margin-top:5px" style="display: flex; justify-content: flex-end;">
@@ -1015,8 +1050,8 @@ export class TrDashboard extends connect(store)(navigator(ProceduresMenu)) {
             .params=${this.params} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
           <video-tutorial .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'tutorial' ? false : true}
             .params=${this.params}></video-tutorial>
-          <endpoints-list .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
-            .params=${this.params}></endpoints-list>
+          <endpoints-listbymodule .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'endpoints' ? false : true}
+            .params=${this.params}></endpoints-listbymodule>
           <platform-usersessions .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'platformusersessions' ? false : true}
             .params=${this.params}></platform-usersessions>
           <holiday-calendars .lang=${this.lang} .config=${this.config} ?hidden=${this.params.menu == 'holidayscalendar' ? false : true} .params=${this.params}>

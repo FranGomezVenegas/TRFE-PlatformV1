@@ -1,5 +1,9 @@
 {
+  "resolutions": {
+    "@trazit/endpoints-list": "0.0.4"
+  },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build": "rimraf build && rollup -c rollup.config.js",
     "start:build": "npm run build && web-dev-server --root-dir build --app-index build/index.html --open --compatibility none",
     "start": "web-dev-server --app-index index.html"
@@ -8,7 +12,7 @@
     "@open-wc/building-rollup": "^1.10.0",
     "@web/dev-server": "^0.2.3",
     "deepmerge": "^4.2.2",
-    "rimraf": "^5.0.1",
+    "npm-force-resolutions": "^0.0.10",
     "rollup": "^2.79.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-workbox": "^8.0.1"
@@ -19,17 +23,19 @@
   "author": "Trazit Team",
   "license": "MIT",
   "dependencies": {
-    "vaadin-lumo-styles": "21.0.5",
+    "@alenaksu/json-viewer": "^1.0.1",
     "@collaborne/lit-flexbox-literals": "^0.2.2",
     "@doubletrade/lit-datatable": "^2.0.0",
     "@lrnwebcomponents/deduping-fix": "^7.0.4",
     "@material/dialog": "^14.0.0",
     "@material/mwc-circular-progress": "^0.27.0",
     "@material/mwc-drawer": "^0.27.0",
+    "@material/mwc-formfield": "^0.27.0",
     "@material/mwc-icon-button": "^0.27.0",
     "@material/mwc-list": "^0.27.0",
     "@material/mwc-snackbar": "^0.27.0",
     "@material/mwc-top-app-bar-fixed": "^0.27.0",
+    "@material/web": "^2.1.0",
     "@pwabuilder/pwainstall": "^1.6.7",
     "@pwabuilder/pwaupdate": "^0.2.0",
     "@spectrum-web-components/action-menu": "^0.11.6",
@@ -37,6 +43,7 @@
     "@spectrum-web-components/divider": "^0.2.8",
     "@spectrum-web-components/menu": "^0.9.6",
     "@spectrum-web-components/theme": "^0.8.14",
+    "@trazit/apis-forplatform": "file:.yalc/@trazit/apis-forplatform",
     "@trazit/common-core": "file:.yalc/@trazit/common-core",
     "@trazit/cred-dialog": "file:.yalc/@trazit/cred-dialog",
     "@trazit/endpoints-list": "file:.yalc/@trazit/endpoints-list",
@@ -45,11 +52,10 @@
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
-    "@trazit/platform-usersessions": "file:.yalc/@trazit/platform-usersessions",
-    "@trazit/proc-management-home": "file:.yalc/@trazit/proc-management-home",
     "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",
     "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
     "@trazit/tr-procedures": "file:.yalc/@trazit/tr-procedures",
+    "@trazit/tr-styling": "file:.yalc/@trazit/tr-styling",
     "@trazit/user-profile": "file:.yalc/@trazit/user-profile",
     "@trazit/video-tutorial": "file:.yalc/@trazit/video-tutorial",
     "lit": "^2.0.2",

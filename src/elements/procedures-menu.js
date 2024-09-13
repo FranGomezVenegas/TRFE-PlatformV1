@@ -1,6 +1,6 @@
 import { LitElement, html, nothing , css } from 'lit';
-import '@material/mwc-icon';
-import { Layouts, displayFlex, horizontal, centerAligned } from '@collaborne/lit-flexbox-literals';
+import '@material/web/icon/icon.js';
+//import '@material/md-icon';
 const langConfig = {
   "proceduresOption": {
     "tabLabel_en": "Procedures",
@@ -15,31 +15,43 @@ const langConfig = {
 export class ProceduresMenu extends LitElement {
   static get styles() {
     return css`
-    .menu-item {
-      transition: background-color 0.3s, color 0.3s;
-      cursor: pointer;
-    }
-    .menu-item:hover {
-      background-color: #32C3EC;  /* Cambia al color que prefieras */
-      color: white;
-    }
-    .sublist {
-      display: none;
-      padding-left: 20px;
-    }
-    .menu-item:hover .sublist {
-      display: block;
-    }
-    mwc-icon {
-      transition: transform 0.3s;
-    }
-    .menu-item:hover mwc-icon {
-      transform: scale(1.1);
-    }
-    .sp-menu-item {
-      background: linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78));
-    }
-  `;}
+      .menu-item {
+        transition: background-color 0.3s, color 0.3s;
+        cursor: pointer;
+      }
+      .menu-item:hover {
+        background-color: #32C3EC;
+        color: white;
+      }
+      .sublist {
+        display: none;
+        padding-left: 20px;
+      }
+      .menu-item:hover .sublist {
+        display: block;
+      }
+      md-icon {
+        transition: transform 0.3s;
+      }
+      .menu-item:hover md-icon {
+        transform: scale(1.1);
+      }
+      .sp-menu-item {
+        background: linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78));
+      }
+      .flex-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    `;
+  }
+  
   static get properties() {
     return {
       procAccess: { type: Array },
@@ -88,10 +100,10 @@ export class ProceduresMenu extends LitElement {
   mobileVersion() {
     return html`
       <style>
-      mwc-icon{
+      md-icon{
         color: #32C3EC;
       }
-      mwc-list-item {
+      md-list-item {
         font-size: 1.2em; /* Adjust the size as needed */
         font-family: Myriad Pro;
         color: rgb(36, 192, 235);
@@ -102,7 +114,7 @@ export class ProceduresMenu extends LitElement {
         linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%);
       }
       
-      mwc-list-item::before {
+      md-list-item::before {
         content: '•'; /* The bullet character */
         color: rgb(36, 192, 235); /* Bullet color */
         font-size: 1.2em; /* Bullet size, adjust as needed */
@@ -113,27 +125,27 @@ export class ProceduresMenu extends LitElement {
       }
       
       </style>
-      <mwc-list class="sublist" ?hidden="${!this.procCollapse}">
+      <md-list class="sublist" ?hidden="${!this.procCollapse}">
         ${this.procAccess.map(proc =>
           html`
           <div class="${proc.procInstanceName}">
-            <mwc-list-item @click="${()=>this.setCollapses(proc)}">
+            <md-list-item @click="${()=>this.setCollapses(proc)}">
               <span style="margin-left:2vw; font-weight: bold; font-size:16px;">${proc["label_"+this.lang]}</span>
-            </mwc-list-item>
-            <mwc-list class="sublist two" ?hidden="${!this.getCollapse(proc)}">
+            </md-list-item>
+            <md-list class="sublist two" ?hidden="${!this.getCollapse(proc)}">
               ${proc.icons_up!==undefined&&proc.icons_up.length ?
                 html`
-                  <mwc-list-item style="pointer-events: none">
+                  <md-list-item style="pointer-events: none">
                     <div class="subproc">
                       ${proc.icons_up.map(up => 
                         html`${up.icon_name=="icons:search" ?
-                          html`<mwc-icon style="--mdc-icon-size:2vw;pointer-events: auto;margin-right:15px;"
-                          @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</mwc-icon>` :
+                          html`<md-icon style="--mdc-icon-size:2vw;pointer-events: auto;margin-right:15px;"
+                          @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
                           html`<img src="${up.icon_name}" style="width:2.2vw; pointer-events: auto;margin-right:1.5vw;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
                         }`
                       )}
                     </div>
-                  </mwc-list-item>
+                  </md-list-item>
                 ` : nothing
               }
               ${proc.new_definition===undefined ? html``:
@@ -142,7 +154,7 @@ export class ProceduresMenu extends LitElement {
                 html`
                   ${def.label_en ? 
                     html`
-                      <mwc-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
+                      <md-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
                         <div class="subproc">
                           ${def.icons ?
                             html`
@@ -161,7 +173,7 @@ export class ProceduresMenu extends LitElement {
                             `
                           }
                         </div>
-                      </mwc-list-item>
+                      </md-list-item>
                     ` : nothing
                   }
                 `
@@ -172,21 +184,21 @@ export class ProceduresMenu extends LitElement {
                 html`              
                 ${proc.icons_down.map(down => 
                   html`
-                    <mwc-list-item style="pointer-events: none">
+                    <md-list-item style="pointer-events: none">
                       <div class="subproc">
                         <img src="/images/noImage1.png" style="width:2.2vw; pointer-events: auto;margin-right:15px;">
                         <label style="margin-left: 2.5vw; pointer-events: none;">${down["label_"+this.lang]}</label>
                       </div>
-                    </mwc-list-item>
+                    </md-list-item>
                   `
                 )}
                 `:nothing
                 }
-            </mwc-list>
+            </md-list>
           </div>
           `
         )}
-      </mwc-list>
+      </md-list>
     `
   }
 
@@ -210,7 +222,7 @@ export class ProceduresMenu extends LitElement {
     ${this.procAccess.map(proc => html`
     <div  class="menu-item" @click="${() => this.setCollapses(proc)}">
       ${proc["label_" + this.lang]}
-      <mwc-icon>arrow_right</mwc-icon>
+      <md-icon>arrow_right</md-icon>
       <div class="sublist">
         ${proc.icons_up.length ?
           html`
@@ -218,7 +230,7 @@ export class ProceduresMenu extends LitElement {
               <div style="display: flex;align-items:center;color:rgb(36, 192, 235); font-weight:bold;">
                 ${proc.icons_up.map(up =>
                   html`${up.icon_name=="icons:search" ?
-                  html`<mwc-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</mwc-icon>` :
+                  html`<md-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
                   html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
                   }`
                 )}
@@ -288,13 +300,13 @@ export class ProceduresMenu extends LitElement {
               @mouseover=${this.subMenuHover}>
               <div slot="icon"></div>
               <span slot="label" style="color:rgb(36, 192, 235);font-weight:bold;">${proc["label_"+this.lang]}</span>
-              ${proc.icons_up.length ?
+              ${proc.icons_up!==undefined ?
                 html`
                   <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 35px; width: 275px">
                     <div style="display: flex;align-items:center;color:rgb(36, 192, 235); font-weight:bold;">
                       ${proc.icons_up.map(up =>
                         html`${up.icon_name=="icons:search" ?
-                        html`<mwc-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</mwc-icon>` :
+                        html`<md-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
                         html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
                         }`
                       )}
@@ -302,6 +314,8 @@ export class ProceduresMenu extends LitElement {
                   </sp-menu-item>
                 ` : nothing
               }
+            ${proc.new_definition!==undefined ?
+            html`
               ${proc.new_definition.map(def => 
                 html`
                   ${def.label_en ? 
@@ -335,7 +349,8 @@ export class ProceduresMenu extends LitElement {
                   }
                 `
               )}
-              ${proc.icons_down.length ?
+            ` : nothing}
+              ${proc.icons_down!==undefined ?
                 html`
                   <sp-menu-item style="background:linear-gradient(166deg, rgba(224 214 248 / 81%) 43.85%, rgba(255, 255, 255, 1) 58.66%); pointer-events: none; height: 45px; width: 275px">
                     <div style="display: flex;align-items: center;color: white; background-color:#D6E9F8;" >
@@ -377,7 +392,7 @@ export class ProceduresMenu extends LitElement {
   return html`
     ${proc.icons_up.map(up => 
       html`<sp-menu-item @mouseover=${e => e.stopPropagation()} style="background-color:#E3F0FA;">
-        <mwc-icon @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)} style="--mdc-icon-size:2vw;">${up.icon_name}</mwc-icon>
+        <md-icon @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)} style="--mdc-icon-size:2vw;">${up.icon_name}</md-icon>
       </sp-menu-item>`
     )}
     ${proc.new_definition.map(def => 

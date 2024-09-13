@@ -12,13 +12,19 @@ import { store } from '../redux/store';
 import { initMetadata, initConfig, setLang, setActivity } from '../redux/actions.js';
 
 import '@material/mwc-snackbar';
-import '@material/mwc-circular-progress';
+//import '@material/mwc-circular-progress';
+import '@material/web/progress/linear-progress.js';
+//import '@material/web/snackbar/snackbar.js'; // 20240828 not implemented yet by material design v3
+
 
 import './loading-logo';
 
+import { Client1Theme } from '@trazit/tr-styling/src/theme-cliente1.js';
+
 export class TrApp extends connect(store)(router(navigator(outlet(LitElement)))) {
   static get styles() {
-    return css`
+    return [Client1Theme,
+      css`
       :host {
         display: block;
         background-color: white;
@@ -29,7 +35,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       loading-logo[active] {
         display: block;
       }        
-      mwc-circular-progress {
+      md-circular-progress {
         position: fixed;
         top : 50%;
         left: calc(50% - 25px);
@@ -37,11 +43,12 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         color : rgba(36, 192, 235, 1);
         --mdc-theme-primary: rgba(36, 192, 235, 1);
       }
-    `;
+    `,];
   }
 
   render() {
     return html`
+    
       <tr-home route='home' 
         @authorized=${()=>this.navigate("/dashboard")}
         @change-lang=${e=>store.dispatch(setLang(e.detail.lang))}
@@ -56,18 +63,21 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       <tr-view404 route='view404'></tr-view404>
       <tr-resetpass route='resetpass'></tr-resetpass>
       <mwc-snackbar></mwc-snackbar>
-      <mwc-circular-progress indeterminate closed></mwc-circular-progress>
+      <md-circular-progress indeterminate closed></md-circular-progress>
       <loading-logo id="loadingLogo"></loading-logo>
     `;
   }
 
   firstUpdated() {
     super.firstUpdated();
-  
+    
     // Escuchar eventos personalizados para mostrar y ocultar el progreso circular
     window.addEventListener('show-progress', this.showProgress.bind(this));
     window.addEventListener('hide-progress', this.hideProgress.bind(this));
   
+    this.waiting.closed = true;
+    this.loadingLogo.removeAttribute('active');
+    
     fetch("/src/config.json").then(r => r.json()).then(j => {
       store.dispatch(initConfig(j));
     })
@@ -83,26 +93,72 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     })
   }
   
-  showProgress() {
+  xxxshowProgress20240828() {
     this.waiting.closed = true;
     this.loadingLogo.setAttribute('active', '');
   }
   
-  hideProgress() {
+  xxxhideProgress20240828() {
     this.waiting.closed = true;
     this.loadingLogo.removeAttribute('active');
   }
+  
+  showProgress() {
+    console.log("showProgress called");
+    this.waiting.closed = false; // Mostrar el progreso
+    this.loadingLogo.setAttribute('active', '');
+  }
+  
+  hideProgress() {
+    console.log("hideProgress called");
+    this.waiting.closed = true; // Ocultar el progreso
+    this.loadingLogo.removeAttribute('active');
+  }
+  
   
   completed() {
     this.waiting.closed = true;
     this.loadingLogo.removeAttribute('active');
   }
 
-  setNotif(e) {    
+  async ensureToastAvailable() {
+    if (this.toast === null) {
+      this.toast = this.shadowRoot.querySelector('mwc-snackbar');
+  
+      if (!this.toast) {
+        this.toast = document.createElement('mwc-snackbar');
+        this.shadowRoot.appendChild(this.toast);
+  
+        // Esperar a que el shadowRoot esté disponible
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+    }
+  
+    // Esperar a que shadowRoot esté disponible
+    while (!this.toast.shadowRoot) {
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    }
+  
+    return this.toast;
+  }
+    
+
+  async setNotif(e) {    
     if (e.detail.waiting) {
       this.showProgress()
       this.waiting.closed = true;
     }
+    const toast = await this.ensureToastAvailable();
+    if (this.toast===null){
+      let toast = this.shadowRoot.querySelector('mwc-snackbar');
+  
+      if (!toast) {
+        toast = document.createElement('mwc-snackbar');
+        this.shadowRoot.appendChild(toast);
+      }      
+      
+    }
+
     if (e.detail.log && this.dashboard.style.display != "none" && e.detail["message_"+ this.lang]) {
       this.dashboard.setNotif(e)
     }
@@ -126,13 +182,19 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       toastColor="#0085ff"
       //this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = "#0085ff";
     }
-    if (msg) {
-      this.toast.shadowRoot.querySelector(".mdc-snackbar__surface").style.backgroundColor = toastColor;
-      console.log('toast about to show it', 'e.detail', e.detail, 'toastColor', toastColor)
-      
-      this.toast.labelText = msg;
-      this.toast.show();
+
+    
+  if (msg) {
+    const snackbarSurface = toast.shadowRoot.querySelector('.mdc-snackbar__surface');
+    if (snackbarSurface) {
+      snackbarSurface.style.backgroundColor = toastColor;
+      toast.labelText = msg;
+      toast.show();
+    } else {
+      console.error('No se encontró el elemento .mdc-snackbar__surface en el shadowRoot.');
     }
+  }
+        
     store.dispatch(setActivity(false))
   }
 
@@ -148,8 +210,9 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   }
 
   get waiting() {
-    return this.shadowRoot.querySelector("mwc-circular-progress")
+    return this.shadowRoot.querySelector("md-circular-progress");
   }
+
   get loadingLogo() {
     return this.shadowRoot.querySelector("#loadingLogo")
   }
@@ -234,6 +297,18 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.data = {};
     this.title = 'Trazit Platform';
     this.metadata = {};
+    window.addEventListener('unload', this.handleUnload.bind(this));
+  }
+
+  handleUnload(event) {
+    // Realizar la acción de logout utilizando sendBeacon
+    const url = '/api/logout'; // Cambia esta URL a tu endpoint real de logout
+    const data = JSON.stringify({ userId: 'USER_ID' }); // Ajusta los datos según sea necesario
+    
+    navigator.sendBeacon(url, data);
+    
+    // Opcionalmente, puedes realizar alguna otra acción antes de que la pestaña se cierre
+    console.log('User is closing the tab, logout triggered.');
   }
 
   updated(updates) {
@@ -285,6 +360,31 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     }
   }
 
+  // updateMetadata(metadata) {
+  //   if (metadata.title) {
+  //     document.title = metadata.title;
+  //   }
+  //   if (metadata.description) {
+  //     let metaDescription = document.querySelector('meta[name="description"]');
+  //     if (!metaDescription) {
+  //       metaDescription = document.createElement('meta');
+  //       metaDescription.name = "description";
+  //       document.head.appendChild(metaDescription);
+  //     }
+  //     metaDescription.content = metadata.description;
+  //   }
+  //   if (metadata.url) {
+  //     let linkCanonical = document.querySelector('link[rel="canonical"]');
+  //     if (!linkCanonical) {
+  //       linkCanonical = document.createElement('link');
+  //       linkCanonical.rel = "canonical";
+  //       document.head.appendChild(linkCanonical);
+  //     }
+  //     linkCanonical.href = metadata.url;
+  //   }
+  // }
+  
+
   stateChanged(state) {
     if (JSON.stringify(state.app.metadata) != JSON.stringify(this.metadata)) {
       this.metadata = state.app.metadata;
@@ -297,5 +397,6 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       this.lang = state.app.lang;
     }
   }
+
 }
 customElements.define('tr-app', TrApp);

@@ -1,5 +1,5 @@
 {
-  "dbName": "demo_v0_9_1",
+  "dbName": "demo_v0_9_2",
   "dbName2023": "trazit_2023",
   "dbNameDemo": "demo_v0_9_1",
   "isForTesting": "false",
@@ -7,7 +7,7 @@
   "zzzfullscreenDesktop": false,
   "zzzfullscreenMobile": true,
   "local": false,
-  "backendUrl": "http://51.75.202.142:8888/LabPLANET-API",
+  "backendUrl": "https://platform.trazit.net:8443/TRAZiT-API",
   "backendUrlLocal": "http://localhost:8080/LabPLANET-API",
   "endpointsDocApiUrl": "/Doc/EndpointsDocAPIqueries",
   "procDefinitionApiUrl": "/ProcedureDefinitionqueries",

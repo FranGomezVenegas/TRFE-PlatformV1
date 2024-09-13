@@ -1,0 +1,48 @@
+
+> trazit-platform@0.0.8 build
+> rimraf build && rollup -c rollup.config.js
+
+[36m
+[1m./index.html[22m → [1mbuild[22m...[39m
+[babel-plugin-template-html-minifier] Could not minify CSS: Invalid value token at 43:2. Ignoring., Invalid property name '.self-end {
+		babel-plugin-template-html-minifier' at 46:1. Ignoring.
+
+The service worker file was written to build/pwabuilder-sw.js
+The service worker will precache 158 URLs, totaling 46.2 MB.
+
+[1m[33m(!) `this` has been rewritten to `undefined`[39m[22m
+[90mhttps://rollupjs.org/guide/en/#error-this-is-undefined[39m
+[1mnode_modules/@google-web-components/google-chart/google-chart.js[22m
+[90m16:  */
+17: var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+18:     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    ^
+19:     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+20:     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;[39m
+...and 1 other occurrence
+[1mnode_modules/focus-visible/dist/focus-visible.js[22m
+[90m3:   typeof define === 'function' && define.amd ? define(factory) :
+4:   (factory());
+5: }(this, (function () { 'use strict';
+     ^
+6: 
+7:   /**[39m
+[1mnode_modules/@doubletrade/lit-datatable/lit-datatable.js[22m
+[90m1: var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+   ^
+2:     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+3:     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);[39m
+...and 1 other occurrence
+[1mnode_modules/safevalues/dist/mjs/dom/globals/fetch.js[22m
+[90m3:  * SPDX-License-Identifier: Apache-2.0
+4:  */
+5: var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+                    ^
+6:     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+7:     return new (P || (P = Promise))(function (resolve, reject) {[39m
+...and 1 other occurrence
+[1m[33m(!) Circular dependencies[39m[22m
+node_modules/@trazit/tr-procedures/src/components/Audit/audit-dialog.js -> node_modules/@trazit/tr-procedures/src/components/Audit/audit-dialog.js
+node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/index.js -> node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/speclimitquantitative.template.js -> node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/index.js
+node_modules/@trazit/tr-procedures/src/components/Views/DataViews.js -> node_modules/@trazit/tr-procedures/src/components/grid_with_buttons/tableRowDetail.js -> node_modules/@trazit/tr-procedures/src/components/Views/DataViews.js
+[32mcreated [1mbuild[22m in [1m2m 47.6s[22m[39m
