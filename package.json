@@ -44,6 +44,8 @@
     "@spectrum-web-components/menu": "^0.9.6",
     "@spectrum-web-components/theme": "^0.8.14",
     "@trazit/apis-forplatform": "file:.yalc/@trazit/apis-forplatform",
+    "@trazit/build-label": "file:.yalc/@trazit/build-label",
+    "@trazit/build-numerics": "file:.yalc/@trazit/build-numerics",
     "@trazit/common-core": "file:.yalc/@trazit/common-core",
     "@trazit/cred-dialog": "file:.yalc/@trazit/cred-dialog",
     "@trazit/endpoints-list": "file:.yalc/@trazit/endpoints-list",

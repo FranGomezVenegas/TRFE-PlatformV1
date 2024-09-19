@@ -8,7 +8,7 @@
 		babel-plugin-template-html-minifier' at 46:1. Ignoring.
 
 The service worker file was written to build/pwabuilder-sw.js
-The service worker will precache 158 URLs, totaling 46.2 MB.
+The service worker will precache 159 URLs, totaling 50.2 MB.
 
 [1m[33m(!) `this` has been rewritten to `undefined`[39m[22m
 [90mhttps://rollupjs.org/guide/en/#error-this-is-undefined[39m
@@ -45,4 +45,4 @@ The service worker will precache 158 URLs, totaling 46.2 MB.
 node_modules/@trazit/tr-procedures/src/components/Audit/audit-dialog.js -> node_modules/@trazit/tr-procedures/src/components/Audit/audit-dialog.js
 node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/index.js -> node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/speclimitquantitative.template.js -> node_modules/@trazit/tr-procedures/src/components/speclimitquantitative/index.js
 node_modules/@trazit/tr-procedures/src/components/Views/DataViews.js -> node_modules/@trazit/tr-procedures/src/components/grid_with_buttons/tableRowDetail.js -> node_modules/@trazit/tr-procedures/src/components/Views/DataViews.js
-[32mcreated [1mbuild[22m in [1m2m 47.6s[22m[39m
+[32mcreated [1mbuild[22m in [1m1m 40s[22m[39m
