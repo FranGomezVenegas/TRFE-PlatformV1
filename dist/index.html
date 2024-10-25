@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Trazit Platform" />
+  <meta name="image" content="/images/Icon.png">
+  <title>Trazit Platform</title>
+
+  <base href="/">
+  <script>
+
+
+
+    // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+    // https://github.com/reactjs/redux/issues/2907
+    window.process = { env: { NODE_ENV: 'production' } };
+  </script>
+
+  <link rel="icon" href="/assets/favicon-DscISUgV.ico">
+
+  <!-- See https://goo.gl/qRE0vM -->
+  <meta name="theme-color" content="#2F4F4F">
+
+  <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Trazit Platform">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Trazit Platform">
+
+  <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+  <meta name="msapplication-TileColor" content="#3f51b5">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone">
+ 
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Two+Tone&display=block" rel="stylesheet">
+
+
+  <script src="/BrowserPrint-3.1.250.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      if (typeof BrowserPrint === 'undefined') {
+        console.error('BrowserPrint is not defined');
+      } else {
+        console.log('BrowserPrint loaded successfully');
+      }
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      font-family: 'Open Sans', sans-serif;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/index-D3UNHSMc.js"></script>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+
+<body>
+  <sp-theme color="light" scale="medium">
+    <tr-app></tr-app>
+  </sp-theme>
+
+  
+</body>
+
+</html>

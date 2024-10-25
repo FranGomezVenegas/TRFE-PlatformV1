@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
+export const SET_USER_SESSION = 'SET_USER_SESSION';
 import {
   createStore,
   compose,
@@ -35,6 +35,12 @@ export const store = createStore(
     applyMiddleware(thunk))
 );
 
+export const setUserSession = (userSession) => {
+  return {
+    type: SET_USER_SESSION,
+    userSession
+  };
+}
 // Initially loaded reducers.
 store.addReducers({
   app

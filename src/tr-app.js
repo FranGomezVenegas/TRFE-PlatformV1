@@ -19,11 +19,11 @@ import '@material/web/progress/linear-progress.js';
 
 import './loading-logo';
 
-import { Client1Theme } from '@trazit/tr-styling/src/theme-cliente1.js';
+//import { Client1Theme } from '@trazit/tr-styling/src/theme-cliente1.js';
 
 export class TrApp extends connect(store)(router(navigator(outlet(LitElement)))) {
   static get styles() {
-    return [Client1Theme,
+    return [//Client1Theme,
       css`
       :host {
         display: block;
@@ -78,7 +78,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.waiting.closed = true;
     this.loadingLogo.removeAttribute('active');
     
-    fetch("/src/config.json").then(r => r.json()).then(j => {
+    fetch("/config.json").then(r => r.json()).then(j => {
       store.dispatch(initConfig(j));
     })
     window.addEventListener('online', () => {
@@ -339,7 +339,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
         import('./tr-home');
         break;
       case 'dashboard':
-        import('./tr-dashboard');
+        import('./tr-dashboard-main.js');
         break;
       case 'view404':
         import('./tr-view404');

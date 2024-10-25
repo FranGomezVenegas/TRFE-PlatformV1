@@ -3,6 +3,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../redux/store';
 import { navigator } from 'lit-element-router';
 import '@trazit/platform-login/platform-login';
+import { setUserSession } from '../redux/store'; // Adjust the path if necessary
 
 export class TrHome extends connect(store)(navigator(LitElement)) {
   static get styles() {
@@ -33,13 +34,19 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
 
   firstUpdated() {
     this.setupConfig();
+    window.addEventListener('userSessionUpdated', (e) => {
+      const userSession = e.detail.userSession;
+      //alert('evento dispatchado')
+      // Despacha la acción de Redux para actualizar el estado
+      store.dispatch(setUserSession(userSession));
+    });    
   }
   
   async setupConfig() {
     const pLoginElement = this.pLogin;
     if (pLoginElement) {
       try {
-        const response = await fetch("/src/config.json");
+        const response = await fetch("/config.json");
         const config = await response.json();
         pLoginElement.config = config;
       } catch (error) {

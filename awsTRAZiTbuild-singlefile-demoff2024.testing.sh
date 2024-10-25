@@ -13,12 +13,12 @@ jq --arg bucketName "$bucket" \
    --arg dbName "$dbName" \
    --argjson isForTesting "$isForTesting" \
    '.bucketName = $bucketName | .versionInfoPath = $versionInfoPath | .releaseDate = $formatted_date | .dbName = $dbName | .isForTesting = $isForTesting' \
-   src/config.json > tmp_config.json
+   public/config.json > tmp_config.json
 
-mv tmp_config.json src/config.json
+mv tmp_config.json public/config.json
 
-# Subir el archivo config.json actualizado al bucket
-# aws --profile $profile s3 cp src/config.json s3://$bucket/src/config.json --sse AES256 --cache-control max-age=604800 --content-type application/json
+# Subir el archivo config.json actualizado al bucket desde dist/
+aws --profile $profile s3 cp dist/config.json s3://$bucket/config.json --sse AES256 --cache-control max-age=604800 --content-type application/json
 
 # Obtener la fecha actual en formato YYYYMMDD_HHMI
 current_date=$(date +"%Y%m%d_%H%M")
@@ -33,12 +33,12 @@ aws --profile $profile s3api head-object --bucket $bucket --key "backup/" || aws
 # Mover el contenido actual del bucket a una carpeta de backup (excepto la carpeta de backup)
 aws --profile $profile s3 mv s3://$bucket/ s3://$bucket/backup/backup_$current_date/ --recursive --exclude "backup/*"
 
-# Verificar la creaci�n de la carpeta de backup
-echo "Contenido de la carpeta de backup despu�s de mover el contenido actual:"
+# Verificar la creación de la carpeta de backup
+echo "Contenido de la carpeta de backup después de mover el contenido actual:"
 aws --profile $profile s3 ls s3://$bucket/backup/backup_$current_date/ --recursive
 
-# Ejecutar la compilaci�n de la nueva versi�n
-npm run build > build.testing.log 2>&1
+# Ejecutar la compilación de la nueva versión con Vite
+npm run build > build.log 2>&1
 if [ $? -ne 0 ]; then
     echo "Build failed!"
     exit 1
@@ -46,16 +46,16 @@ else
     echo "Build succeeded."
 fi
 
-# Crear la carpeta components_info en el directorio build
-build_dir="build"
+# Crear la carpeta components_info en el directorio dist (cambio de build a dist por Vite)
+build_dir="dist"
 components_info_dir="$build_dir/components_info"
 mkdir -p $components_info_dir
 
-# Crear el archivo de informaci�n de versiones y nombres en components_info
+# Crear el archivo de información de versiones y nombres en components_info
 version_info_file="$components_info_dir/version_info.txt"
 echo "Component Versions and Names:" > $version_info_file
 
-# Agregar nombre y versi�n del proyecto principal
+# Agregar nombre y versión del proyecto principal
 main_project_name=$(jq -r .name package.json)
 main_project_version=$(jq -r .version package.json)
 echo "Main Project: $main_project_name, Version: $main_project_version" >> $version_info_file
@@ -72,11 +72,11 @@ final_versions_file="final-component-versions.txt"
 # Leer cada componente desde yalc.lock usando jq
 components=$(jq -r '.packages | to_entries[] | "\(.key): \(.value.version)"' yalc.lock)
 
-# Recorrer cada componente y procesar su versi�n y subcomponentes
+# Recorrer cada componente y procesar su versión y subcomponentes
 while IFS= read -r component; do
     echo "$component" >> $version_info_file
     
-    # Extraer el nombre del componente (sin la versi�n)
+    # Extraer el nombre del componente (sin la versión)
     component_name=$(echo "$component" | cut -d':' -f1)
 
     # Buscar el archivo component-versions.txt en la carpeta .yalc correspondiente
@@ -88,17 +88,14 @@ while IFS= read -r component; do
     fi
 done <<< "$components"
 
-# Cambiar a la carpeta build
+# Cambiar a la carpeta dist (anteriormente build)
 cd $build_dir
 
-# Subir los nuevos archivos al bucket, reemplazando el contenido anterior en la ra�z
+# Subir los nuevos archivos al bucket, reemplazando el contenido anterior en la raíz
 aws --profile $profile s3 sync . s3://$bucket --delete --sse AES256 --cache-control no-cache
 
-# Actualizar los metadatos de los archivos espec�ficos
+# Actualizar los metadatos de los archivos específicos
 aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "/images/**/*" --include "/data/images/**/*" --recursive --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800
-aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "/src/config.json" --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800 --content-type application/json
 aws --profile $profile s3 cp s3://$bucket/ s3://$bucket/ --exclude "*" --include "*.js" --exclude "pwabuilder-sw.js" --exclude "/utils/**/*" --recursive --metadata-directive REPLACE --sse AES256 --cache-control max-age=604800 --content-type application/javascript
-
-
 
 echo "Despliegue completado y backup creado en s3://$bucket/backup/backup_$current_date/"

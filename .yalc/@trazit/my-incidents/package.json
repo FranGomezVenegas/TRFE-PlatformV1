@@ -1,0 +1,23 @@
+{
+  "name": "@trazit/my-incidents",
+  "description": "Component incidents of trazit platform",
+  "license": "MIT",
+  "author": "Trazit Team",
+  "version": "1.1.0",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "start": "web-dev-server --root-dir demo --node-resolve --open --watch",
+    "yalc-install": "node installYalcComponents.js"
+  },
+  "dependencies": {
+    "@material/mwc-textarea": "^0.27.0",
+    "@material/web": "^2.2.0",
+    "@trazit/apis-forplatform": "file:.yalc/@trazit/apis-forplatform",
+    "@trazit/common-core": "file:.yalc/@trazit/common-core",
+    "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
+    "@vaadin/grid": "^24.4.10",
+    "lit": "^2.0.2"
+  },
+  "yalcSig": "e3ccb99c412d4c6bb1b02956546a15d6"
+}

@@ -1,0 +1,4 @@
+@trazit/common-core: 1.0.0
+@trazit/platform-login: 2.2.0
+@trazit/apis-forplatform: 1.0.0
+@trazit/tr-dialog: 1.1.0

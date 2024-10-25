@@ -2,14 +2,17 @@ import {
   INIT_METADATA,
   INIT_CONFIG,
   SET_LANG,
-  SET_ACTIVITY
+  SET_ACTIVITY,
+  SET_USER_SESSION
 } from './actions';
 
 const INITIAL_STATE = {
   metadata: {},
   config: {},
   lang: "en",
-  activity: false
+  activity: false,
+  userSession: null,          // Agregamos el estado para la sesión del usuario
+  proceduresList: [] 
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -34,6 +37,12 @@ const app = (state = INITIAL_STATE, action) => {
         ...state,
         activity: action.activity
       };
+    case SET_USER_SESSION:
+      return {
+        ...state,
+        userSession: action.userSession,
+        proceduresList: action.userSession?.procedures_list || []  // Actualizamos también procedures_list si está presente
+      };      
     default:
       return state;
   }

@@ -1,0 +1,16 @@
+{
+  "dbName": "demo_v0_9_2",
+  "isForTesting": false,
+  "backendUrl": "https://platform.trazit.net:8443/TRAZiT-API",
+  "appAuthenticateApiUrl": "/app/AuthenticationAPIactions",
+  "frontEndIncidentsUrl": "/app/IncidentAPIqueries",
+  "ApiIncidentsUrl": "/app/IncidentAPIactions",
+  "businessRules": {
+    "enableLockSession": true,
+    "minsLockSession": 2,
+    "enableLogoutSession": false,
+    "minsLogoutSession": 20,
+    "secondsNextTimeChecker": 5
+  },
+  "local": true
+}

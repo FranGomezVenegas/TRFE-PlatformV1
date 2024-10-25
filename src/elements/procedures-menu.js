@@ -1,477 +1,153 @@
-import { LitElement, html, nothing , css } from 'lit';
-import '@material/web/icon/icon.js';
-//import '@material/md-icon';
-const langConfig = {
-  "proceduresOption": {
-    "tabLabel_en": "Procedures",
-    "tabLabel_es": "Procesos"
-  },
-  "windowOpenable": {
-    "en": "Window has pending linked SOP certifications",
-    "es": "La ventana tiene SOPs vinculados pendientes de certificación"
-  }
-}
+import { LitElement, html, nothing } from 'lit';
+import { styles } from '../tr-dashboard-styles.js';
 
 export class ProceduresMenu extends LitElement {
   static get styles() {
-    return css`
-      .menu-item {
-        transition: background-color 0.3s, color 0.3s;
-        cursor: pointer;
-      }
-      .menu-item:hover {
-        background-color: #32C3EC;
-        color: white;
-      }
-      .sublist {
-        display: none;
-        padding-left: 20px;
-      }
-      .menu-item:hover .sublist {
-        display: block;
-      }
-      md-icon {
-        transition: transform 0.3s;
-      }
-      .menu-item:hover md-icon {
-        transform: scale(1.1);
-      }
-      .sp-menu-item {
-        background: linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78));
-      }
-      .flex-row {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-      .flex-center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    `;
+    return [styles]; // Usamos los estilos centralizados
   }
-  
+
   static get properties() {
     return {
       procAccess: { type: Array },
-      collapses: { type: Array } // collapsing between proc menu list
+      collapses: { type: Array }, // Estado de colapso de los menús
+      lang: { type: String },
+      selectedMenuCallback: { type: Function }
     };
-
   }
 
   constructor() {
-    super()
-    this.procAccess = []
-    this.collapses = []
+    super();
+    this.procAccess = [];
+    this.collapses = []; // Inicialización vacía para collapses
+    this.lang = 'en'; // Idioma predeterminado
+    this.selectedMenuCallback = null;
   }
 
-  firstUpdated() {
-    // need to be fixed later
-    this.collapses = []
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    userSession.procedures_list.procedures.forEach(p => this.collapses.push({proc: p.procInstanceName, val: false}))
-    this.procAccess = userSession.procedures_list.procedures.map(p => p)
+  firstUpdated(){
+    window.addEventListener('sessionUpdated', (e) => {
+      if (e.detail.key === 'userSession') {
+        this.updateUserSession(); // Actualiza el estado del componente cuando se emite el evento
+      }
+    });
   }
-
-  // updating the menu state once sops mark completed
-  updateProceduresMenu() {
-    let userSession = JSON.parse(sessionStorage.getItem("userSession"))
-    this.procAccess = userSession.procedures_list.procedures.map(p => p)
-    this.requestUpdate()
+  updateUserSession() {
+    let userSession = JSON.parse(sessionStorage.getItem('userSession'));
+    if (userSession && userSession.procedures_list && userSession.procedures_list.procedures) {
+      this.procAccess = userSession.procedures_list.procedures;
+      this.collapses = this.procAccess.map(p => ({
+        proc: p.procInstanceName,
+        val: false
+      }));
+    } else {
+      console.error("No se pudo cargar la lista de procedimientos.");
+    }
   }
 
   setCollapses(proc) {
-    this.collapses.forEach(c => {
-      if (c.proc == proc.procInstanceName) {
-        c.val = !c.val
-      } else {
-        c.val = false
-      }
-    })
-    this.requestUpdate()
+    this.collapses = this.collapses.map(c =>
+      c.proc === proc.procInstanceName ? { ...c, val: !c.val } : c
+    );
+    this.requestUpdate();
   }
 
   getCollapse(proc) {
-    let collapse = this.collapses.filter(c => c.proc == proc.procInstanceName)
-    return collapse[0].val
+    const collapse = this.collapses.find(c => c.proc === proc.procInstanceName);
+    return collapse ? collapse.val : false;
   }
 
-  mobileVersion() {
-    return html`
-      <style>
-      md-icon{
-        color: #32C3EC;
-      }
-      md-list-item {
-        font-size: 1.2em; /* Adjust the size as needed */
-        font-family: Myriad Pro;
-        color: rgb(36, 192, 235);
-        font-weight: bold;
-        height: 2.3em; /* Provides more space for each item */
-        padding: 0.5em; /* Adds some padding for touch targets */
-        position: relative; /* Required for positioning the pseudo-element */
-        linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%);
-      }
-      
-      md-list-item::before {
-        content: '•'; /* The bullet character */
-        color: rgb(36, 192, 235); /* Bullet color */
-        font-size: 1.2em; /* Bullet size, adjust as needed */
-        position: absolute;
-        left: -1.5em; /* Adjust horizontal position */
-        top: 50%;
-        transform: translateY(-50%); /* Center the bullet vertically */
-      }
-      
-      </style>
-      <md-list class="sublist" ?hidden="${!this.procCollapse}">
-        ${this.procAccess.map(proc =>
-          html`
-          <div class="${proc.procInstanceName}">
-            <md-list-item @click="${()=>this.setCollapses(proc)}">
-              <span style="margin-left:2vw; font-weight: bold; font-size:16px;">${proc["label_"+this.lang]}</span>
-            </md-list-item>
-            <md-list class="sublist two" ?hidden="${!this.getCollapse(proc)}">
-              ${proc.icons_up!==undefined&&proc.icons_up.length ?
-                html`
-                  <md-list-item style="pointer-events: none">
-                    <div class="subproc">
-                      ${proc.icons_up.map(up => 
-                        html`${up.icon_name=="icons:search" ?
-                          html`<md-icon style="--mdc-icon-size:2vw;pointer-events: auto;margin-right:15px;"
-                          @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
-                          html`<img src="${up.icon_name}" style="width:2.2vw; pointer-events: auto;margin-right:1.5vw;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
-                        }`
-                      )}
-                    </div>
-                  </md-list-item>
-                ` : nothing
-              }
-              ${proc.new_definition===undefined ? html``:
-              html`
-              ${proc.new_definition.map(def => 
-                html`
-                  ${def.label_en ? 
-                    html`
-                      <md-list-item style=${def.icons ? this.setCertifiedPointer(def.icons) : ""}>
-                        <div class="subproc">
-                          ${def.icons ?
-                            html`
-                              ${def.icons.map((subProc,i) => 
-                                html`
-                                  <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
-                                    src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:2.2vw; pointer-events: auto;margin-right:1.5vw;"
-                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
-                                `
-                              )}
-                              <label title="${this.setCertifiedLabel(def.icons)}" style="font-size:14px; margin-left: 0.2vw; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                            ` :
-                            html`
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="font-size:14px; margin-left: 2vw; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
-                                @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                            `
-                          }
-                        </div>
-                      </md-list-item>
-                    ` : nothing
-                  }
-                `
-              )}
-              `}
+  // Usa la función pasada para manejar la selección del menú
+  _handleMenuClick(option, url) {
+    if (this.selectedMenuCallback) {
+      option.clickRoute=url
+      option.componentToOpen = 'procedures'
+      this.selectedMenuCallback(option); // Llama a la función de tr-dashboard-main
+    } else {
+      console.warn("selectedMenuCallback no está definida");
+    }
+  }
 
-              ${proc.icons_up!==undefined&&proc.icons_up.length ?
-                html`              
-                ${proc.icons_down.map(down => 
-                  html`
-                    <md-list-item style="pointer-events: none">
-                      <div class="subproc">
-                        <img src="/images/noImage1.png" style="width:2.2vw; pointer-events: auto;margin-right:15px;">
-                        <label style="margin-left: 2.5vw; pointer-events: none;">${down["label_"+this.lang]}</label>
-                      </div>
-                    </md-list-item>
-                  `
-                )}
-                `:nothing
-                }
-            </md-list>
+  //selectedMenu(route) {
+  //  window.location.href = route;
+  //}
+
+  render() {
+    return html`
+      <div class="menu" style="width:300px;">
+        ${this.procAccess.map(proc => html`
+          <div class="procedure-item">
+            <button style="font-size:18px;" class="operation-button" @click="${() => this.setCollapses(proc)}">
+              ${proc["label_" + this.lang]}
+            </button>
+            <div class="sublist ${this.getCollapse(proc) ? 'open' : ''}">
+              ${proc.icons_up ? html`
+                <div class="icons">
+                  ${proc.icons_up.map(up => html`
+                    <md-icon style="--mdc-icon-size:2vw;pointer-events: auto;margin-right:15px;" title="${up["label_" + this.lang]}"
+                      @click=${() => this._handleMenuClick(up, `/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}&viewName=${up.lp_frontend_page_name}`)}>
+                      search
+                    </md-icon>
+                  `)}
+                </div>
+              ` : nothing}
+
+              ${proc.new_definition.map(def => html`
+                <div class="procedure-list-option">
+                  <div class="subproc">
+                    ${def.icons ? html`
+                      ${def.icons.map((subProc, i) => html`
+                        <img title="${subProc.sops_passed == false ? this.setCertifiedLabel(def.icons) : null}" 
+                             src="/images/${subProc.sops_passed ? subProc.icon_name || `noImage${i}.png` : subProc.icon_name_when_not_certified || `noImage${i}.png`}" 
+                             style="width:2.2vw; pointer-events: auto; margin-right:1.5vw;" 
+                             @click=${() => this._handleMenuClick(def, `/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
+                      `)}
+
+                      <label title="${this.setCertifiedLabel(def.icons)}" 
+                             style="font-size:14px; margin-left: 0.2vw; color: ${this.setCertifiedColor(def.icons)}">
+                        ${def["label_" + this.lang]}
+                      </label>
+                    ` : html`
+                      <label title="${def.sops_passed == false ? this.setCertifiedLabel([def]) : null}" 
+                          class="${def.sops_passed == false ? 'sops_not_passed' : 'sops_passed'}"                             
+                             @click=${() => this._handleMenuClick(def, `/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>
+                        ${def["label_" + this.lang]}
+                      </label>
+                    `}
+                  </div>
+                </div>
+              `)}
+
+              ${proc.icons_down ? html`
+                <div class="icons">
+                  ${proc.icons_down.map(down => html`
+                    <md-icon style="--mdc-icon-size:2vw;pointer-events: auto;margin-right:15px;" title="${down["label_" + this.lang]}"
+                      @click=${() => this._handleMenuClick(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${down.lp_frontend_page_name}`)}>
+                      search
+                    </md-icon>
+                  `)}
+                </div>
+              ` : nothing}
+
+            </div>
           </div>
-          `
-        )}
-      </md-list>
-    `
+        `)}
+      </div>
+    `;
   }
 
   setCertifiedLabel(icons) {
-    let nonCertified = icons.filter(i => i.sops_passed == false)
-    return nonCertified.length ? langConfig.windowOpenable[this.lang] : null
+    let nonCertified = icons.filter(i => i.sops_passed == false);
+    return nonCertified.length ? 'Pending SOP certifications' : null;
   }
 
   setCertifiedColor(icons) {
-    let nonCertified = icons.filter(i => i.sops_passed == false)
-    return nonCertified.length ? 'red' : 'auto'
+    let nonCertified = icons.filter(i => i.sops_passed == false);
+    return nonCertified.length ? 'red' : '#43657c';
   }
 
   setCertifiedPointer(icons) {
-    let nonCertified = icons.filter(i => i.sops_passed == false)
-    return nonCertified.length ? "" : "pointer-events: none;"
-  }
-
-  desktopVersion2(){
-  return html`  
-    ${this.procAccess.map(proc => html`
-    <div  class="menu-item" @click="${() => this.setCollapses(proc)}">
-      ${proc["label_" + this.lang]}
-      <md-icon>arrow_right</md-icon>
-      <div class="sublist">
-        ${proc.icons_up.length ?
-          html`
-            <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 35px; width: 275px">
-              <div style="display: flex;align-items:center;color:rgb(36, 192, 235); font-weight:bold;">
-                ${proc.icons_up.map(up =>
-                  html`${up.icon_name=="icons:search" ?
-                  html`<md-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
-                  html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
-                  }`
-                )}
-              </div>
-            </sp-menu-item>
-          ` : nothing
-        }
-        ${proc.new_definition.map(def => 
-          html`
-            ${def.label_en ? 
-              html`
-                ${def.icons ?
-                  html`
-                    <sp-menu-item style='; background:linear-gradient(79deg, rgb(56, 76, 142), rgb(41, 6, 78)); height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
-                      <div style="display: flex;align-items: center;color: rgb(36, 192, 235);font-weight:bold;">
-                        ${def.icons.map((subProc,i) => 
-                          html`
-                            <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
-                              src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
-                              @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
-                          `
-                        )}
-                        <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 10px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                      </div>
-                    </sp-menu-item>
-                  ` :
-                  html`
-                    <sp-menu-item style='background-color:#E3F0FA; height: 35px; width: 275px; pointer-events: none;'>
-                      <div style="display: flex;align-items: center;color: rgb(36, 192, 235); font-weight:bold;">
-                        <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; pointer-events: auto; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
-                          @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                      </div>
-                    </sp-menu-item>
-                  `
-                }
-              `
-              : nothing
-            }
-          `
-        )}
-        ${proc.icons_down.length ?
-          html`
-            <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 45px; width: 275px">
-              <div style="display: flex;align-items: center;color: white; background-color:#D6E9F8;" >
-                ${proc.icons_down.map(down =>
-                  html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
-                )}
-              </div>
-            </sp-menu-item>
-          ` : nothing
-        }        
-      </div>
-    </div>    
-    `)}
-    
-  `
-  }
-  desktopVersion() {
-    return html`
-    <sp-action-menu class="topMenu" id="dashboardprocedures" size="m">
-      <div slot="icon"></div>
-      <span slot="label" @mouseover=${() => this.menuHover("dashboardprocedures")}>${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
-      ${this.procAccess.map(proc => 
-          html`
-          <sp-menu-item style="background:linear-gradient(166deg, rgba(36 192 235 / 23%) 43.85%, rgba(255, 255, 255, 1) 58.66%); border-bottom:solid 1px; font-weight:bold;background-color:#E3F0FA;">
-            <sp-action-menu style="z-index:2; position:relative;" class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m" 
-              @mouseover=${this.subMenuHover}>
-              <div slot="icon"></div>
-              <span slot="label" style="color:rgb(36, 192, 235);font-weight:bold;">${proc["label_"+this.lang]}</span>
-              ${proc.icons_up!==undefined ?
-                html`
-                  <sp-menu-item style="background-color:#E3F0FA; pointer-events: none; height: 35px; width: 275px">
-                    <div style="display: flex;align-items:center;color:rgb(36, 192, 235); font-weight:bold;">
-                      ${proc.icons_up.map(up =>
-                        html`${up.icon_name=="icons:search" ?
-                        html`<md-icon style="--mdc-icon-size:2vw; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>search</md-icon>` :
-                        html`<img src="${up.icon_name}" style="width:20px; pointer-events: auto;" @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)}>`
-                        }`
-                      )}
-                    </div>
-                  </sp-menu-item>
-                ` : nothing
-              }
-            ${proc.new_definition!==undefined ?
-            html`
-              ${proc.new_definition.map(def => 
-                html`
-                  ${def.label_en ? 
-                    html`
-                      ${def.icons ?
-                        html`
-                          <sp-menu-item style='; background:linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%); height: 35px; width: 275px;${this.setCertifiedPointer(def.icons)}'>
-                            <div style="display: flex;align-items: center;color: rgb(36, 192, 235);font-weight:bold;">
-                              ${def.icons.map((subProc,i) => 
-                                html`
-                                  <img title="${subProc.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" 
-                                    src="/images/${subProc.sops_passed?subProc.icon_name||`noImage${i}.png`:subProc.icon_name_when_not_certified||`noImage${i}.png`}" style="width:20px; pointer-events: auto;margin-right:10px;"
-                                    @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
-                                `
-                              )}
-                              <label title="${this.setCertifiedLabel(def.icons)}" style="margin-left: 10px; color: ${this.setCertifiedColor(def.icons)}">${def["label_"+this.lang]}</label>
-                            </div>
-                          </sp-menu-item>
-                        ` :
-                        html`
-                          <sp-menu-item style='background:linear-gradient(166deg, rgb(132 228 255) 2.85%, rgb(255, 255, 255) 71.66%); height: 35px; width: 275px; pointer-events: none;'>
-                            <div style="display: flex;align-items: center;color: rgb(36, 192, 235); font-weight:bold;">
-                              <label title="${def.sops_passed==false?langConfig.windowOpenable[this.lang]:null}" style="margin-left: 70px; pointer-events: auto; cursor: pointer; color: ${def.sops_passed==false?'red':'auto'}"
-                                @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>${def["label_"+this.lang]}</label>
-                            </div>
-                          </sp-menu-item>
-                        `
-                      }
-                    `
-                    : nothing
-                  }
-                `
-              )}
-            ` : nothing}
-              ${proc.icons_down!==undefined ?
-                html`
-                  <sp-menu-item style="background:linear-gradient(166deg, rgba(224 214 248 / 81%) 43.85%, rgba(255, 255, 255, 1) 58.66%); pointer-events: none; height: 45px; width: 275px">
-                    <div style="display: flex;align-items: center;color: white; background-color:#D6E9F8;" >
-                      ${proc.icons_down.map(down =>
-                        html`<img src="${down.icon_name}" style="width:20px; pointer-events: auto;">`
-                      )}
-                    </div>
-                  </sp-menu-item>
-                ` : nothing
-              }
-            </sp-action-menu>
-          </sp-menu-item>
-          `
-        )}
-      </sp-action-menu>
-    `;
-  }
-  desktopVersion4() {
-    return html`
-      <sp-action-menu class="topMenu" id="dashboardprocedures" size="m">
-        <div slot="icon"></div>
-        <span slot="label">${langConfig.proceduresOption["tabLabel_" + this.lang]}</span>
-        ${this.procAccess.map(proc => 
-          html`
-          <sp-menu-item style="color:rgb(36, 192, 235); font-weight:bold; background-color:#E3F0FA;">
-            <sp-action-menu class="topMenu procMenu" id="${proc.procInstanceName}" placement="right-start" size="m"
-              @mouseover=${() => this.subMenuHover(proc.procInstanceName)}>
-              <div slot="icon"></div>
-              <span slot="label" style="color:rgb(36, 192, 235); font-weight:bold;">${proc["label_" + this.lang]}</span>
-              ${this.renderSubMenu(proc)}
-            </sp-action-menu>
-          </sp-menu-item>
-          `
-        )}
-      </sp-action-menu>
-    `;
-  }
-  renderSubMenu(proc) {
-  return html`
-    ${proc.icons_up.map(up => 
-      html`<sp-menu-item @mouseover=${e => e.stopPropagation()} style="background-color:#E3F0FA;">
-        <md-icon @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${up.lp_frontend_page_name}`)} style="--mdc-icon-size:2vw;">${up.icon_name}</md-icon>
-      </sp-menu-item>`
-    )}
-    ${proc.new_definition.map(def => 
-      html`
-        <sp-menu-item @mouseover=${e => e.stopPropagation()} style="background-color:#E3F0FA;">
-          <div @click=${() => this.selectedMenu(`/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}`)} style="display: flex; align-items: center;">
-            <label>${def["label_" + this.lang]}</label>
-          </div>
-        </sp-menu-item>
-      `
-    )}
-  `;
-}
-  subMenuHover(e) {
-    clearTimeout(this.hoverTimeout);
-
-    if (this.openedSubMenu) {
-      if (this.openedSubMenu.id == e.target.id) {
-        e.target.open = false // fix bug when re-hover the closed sub menu
-        e.target.open = true
-      } else {
-        if (e.target.getAttribute("class") == "topMenu procMenu") {
-          this.openedSubMenu.open = false
-          e.target.open = true
-          this.openedSubMenu = e.target
-        }
-      }
-    } else {
-      if (e.target.getAttribute("class") == "topMenu procMenu") {
-        e.target.open = true
-        this.openedSubMenu = e.target
-      }
-    }
-    // adjust menu and submenu styles
-    if (e.target.open) {
-      setTimeout(() => {
-        let popover = document.querySelectorAll("sp-popover")
-        popover.forEach(p => {
-          p.style.setProperty("--spectrum-popover-background-color", "rgb(3, 169, 244)")
-          p.style.borderBottom = "1px solid black"
-          p.style.boxShadow = "1px 1px #888888"
-          let pMenu = p.querySelectorAll("sp-menu")
-          pMenu.forEach(m => {
-            if (m.tabIndex < 0) {
-              m.style.margin = "0"
-              m.style.width = "280px"
-            }
-          })
-          let spMenu = p.querySelectorAll("sp-menu-item")
-          spMenu.forEach(s => {
-            s.style.borderBottom = "1px solid black"
-            s.style.boxShadow = "1px 1px #888"
-          })
-        })
-      })
-    }
-  }
-  connectedCallback() {
-    super.connectedCallback();
-    // Otros listeners...
-  
-    // Listener para el evento 'open-tab'
-    window.addEventListener('open-tab', this.handleOpenTab.bind(this));
-  }
-  
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    // Otros removers...
-  
-    // Remover listener para el evento 'open-tab'
-    window.removeEventListener('open-tab', this.handleOpenTab.bind(this));
-  }
-  
-  handleOpenTab(event) {        
-    const { procName, vwName, fltrName } = event.detail;
-    this.query.procName=procName 
-    this.query.filterName =fltrName
-    this.query.viewName=vwName
-    this.selectedMenu(`/dashboard/procedures?procName=${procName}&viewName=${vwNamee}&filterName=${fltrName}`)
-    this.requestUpdate();
+    let nonCertified = icons.filter(i => i.sops_passed == false);
+    return nonCertified.length ? "" : "pointer-events: none;";
   }
 }
+
+customElements.define('procedures-menu', ProceduresMenu);

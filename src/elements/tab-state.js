@@ -317,13 +317,13 @@ export class TabState extends navigator(LitElement) {
         display: inline-block;
         flex-shrink: 0;
       }
-      mwc-button {
+      md-filled-button {
         --mdc-typography-button-text-transform: none;
       }
-      mwc-icon-button {
+      md-icon-button {
         color: rgba(36, 192, 235, 1);
       }
-      mwc-icon-button[hidden] {
+      md-icon-button[hidden] {
         display: none;
       }
       @media (max-width: 460px) {
@@ -433,31 +433,38 @@ export class TabState extends navigator(LitElement) {
   }
 
   async tabRemoved(e) {
-    let currentIdx = this.tabs.findIndex(t => t.route == this.currentTab) // get the current index
-    this.tabs = this.tabs.filter(t => t.route != e.detail.route)
-    await this.requestUpdate()
-    if (e.detail.route != this.currentTab) { // keep on the same route
-      console.log("not current router")
-    } else { // change to the next tab route
-      if (currentIdx >= this.tabs.length) { // decrease 1 if current index higher than tabs length
+    let currentIdx = this.tabs.findIndex(t => t.route == this.currentTab); // obtener el índice actual
+    this.tabs = this.tabs.filter(t => t.route != e.detail.route); // eliminar de las pestañas abiertas
+    await this.requestUpdate();
+    
+    // Eliminar la pestaña del sessionStorage
+    let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
+    openViews = openViews.filter(t => t.route != e.detail.route);
+    sessionStorage.setItem("openViews", JSON.stringify(openViews));
+    console.log("openViews actualizadas en sessionStorage:", openViews);
+  
+    // Manejar la redirección y selección de la nueva pestaña actual
+    if (e.detail.route != this.currentTab) {
+      console.log("No es la pestaña actual");
+    } else {
+      if (currentIdx >= this.tabs.length) {
         --currentIdx;
       }
       if (currentIdx > -1) {
-        this.navigate("/dashboard/"+ this.tabs[currentIdx].route)
-        this.currentTab = this.tabs[currentIdx].route
-      } else { // back to default page
-        this.navigate("/dashboard")
-        this.currentTab = ""
+        this.navigate("/dashboard/" + this.tabs[currentIdx].route);
+        this.currentTab = this.tabs[currentIdx].route;
+      } else {
+        this.navigate("/dashboard");
+        this.currentTab = "";
       }
-      this.tabElems.forEach(t => {
-        if (t.tab.route == this.currentTab) {
-          t.activeTab = true
-        } else {
-          t.activeTab = false
-        }
-      })  
     }
+  
+    // Actualizar pestañas activas
+    this.tabElems.forEach(t => {
+      t.activeTab = t.tab.route == this.currentTab;
+    });
   }
+  
 
   static get properties() {
     return {
@@ -496,73 +503,52 @@ export class TabState extends navigator(LitElement) {
   }
 
   pushTab() {
-    //alert('pushTab')
-    //    console.log('pushTab')
-    let tab = []
+    let tab = [];
+    
     if (this.params.menu == "procedures") {
-      if (this.config.local) {
-        tab = tabObj.filter(t => t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
-      } else {
-        // validating the procName, viewName, filterName do they exist on the new_definition
-        let sessionProcedures=JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures
-        let validProc = sessionProcedures.filter(p => p.procInstanceName == this.query.procName);
-        if (validProc.length) {
-          let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName)
-          if (validView.length) {
-            let validFilter = false, label_en = "", label_es = ""
-            if (validView[0].icons) {
-              validFilter = validView[0].icons.filter(f => f.name == this.query.filterName)
-              if (validFilter.length) {
-                label_en = validFilter[0].label_en
-                label_es = validFilter[0].label_es
-                validFilter = true
-              }
-            } else {
-              label_en = validView[0].label_en
-              label_es = validView[0].label_es
-              if (this.query.filterName===undefined||this.query.filterName==='undefined'||this.query.filterName===''){
-                validFilter = (validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
-              }else{
-                validFilter = ((validView[0].name == this.query.viewName||validView[0].lp_frontend_page_name == this.query.viewName)
-                  &&(validView[0].lp_frontend_page_filter == this.query.filterName))
-              }
-            }
-            if (validFilter) {
-              //alert('tabState '+this.query.procName)
-              sessionStorage.setItem("viewFilterForQuery", undefined)
-              tab = [{
-                "lp_frontend_page_name": this.query.viewName,
-                "route": "procedures?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName,
-                "tabLabel_en": validProc[0].label_en +"-"+ label_en,
-                "tabLabel_es": validProc[0].label_es +"-"+ label_es,
-                "procInstanceName": this.query.procName,
-                "viewName": this.query.viewName,
-                "filterName": this.query.filterName
-              }]
-
-              sessionStorage.setItem("currentOpenView", JSON.stringify(tab[0]))
-            }
-          }
-        }else{
-          alert("Procedure "+this.query.procName+" not found")
+      // Validación y almacenamiento de tabs
+      let sessionProcedures = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures;
+      let validProc = sessionProcedures.filter(p => p.procInstanceName == this.query.procName);
+      
+      if (validProc.length) {
+        let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName);
+        
+        if (validView.length) {
+          let tabLabel_en = validProc[0].label_en + "-" + validView[0].label_en;
+          let tabLabel_es = validProc[0].label_es + "-" + validView[0].label_es;
+          
+          // Crear el objeto de la pestaña
+          tab = [{
+            "procName": this.query.procName,
+            "viewName": this.query.viewName,
+            "filterName": this.query.filterName || '',
+            "route": `procedures?procName=${this.query.procName}&viewName=${this.query.viewName}&filterName=${this.query.filterName || ''}`,
+            "tabLabel_en": tabLabel_en,
+            "tabLabel_es": tabLabel_es
+          }];
+          
+          // Guardar en sessionStorage
+          let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
+          openViews.push(tab[0]);
+          sessionStorage.setItem("openViews", JSON.stringify(openViews));
+          console.log("openViews actualizadas en sessionStorage:", openViews);
         }
       }
-    } else {
-      tab = tabObj.filter(t => t.route == this.params.menu || t.route == this.params.menu+"?filterData="+ this.query.filterData || t.route == this.params.menu+"?procName="+ this.query.procName +"&viewName="+ this.query.viewName +"&filterName="+ this.query.filterName)
     }
+  
+    // Añadir la pestaña a la lista si no existe
     if (tab.length) {
-      let exist = this.tabs.filter(t => t.route == tab[0].route)
-      // dont add if found existing one
+      let exist = this.tabs.filter(t => t.route == tab[0].route);
+      
       if (!exist.length) {
-        this.tabs = [
-          ...this.tabs,
-          tab[0]
-        ]
+        this.tabs = [...this.tabs, tab[0]];
       }
-      this.currentTab = tab[0].route
-      this.requestUpdate()
+  
+      this.currentTab = tab[0].route;
+      this.requestUpdate();
     }
   }
+  
 
   setTabs() {
     let tabs = JSON.parse(sessionStorage.getItem("userSession")).userTabsOnLogin;

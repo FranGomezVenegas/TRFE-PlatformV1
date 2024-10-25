@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit';
-import '@material/mwc-icon-button';
-import '@material/mwc-button';
+//import '@material/mwc-icon-button';
+// import '@material/mwc-button';
+import '@material/web/iconbutton/icon-button.js';
+import '@material/web/button/filled-button.js';
 
 export class TabItem extends LitElement {
   static get styles() {
@@ -31,17 +33,16 @@ export class TabItem extends LitElement {
         border-color:rgb(3, 169, 244);
         border-width: 0px 3px 3px 0px;
       }
-      mwc-button {
+      md-filled-button {
         --mdc-typography-button-text-transform: none;
         --mdc-typography-button-font-size: 12px;
         --mdc-theme-primary: #ffffff;
       }
-      mwc-icon-button {
+
+      md-icon-button {
         color: aliceblue;
-        --mdc-icon-button-size: 16px;
-        --mdc-icon-size: 15px;
-        --mdc-button-horizontal-padding: 3px;
-        --mdc-button-horizontal-padding: 0px;
+        --md-icon-button-size: 16px;
+        --md-icon-size: 15px;
       }
     `;
   }
@@ -49,12 +50,12 @@ export class TabItem extends LitElement {
   render() {
     return html`
       <div class="t-item ${this.activeTab ? 'active' : null}">
-        <mwc-button .label="${this.lang=="en"?this.tab.tabLabel_en:this.tab.tabLabel_es}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
+        <md-filled-button .label="${this.lang=="en"?this.tab.tabLabel_en:this.tab.tabLabel_es}" @click=${()=>this.dispatchEvent(new CustomEvent('tab-change', {
           detail: this.tab
-        }))}></mwc-button>
-        <mwc-icon-button @click=${()=>this.dispatchEvent(new CustomEvent('tab-remove', {
+        }))}></md-filled-button>
+        <md-icon-button @click=${()=>this.dispatchEvent(new CustomEvent('tab-remove', {
           detail: this.tab
-        }))} icon="close"></mwc-icon-button>
+        }))} icon="close"></md-icon-button>
       </div>
     `;
   }

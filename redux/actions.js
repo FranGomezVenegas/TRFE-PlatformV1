@@ -2,6 +2,7 @@ export const INIT_METADATA = 'INIT_METADATA';
 export const INIT_CONFIG = 'INIT_CONFIG';
 export const SET_LANG = 'SET_LANG';
 export const SET_ACTIVITY = 'SET_ACTIVITY';
+export const SET_USER_SESSION = 'SET_USER_SESSION';
 
 export const initMetadata = (metadata) => {
   return {

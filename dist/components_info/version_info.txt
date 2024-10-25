@@ -1,0 +1,48 @@
+Component Versions and Names:
+Main Project: trazit-platform, Version: 1.1.0
+@trazit/common-core: 1.0.0
+@trazit/tr-dialog: 1.1.0
+@trazit/build-label: 1.0.0
+@trazit/build-numerics: 1.0.0
+@trazit/tr-styling: 1.0.0
+@trazit/platform-login: 2.2.0
+      @trazit/common-core: 1.0.0
+@trazit/cred-dialog: 1.0.0
+      @trazit/common-core: 1.0.0
+      @trazit/platform-login: 2.1.0
+      @trazit/tr-dialog: 1.0.0
+@trazit/relogin-dialog: 1.0.0
+      @trazit/cred-dialog: 1.0.0
+      @trazit/platform-login: 2.1.0
+@trazit/apis-forplatform: 1.0.0
+@trazit/platform-notif: 1.1.0
+@trazit/tr-procedures: 0.2.88
+      @trazit/cred-dialog: 1.0.0
+      @trazit/tr-dialog: 1.1.0
+      @trazit/common-core: 1.0.0
+      @trazit/tr-styling: 1.0.0
+      @trazit/platform-login: 2.2.0
+      @trazit/build-label: 1.0.0
+      @trazit/build-numerics: null
+@trazit/my-certifications: 0.0.3
+      @trazit/common-core: 0.0.2
+      @trazit/platform-login: 2.0.4
+@trazit/my-incidents: 0.9.0
+      @trazit/common-core: 0.0.2
+      @trazit/platform-login: 2.0.4
+      @trazit/tr-dialog: 0.0.1
+      @trazit/Apis: 1.1.0
+      @trazit/apis-forplatform: 1.0.0
+@trazit/user-profile: 0.0.4
+      @trazit/cred-dialog: 0.0.4
+@trazit/video-tutorial: 0.0.3
+      @trazit/common-core: 0.0.2
+      @trazit/platform-login: 2.0.4
+@trazit/endpoints-list: 1.0.0
+      @trazit/common-core: 1.0.0
+      @trazit/tr-styling: 1.0.0
+      @trazit/platform-login: 2.2.0
+@trazit/holiday-calendars: 0.0.5
+      @trazit/apis-forplatform: null
+      @trazit/platform-login: 2.2.0
+      @trazit/common-core: 1.0.0
