@@ -3,15 +3,15 @@
   "description": "Dialog element of trazit platform, customize from md-dialog",
   "license": "MIT",
   "author": "Trazit Team",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
     "start": "web-dev-server --root-dir demo --node-resolve --open --watch"
   },
   "dependencies": {
-    "@material/web": "^2.1.0",
+    "@material/web": "^2.2.0",
     "lit": "^2.8.0"
   },
-  "yalcSig": "06fe90e9fdc89971c02c7e480905f92b"
+  "yalcSig": "c512939cbf9d202f9ab3d7be3d000a7e"
 }

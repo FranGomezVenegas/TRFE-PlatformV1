@@ -1,51 +1,49 @@
-// ${desktop ? 
-//     html`${this.tabState()}` : nothing
-//   }
-//   <div class="content">
-//     ${desktop ? 
-//       nothing :
-//       html`
-//         <div id="tabHandle" 
-//           >
-//           <md-icon @click=${e=>{this.showTab=!this.showTab;e.target.icon=e.target.icon=="visibility"?"visibility_off":"visibility"}}>arrow_drop_up</md-icon>
-//           <div></div>
-//         </div>
-//         <div class="layout horizontal flex" style="margin-top:5px" style="display: flex; justify-content: flex-end;">
-//           ${this.tabMobileState()}
-//         </div>
-//       `
-//     }
-
 import { html, nothing } from 'lit';
+import './elements/tab-state.js';
 //import '@trazit/tr-procedures/tr-procedures.js'
 export const mainView = (thisComp, desktop, config, showTab, lang, currentView, notifs, query) => html`
 <div class="mainbackground">
 <main class="layout vertical flex">
-${currentView.componentToOpen}
+<!-- ${currentView.componentToOpen} -->
 <!-- tabs -->
+      ${desktop ? html`<tab-state .lang=${lang} .tabs=${thisComp.tabs}></tab-state>` : nothing}
+        
 
     <tr-default ?hidden=${currentView.componentToOpen}></tr-default>
-    <tr-procedures .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'procedures' ? false : true}></tr-procedures>
-    <platform-notif .lang=${lang} .notifs=${notifs} ?hidden=${currentView.componentToOpen == 'notifications' ? false : true} .params=${currentView}></platform-notif>
-    <my-certifications 
-      .lang=${lang} 
-      .config=${config} 
-      .filterData=${query.filterData} ?hidden=${currentView.componentToOpen == 'certifications' ? false : true} 
-      .params=${currentView}
-      @certs-updated=${thisComp.certsUpdated}>
-    </my-certifications>
-    <my-incidents .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'incidents' ? false : true} .params=${currentView}>
-    </my-incidents>
-    <user-profile .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'user' ? false : true}
-      .params=${currentView} @save-tabs=${()=>this.tabs.saveTabs()}></user-profile>
-    <video-tutorial .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'tutorial' ? false : true}
-      .params=${currentView}></video-tutorial>
-    <endpoints-listbymodule .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'endpoints' ? false : true}
-      .params=${currentView}></endpoints-listbymodule>
-    <platform-usersessions .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'platformusersessions' ? false : true}
-      .params=${currentView}></platform-usersessions>
-    <holiday-calendars .lang=${lang} .config=${config} ?hidden=${currentView.componentToOpen == 'holidayscalendar' ? false : true} .params=${currentView}>
-    </holiday-calendars>              
+    ${currentView.componentToOpen == 'procedures' ? html`
+      <tr-procedures .lang=${lang} .config=${config}></tr-procedures>
+    `:nothing}
+    ${currentView.componentToOpen == 'notifications' ? html`
+      <platform-notif .lang=${lang} .notifs=${notifs}  .params=${currentView}></platform-notif>
+      `:nothing}
+    ${currentView.componentToOpen == 'certifications' ? html`
+        <user-certifications .lang=${lang} .config=${config} 
+        .filterData=${query.filterData} ?hidden=${currentView.componentToOpen == 'certifications' ? false : true} 
+        .params=${currentView} @certs-updated=${thisComp.certsUpdated}>
+      </user-certifications>
+    `:nothing}
+    ${currentView.componentToOpen == 'incidents' ? html`
+      <my-incidents .lang=${lang} .config=${config}  .params=${currentView}></my-incidents>
+    `:nothing}
+    ${currentView.componentToOpen == 'user' ? html`
+      <user-settings .lang=${lang} .config=${config} 
+      .params=${currentView} @save-tabs=${()=>this.tabs.saveTabs()}></user-settings>
+    `:nothing}
+    ${currentView.componentToOpen == 'tutorial' ? html`
+      <video-tutorial .lang=${lang} .config=${config} .params=${currentView}></video-tutorial>
+    `:nothing}
+    ${currentView.componentToOpen == 'endpoints' ? html`
+      <endpoints-listbymodule .lang=${lang} .config=${config} .params=${currentView}></endpoints-listbymodule>
+    `:nothing}
+    ${currentView.componentToOpen == 'platformusersessions' ? html`
+      <platform-usersessions .lang=${lang} .config=${config} .params=${currentView}></platform-usersessions>
+    `:nothing}
+    ${currentView.componentToOpen == 'holidayscalendar' ? html`
+          <holiday-calendars .lang=${lang} .config=${config} .params=${currentView}></holiday-calendars> 
+    `:nothing}
+    
+    
+             
   </div>
 </main>
 </div>

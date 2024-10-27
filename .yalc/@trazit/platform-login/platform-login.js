@@ -1,3 +1,5 @@
 import { PlatformLogin } from './src/PlatformLogin.js';
 
-window.customElements.define('platform-login', PlatformLogin);
+//if (!customElements.get('platform-login')) {
+    window.customElements.define('platform-login', PlatformLogin);
+//}

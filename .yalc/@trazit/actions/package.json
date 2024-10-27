@@ -1,0 +1,13 @@
+{
+    "name": "@trazit/actions",
+    "version": "1.1.0",
+    "description": "Module to Manage the actions for Procedures",
+    "main": "ActionsFunctions.js",
+    "scripts": {
+        "postpublish": "node generateComponentVersions.js"
+    },
+    "keywords": [],
+    "author": "Fran Gómez",
+    "license": "MIT",
+    "yalcSig": "1a45f34a76dbda52c896cf551b433382"
+}

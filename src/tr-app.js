@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { router, navigator, outlet } from 'lit-element-router';
 import { setPassiveTouchGestures } from '../utils/settings.js';
-
+import '@trazit/tr-styling/src/tr-styling';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
@@ -71,6 +71,19 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   firstUpdated() {
     super.firstUpdated();
     
+    fetch("./config.json")
+    .then(response => response.json())
+    .then(config => {
+      this.config = config;
+      if (config.theme) {
+        this.currentTheme = config.theme;
+        this.applyTheme(); // Llama a applyTheme para asegurar que el tema se aplique
+        this.requestUpdate();
+      }
+    })
+    .catch(error => {
+      console.error('Error al cargar config.json:', error);
+    });     
     // Escuchar eventos personalizados para mostrar y ocultar el progreso circular
     window.addEventListener('show-progress', this.showProgress.bind(this));
     window.addEventListener('hide-progress', this.hideProgress.bind(this));
@@ -93,18 +106,8 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     })
   }
   
-  xxxshowProgress20240828() {
-    this.waiting.closed = true;
-    this.loadingLogo.setAttribute('active', '');
-  }
-  
-  xxxhideProgress20240828() {
-    this.waiting.closed = true;
-    this.loadingLogo.removeAttribute('active');
-  }
-  
   showProgress() {
-    console.log("showProgress called");
+    //console.log("showProgress called");
     this.waiting.closed = false; // Mostrar el progreso
     this.loadingLogo.setAttribute('active', '');
   }
@@ -117,9 +120,14 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   
   
   completed() {
-    this.waiting.closed = true;
+    console.log('completed'); // Asegúrate de que se está llamando
+    this.waiting.style.display = 'none'; // Alternativa 1
+    // o bien
+    // this.waiting.setAttribute('closed', ''); // Alternativa 2
+
     this.loadingLogo.removeAttribute('active');
-  }
+}
+
 
   async ensureToastAvailable() {
     if (this.toast === null) {
@@ -225,6 +233,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
       data: { type: Object },
       title: { type: String },
       metadata: { type: Object },
+      currentTheme: { type: String },
       lang: { type: String }
     };
   }
@@ -297,9 +306,27 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
     this.data = {};
     this.title = 'Trazit Platform';
     this.metadata = {};
+    this.currentTheme = 'trazit';
     window.addEventListener('unload', this.handleUnload.bind(this));
   }
+  connectedCallback() {
+    super.connectedCallback();
 
+    // Verifica si ya existe tr-styling en el documento
+    if (!document.querySelector('tr-styling')) {
+      const trStyling = document.createElement('tr-styling');
+      trStyling.config = { theme: 'trazit' }; // O el tema por defecto
+      document.body.appendChild(trStyling);
+    }
+  }
+  applyTheme() {
+    let trStyling = document.querySelector('tr-styling');
+    if (!trStyling) {
+      trStyling = document.createElement('tr-styling');
+      document.body.appendChild(trStyling);
+    }
+    trStyling.config = { theme: this.currentTheme };
+  }
   handleUnload(event) {
     // Realizar la acción de logout utilizando sendBeacon
     const url = '/api/logout'; // Cambia esta URL a tu endpoint real de logout
@@ -318,7 +345,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   }
 
   async _routeChanged() {
-    await this.requestUpdate(); // call it to wait the router complete updated
+    await this.updateComplete; // call it to wait the router complete updated
     // Show the corresponding page according to the route.
     //
     // If no page was found in the route data, page will be an empty string.
@@ -333,7 +360,7 @@ export class TrApp extends connect(store)(router(navigator(outlet(LitElement))))
   }
 
   async _pageChanged() {
-    await this.requestUpdate(); // call it to wait the router complete updated
+    await this.updateComplete; // call it to wait the router complete updated
     switch (this.page) {
       case 'home':
         import('./tr-home');

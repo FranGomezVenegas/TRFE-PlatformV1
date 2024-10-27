@@ -32,7 +32,7 @@ export const bannerProcedureOperation = (thisComp, lang, config, flag, PlatformM
                 </button>
                 ${menu.isProcedureMenu !== undefined && menu.isProcedureMenu === true ? html`
                   <div class="operation-dropdown-content ${menu.open ? 'open' : ''}">
-                    <procedures-menu .procAccess="${proceduresList}" .selectedMenuCallback="${thisComp.selectedMenu.bind(thisComp)}"></procedures-menu>
+                    <procedures-menu .lang=${lang} .procAccess="${proceduresList}" .selectedMenuCallback="${thisComp.selectedMenu.bind(thisComp)}"></procedures-menu>
                   </div>
                 ` : nothing}
                 ${menu.options ? html`
@@ -88,7 +88,7 @@ export const bannerProcedureOperation = (thisComp, lang, config, flag, PlatformM
       `}
     </div>
 
-    #tabs: ${tabs.length}
+    
     <!-- Menú lateral deslizante para móvil -->
     <div id="mobileMenu" class="mobile-menu" @click="${(e) => e.stopPropagation()}">
       <div class="mobile-menu-content">
@@ -103,7 +103,7 @@ export const bannerProcedureOperation = (thisComp, lang, config, flag, PlatformM
               ${menu.isProcedureMenu !== undefined && menu.isProcedureMenu === true ? html`
                 <!-- Submenú para Procedures en mobile -->
                 <div class="mobile-submenu-content ${menu.open ? 'open' : ''}">
-                  <procedures-menu .procAccess="${proceduresList}"></procedures-menu>
+                  <procedures-menu .lang=${lang} .procAccess="${proceduresList}"></procedures-menu>
                 </div>
               ` : nothing}
             </div>

@@ -1,0 +1,28 @@
+{
+  "name": "@trazit/user-settings",
+  "description": "Component user profile of trazit platform",
+  "license": "MIT",
+  "author": "Trazit Team",
+  "version": "0.0.4",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "yalc:publish": "yalc publish --no-scripts"
+  },
+  "dependencies": {
+    "@material/web": "^2.2.0",
+    "@trazit/actions": "file:.yalc/@trazit/actions",
+    "@trazit/apis-forplatform": "file:.yalc/@trazit/apis-forplatform",
+    "@trazit/common-core": "file:.yalc/@trazit/common-core",
+    "@trazit/cred-dialog": "file:.yalc/@trazit/cred-dialog",
+    "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
+    "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
+    "@trazit/tr-styling": "file:.yalc/@trazit/tr-styling",
+    "@trazit/utils-actions-functions": "file:.yalc/@trazit/utils-actions-functions",
+    "lit": "^2.0.2"
+  },
+  "yalcSig": "2517d819866d2c86c868f5a4666bdfae"
+}

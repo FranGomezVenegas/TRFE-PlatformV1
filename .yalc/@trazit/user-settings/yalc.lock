@@ -1,0 +1,45 @@
+{
+  "version": "v1",
+  "packages": {
+    "@trazit/tr-dialog": {
+      "version": "1.1.0",
+      "signature": "c512939cbf9d202f9ab3d7be3d000a7e",
+      "file": true
+    },
+    "@trazit/utils-actions-functions": {
+      "version": "1.0.0",
+      "signature": "8af20d5380455dd097d2845baeb61ff4",
+      "file": true
+    },
+    "@trazit/platform-login": {
+      "version": "2.3.1",
+      "signature": "89e7cea243b7737bbd9101d23e70927b",
+      "file": true
+    },
+    "@trazit/common-core": {
+      "version": "1.0.0",
+      "signature": "938b910bcecca93396fddf02063de815",
+      "file": true
+    },
+    "@trazit/cred-dialog": {
+      "version": "1.1.1",
+      "signature": "9efc29b2cfa3af5a2748ed3d9539f1c2",
+      "file": true
+    },
+    "@trazit/actions": {
+      "version": "1.1.0",
+      "signature": "1a45f34a76dbda52c896cf551b433382",
+      "file": true
+    },
+    "@trazit/tr-styling": {
+      "version": "1.1.0",
+      "signature": "8929c0c298a0d583f40b19b62b8764a0",
+      "file": true
+    },
+    "@trazit/apis-forplatform": {
+      "version": "1.0.0",
+      "signature": "2fd211b8aee3374bcdbf8f0676fd4d06",
+      "file": true
+    }
+  }
+}

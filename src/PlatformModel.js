@@ -1,5 +1,5 @@
 export const PlatformModel = {
-  "customerLogo":"./images/LOGO_azul_10_SEG_LOOP.gif",
+  "customerLogo":"./images/image.png",
 
   "operation-menus":[
     {

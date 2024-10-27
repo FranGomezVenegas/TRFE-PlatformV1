@@ -1,0 +1,22 @@
+{
+  "name": "@trazit/user-certifications",
+  "description": "Component to display the user certifications grouped by procedures",
+  "license": "MIT",
+  "author": "Trazit Team",
+  "version": "1.0.0",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "start": "web-dev-server --root-dir demo --node-resolve --open --watch",
+    "yalc-install": "node installYalcComponents.js"
+  },
+  "dependencies": {
+    "@alenaksu/json-viewer": "^1.0.1",
+    "@material/web": "^2.2.0",
+    "@trazit/common-core": "file:.yalc/@trazit/common-core",
+    "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
+    "@trazit/tr-styling": "file:.yalc/@trazit/tr-styling",
+    "lit": "^2.0.2"
+  },
+  "yalcSig": "5c6ffa7eebafaf3ead074f3b0fced9c1"
+}

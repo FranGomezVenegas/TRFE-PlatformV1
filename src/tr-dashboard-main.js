@@ -52,7 +52,7 @@ export class TrDashboard extends connect(store)(LitElement) {
   constructor() {
     super();
     this.lang = 'en';  // Default language
-    this.userRole = '';  // Will be set after firstUpdated
+    this.userRole = '';  
     this.config = {};  
     this.desktop=true
     this.procedures = [
@@ -70,12 +70,44 @@ export class TrDashboard extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
+
+    super.firstUpdated();
+
+    // Restaurar pestañas desde sessionStorage
+    const savedTabs = JSON.parse(sessionStorage.getItem('openTabs'));
+    const activeTab = sessionStorage.getItem('activeTab');
+
+    if (savedTabs && savedTabs.length) {
+      this.tabs = savedTabs;
+      this.shadowRoot.querySelector('tab-state').tabs = this.tabs;
+      
+      // Si existe una pestaña activa guardada, restaurarla
+      if (activeTab) {
+        this.shadowRoot.querySelector('tab-state').activateTab(activeTab);
+        this._paramsChanged(activeTab);  // Actualizar el contenido
+      } else {
+        // Si no hay pestaña activa, selecciona la última
+        const lastActiveTab = this.tabs[this.tabs.length - 1];
+        if (lastActiveTab) {
+          this.shadowRoot.querySelector('tab-state').activateTab(lastActiveTab.route);
+          this._paramsChanged(lastActiveTab.route);
+        }
+      }
+    }    
+
     const mediaQuery = window.matchMedia('(min-width: 960px)');
     this.desktop = mediaQuery.matches;
     mediaQuery.addEventListener('change', (e) => this.desktop = e.matches);
   
     // Fetch user session data after the component has been rendered for the first time
-    // this.updateUserSession();
+    this.updateUserSession();
+  
+  // Escuchar el evento de cambio de pestaña
+  this.shadowRoot.querySelector('tab-state').addEventListener('tab-changed', (e) => {
+    const route = e.detail.route;    
+    this._paramsChanged(route);  // Cambiar el contenido según la ruta seleccionada
+  });
+  
   
     // Watch for changes in sessionStorage, specifically for procedures_list
     // window.addEventListener('sessionUpdated', (e) => {
@@ -193,7 +225,7 @@ export class TrDashboard extends connect(store)(LitElement) {
     }
   }
   selectedMenuMobile(option) {   
-    alert('mobile') 
+   //alert('mobile') 
     if (option.clickRoute === undefined) {
       alert("Route not defined");
       console.log('Selected option:', option);
@@ -240,7 +272,7 @@ export class TrDashboard extends connect(store)(LitElement) {
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
       case 'certifications':
-        //import('@trazit/my-certifications/my-certifications');
+        import('@trazit/user-certifications/user-certifications');
         this.drawerState = false;
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
@@ -250,7 +282,7 @@ export class TrDashboard extends connect(store)(LitElement) {
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
       case 'user':
-        //import('@trazit/user-profile/user-profile');
+        import('@trazit/user-settings/user-settings');
         this.drawerState = false;
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
@@ -277,36 +309,44 @@ export class TrDashboard extends connect(store)(LitElement) {
     }
     this.drawerState = false;
   }
+  // Método para agregar y activar pestaña
   addTab(option) {
-  // Crear el objeto de la pestaña
-  let tab = {
-    procName: this.query.procName,
-    viewName: this.query.viewName,
-    filterName: this.query.filterName || '',
-    route: option.clickRoute,
-    tabLabel_en: option.label_en,
-    tabLabel_es: option.label_es
-  };
+    let tab = {
+      procName: this.query.procName,
+      viewName: this.query.viewName,
+      filterName: this.query.filterName || '',
+      route: option.clickRoute,
+      tabLabel_en: option.label_en,
+      tabLabel_es: option.label_es
+    };
 
-  // Agregar a this.tabs si no existe ya
-  let exist = this.tabs.find(t => t.route === tab.route);
-  if (!exist) {
-    this.tabs = [...this.tabs, tab];
-    console.log("Pestaña agregada: ", 'tab', tab, 'tabs', this.tabs);
+    // Verificar si la pestaña ya existe
+    let existingTab = this.tabs.find(t => t.route === tab.route);
+    if (existingTab) {
+      // Si la pestaña ya existe, marcarla como activa
+      if (this.shadowRoot.querySelector('tab-state')){
+        this.shadowRoot.querySelector('tab-state').activateTab(tab.route);
+      }
+    } else {
+      // Si no existe, agregarla y activarla
+      this.tabs = [...this.tabs, tab];
+      this.shadowRoot.querySelector('tab-state').tabs = this.tabs;  // Actualizar las pestañas en TabState
+      this.shadowRoot.querySelector('tab-state').activateTab(tab.route);
+      console.log("Pestaña agregada y activada:", tab);
+      sessionStorage.setItem('openTabs', JSON.stringify(this.tabs));
+    }
+
+    // Guardar en sessionStorage
+    let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
+    if (!openViews.find(v => v.route === tab.route)) {
+      openViews.push(tab);
+      sessionStorage.setItem("openViews", JSON.stringify(openViews));
+    }
+
+    // Actualizar la UI
+    this.requestUpdate();
   }
 
-  // Guardar en sessionStorage
-  let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
-  let viewExists = openViews.find(v => v.route === tab.route);
-  if (!viewExists) {
-    openViews.push(tab);
-    sessionStorage.setItem("openViews", JSON.stringify(openViews));
-    console.log("openViews actualizadas en sessionStorage:", openViews);
-  }
-
-  // Actualizar la UI
-  this.requestUpdate();
-}
   // updated(updates) {
   //   // except authenticated users, not allowed to route the sub project pages
   //   if (updates.has('params')) {
@@ -512,9 +552,9 @@ toggleMobileMenu() {
   mobileMenu.classList.toggle('open');
   
   if (mobileMenu.classList.contains('open')) {
-    document.addEventListener('click', thisComp.closeMenuOnOutsideClick);
+    document.addEventListener('click', this.closeMenuOnOutsideClick);
   } else {
-    document.removeEventListener('click', thisComp.closeMenuOnOutsideClick);
+    document.removeEventListener('click', this.closeMenuOnOutsideClick);
   }
 }
 
@@ -539,10 +579,11 @@ toggleMobileMenuItem(menu) {
 
 
 closeMenuOnOutsideClick(event) {
-  const mobileMenu = thisComp.shadowRoot.querySelector('#mobileMenu');
+  return
+  const mobileMenu = this.shadowRoot.querySelector('#mobileMenu');
   if (mobileMenu && !mobileMenu.contains(event.target)) {
     mobileMenu.classList.remove('open');
-    document.removeEventListener('click', thisComp.closeMenuOnOutsideClick);
+    document.removeEventListener('click', this.closeMenuOnOutsideClick);
   }
 }
 // Función para abrir/cerrar el submenú en móvil

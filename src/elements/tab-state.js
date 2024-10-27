@@ -1,292 +1,6 @@
-import { LitElement, html, css, unsafeCSS } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { navigator } from 'lit-element-router';
-//import '@material/mwc-icon-button';
-//import '@material/mwc-button';
 import '@material/web/iconbutton/icon-button.js';
-//import '@material/web/button/filled-button';
-
-import './tab-item';
-
-let tabObj = [
-  {
-    "lp_frontend_page_name": "Programs",
-    "route": "procedures?procName=em-demo-a&viewName=Programs&filterName=Programs",
-    "tabLabel_en": "Air (em-demo-a)-Programs",
-    "tabLabel_es": "Aire (em-demo-a)-Programas"
-  },
-  {
-    "lp_frontend_page_name": "Deviation",
-    "route": "procedures?procName=em-demo-a&viewName=Deviation&filterName=Deviation",
-    "tabLabel_en": "Air (em-demo-a)-Deviation",
-    "tabLabel_es": "Aire (em-demo-a)-Desviación"
-  },
-  {
-    "lp_frontend_page_name": "LogSamples",
-    "route": "procedures?procName=em-demo-a&viewName=LogSamples&filterName=SampleLogin",
-    "tabLabel_en": "Air (em-demo-a)-Login New Samples",
-    "tabLabel_es": "Aire (em-demo-a)-Registrar Nuevas Muestras"
-  },
-  {
-    "lp_frontend_page_name": "ProductionLots",
-    "route": "procedures?procName=em-demo-a&viewName=ProductionLots&filterName=SampleLot",
-    "tabLabel_en": "Air (em-demo-a)-Production Lots",
-    "tabLabel_es": "Aire (em-demo-a)-Lotes en producción"
-  },
-  {
-    "lp_frontend_page_name": "SamplePendingSampling",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSampling&filterName=SamplingSMP",
-    "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
-  },
-  {
-    "lp_frontend_page_name": "SamplePendingSampling",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSampling&filterName=SamplingPERS",
-    "tabLabel_en": "Air (em-demo-a)-Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo"
-  },
-  {
-    "lp_frontend_page_name": "SamplePendingSamplingInterval",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSamplingInterval&filterName=SamplingSMP",
-    "tabLabel_en": "Air (em-demo-a)-Samples Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo de Muestras"
-  },
-  {
-    "lp_frontend_page_name": "SamplePendingSamplingInterval",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePendingSamplingInterval&filterName=SamplingPERS",
-    "tabLabel_en": "Air (em-demo-a)-Sampling",
-    "tabLabel_es": "Aire (em-demo-a)-Muestreo"
-  },
-  {
-    "lp_frontend_page_name": "SamplePlateReading",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePlateReading&filterName=PlateReadingSMP",
-    "tabLabel_en": "Air (em-demo-a)-Samples Plate Reading",
-    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
-  },
-  {
-    "lp_frontend_page_name": "SamplePlateReading",
-    "route": "procedures?procName=em-demo-a&viewName=SamplePlateReading&filterName=PlateReadingPERS",
-    "tabLabel_en": "Air (em-demo-a)-Plate Reading",
-    "tabLabel_es": "Aire (em-demo-a)-Lectura de Placas",
-  },
-  {
-    "lp_frontend_page_name": "SampleIncubation",
-    "route": "procedures?procName=em-demo-a&viewName=SampleIncubation&filterName=active_batches",
-    "tabLabel_en": "Air (em-demo-a)-Samples Incubation",
-    "tabLabel_es": "Aire (em-demo-a)-Incubation"
-  },
-  {
-    "lp_frontend_page_name": "SampleMicroorganism",
-    "route": "procedures?procName=em-demo-a&viewName=SampleMicroorganism&filterName=MicroOrganismSMP",
-    "tabLabel_en": "Air (em-demo-a)-Microorganism Identification",
-    "tabLabel_es": "Aire (em-demo-a)-Identificación de microorganismos"
-  },
-  {
-    "lp_frontend_page_name": "SampleMicroorganism",
-    "route": "procedures?procName=em-demo-a&viewName=SampleMicroorganism&filterName=MicroOrganismPERS",
-    "tabLabel_en": "Air (em-demo-a)-Microorganism Identification",
-    "tabLabel_es": "Aire (em-demo-a)-Identificación de microorganismos"
-  },
-  {
-    "lp_frontend_page_name": "Programs",
-    "route": "procedures?procName=proc-deploy&viewName=Programs&filterName=Programs",
-    "tabLabel_en": "Water (proc-deploy)-Programs",
-    "tabLabel_es": "Agua (proc-Deploy)-Programas"
-  },
-  {
-    "lp_frontend_page_name": "Deviation",
-    "route": "procedures?procName=proc-deploy&viewName=Deviation&filterName=Deviation",
-    "tabLabel_en": "Water (proc-deploy)-Deviation",
-    "tabLabel_es": "Agua (proc-Deploy)-Desviación"
-  },
-  {
-    "lp_frontend_page_name": "LogSamples",
-    "route": "procedures?procName=proc-deploy&viewName=LogSamples&filterName=SampleLogin",
-    "tabLabel_en": "Water (proc-deploy)-Login New Samples",
-    "tabLabel_es": "Agua (proc-Deploy)-Registrar Nuevas Muestras"
-  },
-  {
-    "lp_frontend_page_name": "ProductionLots",
-    "route": "procedures?procName=proc-deploy&viewName=ProductionLots&filterName=SampleLot",
-    "tabLabel_en": "Water (proc-deploy)-Production Lots",
-    "tabLabel_es": "Agua (proc-Deploy)-Lotes en producción"
-  },
-  {
-    "lp_frontend_page_name": "SamplePending",
-    "route": "procedures?procName=proc-deploy&viewName=SamplePending&filterName=sampling",
-    "tabLabel_en": "Water (proc-deploy)-Sampling",
-    "tabLabel_es": "Agua (proc-Deploy)-Muestreo"
-  },
-  {
-    "lp_frontend_page_name": "SampleEnterResult",
-    "route": "procedures?procName=proc-deploy&viewName=SampleEnterResult&filterName=ER-FQ",
-    "tabLabel_en": "Water (proc-deploy)-Sample Chem",
-    "tabLabel_es": "Agua (proc-Deploy)-Muestras FQ"
-  },
-  {
-    "lp_frontend_page_name": "SampleEnterResult",
-    "route": "procedures?procName=proc-deploy&viewName=SampleEnterResult&filterName=ER-MB",
-    "tabLabel_en": "Water (proc-deploy)-Sample MB",
-    "tabLabel_es": "Agua (proc-Deploy)-Muestras Micro"
-  },
-  {
-    "lp_frontend_page_name": "ReviewTesting",
-    "route": "procedures?procName=proc-deploy&viewName=ReviewTesting&filterName=RT-FQ",
-    "tabLabel_en": "Water (proc-deploy)-FQ Review Testing",
-    "tabLabel_es": "Agua (proc-Deploy)-Ensayos revisión FQ"
-  },
-  {
-    "lp_frontend_page_name": "ReviewTesting",
-    "route": "procedures?procName=proc-deploy&viewName=ReviewTesting&filterName=RT-MB",
-    "tabLabel_en": "Water (proc-deploy)-MB Review Testing",
-    "tabLabel_es": "Agua (proc-Deploy)-Ensayos revisión MB"
-  },
-  {
-    "lp_frontend_page_name": "ReviewTestingGroup",
-    "route": "procedures?procName=proc-deploy&viewName=ReviewTestingGroup&filterName=RTG-FQ",
-    "tabLabel_en": "Water (proc-deploy)-FQ Review Testing Group",
-    "tabLabel_es": "Agua (proc-Deploy)-Grupo Analítico revisión FQ"
-  },
-  {
-    "lp_frontend_page_name": "ReviewTestingGroup",
-    "route": "procedures?procName=proc-deploy&viewName=ReviewTestingGroup&filterName=RTG-MB",
-    "tabLabel_en": "Water (proc-deploy)-MB Review Testing Group",
-    "tabLabel_es": "Agua (proc-Deploy)-Grupo Ensayos revisión MB"
-  },
-  {
-    "lp_frontend_page_name": "ReviewSample",
-    "route": "procedures?procName=proc-deploy&viewName=ReviewSample&filterName=Review",
-    "tabLabel_en": "Water (proc-deploy)-Review Samples",
-    "tabLabel_es": "Agua (proc-Deploy)-Revisar Muestras"
-  },
-  {
-    "lp_frontend_page_name": "PlatformInstruments",
-    "route": "procedures?procName=app-proc&viewName=PlatformInstruments&filterName=Review",
-    "tabLabel_en": "Active Instruments",
-    "tabLabel_es": "Instrumentos activos"
-  },
-  {
-    "lp_frontend_page_name": "EventsInProgress",
-    "route": "procedures?procName=app-proc&viewName=EventsInProgress&filterName=Review",
-    "tabLabel_en": "Events in progress",
-    "tabLabel_es": "Eventos en curso"
-  },
-  {
-  "lp_frontend_page_name": "ProjectManager",
-  "route": "procedures?procName=genoma-1&viewName=ProjectManager",
-  "tabLabel_en": "(genoma-1)-Clinical Studies",
-  "tabLabel_es": "(genoma-1)-Estudios Clínicos"
-  },  
-  {
-    "lp_frontend_page_name": "incident-management",
-    "route": "incidents",
-    "tabName": "incident-management",
-    "tabLabel_en": "Incidents",
-    "tabLabel_es": "Incidencias",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },
-  {
-    "lp_frontend_page_name": "my-sops",
-    "route": "certifications?filterData=sop",
-    "tabName": "sop-allMySops",
-    "tabLabel_en": "All My SOPs",
-    "tabLabel_es": "Mis PNTs",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },
-  {
-    "lp_frontend_page_name": "my-analysis",
-    "route": "certifications?filterData=analytic",
-    "tabName": "cert-allMyAnalysis",
-    "tabLabel_en": "All My Analysis",
-    "tabLabel_es": "Mis PNTs",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },
-  {
-    "lp_frontend_page_name": "my-pending-certification-approvals",
-    "route": "certifications?filterData=myPendingCertificationApprovals",
-    "tabName": "cert-MyPendingApprovals",
-    "tabLabel_en": "My Pending Approvals",
-    "tabLabel_es": "Mis aprobaciones pendientes",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },  
-  {
-    "lp_frontend_page_name": "session-notifications",
-    "route": "notifications",
-    "tabName": "session-notifications",
-    "tabLabel_en": "Notifications",
-    "tabLabel_es": "Notificaciones",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": false
-  },
-  {
-    "lp_frontend_page_name": "user-profile",
-    "route": "user",
-    "tabName": "user-profile",
-    "tabLabel_en": "User Profile",
-    "tabLabel_es": "Perfil de usuario",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  },
-  {
-    "lp_frontend_page_name": "platform-usersesssions",
-    "route": "platformusersessions",
-    "tabName": "platform-usersesssions",
-    "tabLabel_en": "User Sessions",
-    "tabLabel_es": "Sesiones de usuario",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  },  
-  {
-    "lp_frontend_page_name": "videotutorial-tab",
-    "route": "tutorial",
-    "tabName": "videotutorial-tab",
-    "tabLabel_en": "Video Tutorial",
-    "tabLabel_es": "Tutorial en Video",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  },
-  {
-    "lp_frontend_page_name": "endpoints-tab",
-    "route": "endpoints",
-    "tabName": "endpoints-tab",
-    "tabLabel_en": "Endpoints List",
-    "tabLabel_es": "Lista de punto API",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  },
-  {
-    "lp_frontend_page_name": "holidayscalendar-tab",
-    "route": "holidayscalendar",
-    "tabName": "endpoints-tab",
-    "tabLabel_en": "Holidays Calendars",
-    "tabLabel_es": "Calendarios Vacaciones",
-    "tabType": "systab",
-    "systemTab": true,
-    "tabEsignRequired": false,
-    "tabConfirmUserRequired": true
-  }
-]
 
 export class TabState extends navigator(LitElement) {
   static get styles() {
@@ -299,329 +13,209 @@ export class TabState extends navigator(LitElement) {
       }
       .tabWrap {
         display: flex;
-        flex-direction: row;
-        align-items: flex-start; /* o center, dependiendo del diseño que desees */
+        align-items: center;
+        position: relative;
       }
       .tabContainer {
-        overflow: auto;
-        position: relative;
-        top: 0px;
         display: flex;
-        flex-direction: row;
-        align-items: center; /* o center, dependiendo del diseño que desees */
+        overflow: hidden;
+        flex-grow: 1;
       }
-      .tabContainer::-webkit-scrollbar {
-        display: none;
+      .tabItem {
+        display: inline-flex;
+        align-items: center;
+        background-color: #85bff5; /* Color de las pestañas inactivas */
+        padding: 4px 8px;
+        border-radius: 5px;
+        margin-right: 5px;
+        font-size: 12px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        position: relative;
+        height: 30px; /* Ajuste de altura */
       }
-      .tabContainer > * {
-        display: inline-block;
-        flex-shrink: 0;
+      .tabItem.active {
+        background-color: #2196f3; /* Color de la pestaña activa */
+        color: white;
       }
-      md-filled-button {
-        --mdc-typography-button-text-transform: none;
+
+      .tabItem md-icon-button {
+        --mdc-icon-button-size: 20px;
+        margin-left: 5px;
       }
-      md-icon-button {
-        color: rgba(36, 192, 235, 1);
+      .tabItem md-icon {
+        --mdc-icon-button-size: 20px;
+        margin-left: 5px;
+        color: white;
+        
+      }        
+      .tabItem:hover {
+        background-color: #67abeb; /* Efecto hover para pestañas inactivas */
       }
-      md-icon-button[hidden] {
-        display: none;
+      .navButtons {
+        display: flex;
+        align-items: center;
       }
-      @media (max-width: 460px) {
-        .tabContainer {
-          width: 75vw;
+      .hiddenTabsButton {
+        margin-left: auto;
+      }
+      @media (max-width: 600px) {
+        .tabItem {
+          font-size: 10px;
         }
       }
+      .tabLabel {
+        padding-right: 20px; /* Espacio para el botón cerrar */
+      }
+
+      .closeButton {
+        position: absolute;
+        top: -10px;
+        right: -8px;
+        --mdc-icon-button-size: 16px; /* Tamaño pequeño para el botón */
+        color: red;
+      }        
     `;
   }
-  
+  static get properties() {
+    return {
+      tabs: { type: Array },
+      currentTab: { type: String },
+      hiddenTabs: { type: Array },
+      lang: { type: String },
+    };
+  }
+  constructor() {
+    super();
+    this.tabs = [];
+    this.currentTab = '';
+    this.hiddenTabs = [];
+    
+  }
 
   render() {
+    if (this.lang===undefined){this.lang="en"}
     return html`
       <div class="tabWrap">
-        <md-icon-button icon="navigate_before" @click=${this.prevTab} ?hidden=${!this.prev}></md-icon-button>
+        <md-icon-button icon="navigate_before" @click=${this.prevTab}><md-icon>save</md-icon></md-icon-button>
         <div class="tabContainer">
-           <md-icon-button icon="save" @click=${this.saveTabs}></md-icon-button>
-          ${this.tabs.map(t=>
-            html`<tab-item .lang=${this.lang} .tab=${t} 
-              @tab-rendered=${this.isScroll}
-              @tab-change=${this.tabChanged}
-              @tab-remove=${this.tabRemoved}></tab-item>`
-          )}
+          ${this.tabs.map((tab, index) => html`
+            <div 
+              class="tabItem ${this.currentTab === tab.route ? 'active' : ''}" 
+              data-route=${tab.route}  
+              @click=${this._handleTabClick}
+            >
+              <span class="tabLabel">${tab["tabLabel_"+this.lang]}</span>
+              <md-icon-button 
+                class="closeButton" 
+                icon="close" 
+                @click=${(e) => this.removeTab(e, index)}><md-icon>close</md-icon>
+              </md-icon-button>
+            </div>
+          `)}
         </div>
-        <md-icon-button icon="navigate_next" @click=${this.nextTab} ?hidden=${!this.next}></md-icon-button>
+        <md-icon-button icon="navigate_next" @click=${this.nextTab}></md-icon-button>
+        <md-icon-button icon="more_vert" @click=${this.showHiddenTabsMenu} class="hiddenTabsButton"></md-icon-button>
+        <md-icon-button icon="save" @click=${this.saveTabs}></md-icon-button>
       </div>
     `;
   }
-
-  get tabContainer() {
-    return this.shadowRoot.querySelector(".tabContainer")
-  }
-
-  get tabElems() {
-    return this.shadowRoot.querySelectorAll('tab-item')
-  }
-
-  prevTab() {
-    this.tabContainer.scrollLeft = this.tabContainer.scrollLeft - 200
-  }
-
-  nextTab() {
-    this.tabContainer.scrollLeft = this.tabContainer.scrollLeft + 200
-  }
-
-  isScroll() {
-    if (this.tabContainer.offsetWidth < this.tabContainer.scrollWidth) {
-      this.next = true
-    } else {
-      this.next = false
-    }
-    this.tabElems.forEach(t => {
-      if (t.tab.route == this.currentTab) {
-        t.activeTab = true
-      } else {
-        t.activeTab = false
-      }
-    })
+  
+  _handleTabClick(event) {
+    const route = event.currentTarget.getAttribute('data-route');  // Obtén el valor del atributo data-route
+    this.switchTab(route);  // Llama a switchTab con el route correcto
   }
 
   firstUpdated() {
     super.firstUpdated();
-    const mediaQuery = window.matchMedia('(max-width: 460px)');
-    this.mobile = mediaQuery.matches;
-    mediaQuery.addEventListener('change', (e) => this.mobile = e.matches);
-  }
-  
-  xxxfirstUpdated() { // 20240828 replaced by the one above to avoid lit-element, pwa-helpers/media-query.js uses lit-element 
-    super.firstUpdated()
-    installMediaQueryWatcher(`(max-width: 460px)`, mobile => {
-      this.mobile = mobile
-    });
-    this.tabContainer.addEventListener('scroll', ()=>{
-      if (this.tabContainer.scrollLeft == 0) {
-        this.prev = false
-      } else {
-        this.prev = true
-      }
-      if (this.tabContainer.offsetWidth + this.tabContainer.scrollLeft == this.tabContainer.scrollWidth) {
-        this.next = false
-        if (this.mobile) {
-          this.tabContainer.style.width = "75vw"
-        }
-      } else {
-        this.next = true
-        if (this.mobile) {
-          if (this.tabContainer.scrollLeft == 0) {
-            this.tabContainer.style.width = "75vw"
-          } else {
-            this.tabContainer.style.width = "61vw"
-          }  
-        }
-      }
-    })
+    this.updateScrollState();
   }
 
-  tabChanged(e) {
-    this.currentTab = e.detail.route
-    this.navigate("/dashboard/"+ e.detail.route)
-    this.tabElems.forEach(t => {
-      if (t.tab.route == this.currentTab) {
-        t.activeTab = true
-      } else {
-        t.activeTab = false
-      }
-    })
-  }
+  switchTab(route) {
+    this.currentTab = route;
+    this.navigate(route);  // Navega a la ruta de la pestaña seleccionada
+  
+    sessionStorage.setItem('activeTab', route);
 
-  async tabRemoved(e) {
-    let currentIdx = this.tabs.findIndex(t => t.route == this.currentTab); // obtener el índice actual
-    this.tabs = this.tabs.filter(t => t.route != e.detail.route); // eliminar de las pestañas abiertas
-    await this.requestUpdate();
-    
-    // Eliminar la pestaña del sessionStorage
-    let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
-    openViews = openViews.filter(t => t.route != e.detail.route);
-    sessionStorage.setItem("openViews", JSON.stringify(openViews));
-    console.log("openViews actualizadas en sessionStorage:", openViews);
+    // Emite el evento para cambiar el contenido en TrDashboard
+    this.dispatchEvent(new CustomEvent('tab-changed', {
+      detail: { route: this.currentTab },
+      bubbles: true,  // Asegura que el evento se propague hacia arriba
+      composed: true
+    }));
   
-    // Manejar la redirección y selección de la nueva pestaña actual
-    if (e.detail.route != this.currentTab) {
-      console.log("No es la pestaña actual");
-    } else {
-      if (currentIdx >= this.tabs.length) {
-        --currentIdx;
-      }
-      if (currentIdx > -1) {
-        this.navigate("/dashboard/" + this.tabs[currentIdx].route);
-        this.currentTab = this.tabs[currentIdx].route;
+    this.updateActiveTab();  // Actualizar el estado visual de la pestaña
+    this.requestUpdate();
+  }
+  
+  
+
+  activateTab(route) {
+    this.currentTab = route;
+    this.navigate(route);
+    this.updateActiveTab();
+    this.requestUpdate();
+  }
+  
+  updateActiveTab() {
+    // Marcar visualmente la pestaña activa
+    this.shadowRoot.querySelectorAll('.tabItem').forEach(tab => {
+      const tabRoute = tab.getAttribute('data-route');
+      if (tabRoute === this.currentTab) {
+        tab.classList.add('active');
       } else {
-        this.navigate("/dashboard");
-        this.currentTab = "";
+        tab.classList.remove('active');
       }
-    }
-  
-    // Actualizar pestañas activas
-    this.tabElems.forEach(t => {
-      t.activeTab = t.tab.route == this.currentTab;
     });
   }
   
 
-  static get properties() {
-    return {
-      tabs: { type: Array },
-      currentTab: { type: String }, // current selected tab route
-      config: { type: Object },
-      params: { type: Object }, // route params which is passed from parent element (root app)
-      query: { type: Object }, // route query which is passed from parent element (root app)
-      lang: { type: String},
-      prev: { type: Boolean },
-      next: { type: Boolean },
-      mobile: { type: Boolean }
-    };
+  // Control de desplazamiento entre pestañas
+  prevTab() {
+    this.scrollTabs(-200);
   }
 
-  constructor() {
-    super();
-    this.prev = false;
-    this.next = false;
-    this.params = {};
-    this.query = {};
-    this.tabs = [];
-    this.currentTab = "";
-    this.config = {};
-    this.mobile = false;
+  nextTab() {
+    this.scrollTabs(200);
   }
 
-  updated(updates) {
-    // except authenticated users, not allowed to route the sub project pages
-    if (updates.has('config')) {
-      this.setTabs()
-    }
-    if (updates.has('params')) {
-      this.pushTab()
-    }
+  scrollTabs(amount) {
+    const tabContainer = this.shadowRoot.querySelector('.tabContainer');
+    tabContainer.scrollLeft += amount;
+    this.updateScrollState();
   }
 
-  pushTab() {
-    let tab = [];
-    
-    if (this.params.menu == "procedures") {
-      // Validación y almacenamiento de tabs
-      let sessionProcedures = JSON.parse(sessionStorage.getItem("userSession")).procedures_list.procedures;
-      let validProc = sessionProcedures.filter(p => p.procInstanceName == this.query.procName);
-      
-      if (validProc.length) {
-        let validView = validProc[0].new_definition.filter(v => v.lp_frontend_page_name == this.query.viewName);
-        
-        if (validView.length) {
-          let tabLabel_en = validProc[0].label_en + "-" + validView[0].label_en;
-          let tabLabel_es = validProc[0].label_es + "-" + validView[0].label_es;
-          
-          // Crear el objeto de la pestaña
-          tab = [{
-            "procName": this.query.procName,
-            "viewName": this.query.viewName,
-            "filterName": this.query.filterName || '',
-            "route": `procedures?procName=${this.query.procName}&viewName=${this.query.viewName}&filterName=${this.query.filterName || ''}`,
-            "tabLabel_en": tabLabel_en,
-            "tabLabel_es": tabLabel_es
-          }];
-          
-          // Guardar en sessionStorage
-          let openViews = JSON.parse(sessionStorage.getItem("openViews")) || [];
-          openViews.push(tab[0]);
-          sessionStorage.setItem("openViews", JSON.stringify(openViews));
-          console.log("openViews actualizadas en sessionStorage:", openViews);
-        }
-      }
-    }
-  
-    // Añadir la pestaña a la lista si no existe
-    if (tab.length) {
-      let exist = this.tabs.filter(t => t.route == tab[0].route);
-      
-      if (!exist.length) {
-        this.tabs = [...this.tabs, tab[0]];
-      }
-  
-      this.currentTab = tab[0].route;
-      this.requestUpdate();
-    }
-  }
-  
+  updateScrollState() {
+    const tabContainer = this.shadowRoot.querySelector('.tabContainer');
+    const maxScrollLeft = tabContainer.scrollWidth - tabContainer.clientWidth;
 
-  setTabs() {
-    let tabs = JSON.parse(sessionStorage.getItem("userSession")).userTabsOnLogin;
-    if (tabs.length && tabs[0].tabLabel_en) {
-      // parsing the tab objects and translating to the router navigator name
-      tabs.forEach(t => {
-        if (t.lp_frontend_page_name == "user-profile") {
-          t.route = "user"
-        } else if (t.lp_frontend_page_name == "incident-management") {
-          t.route = "incidents"
-        } else if (t.lp_frontend_page_name == "videotutorial-tab") {
-          t.route = "tutorial"
-        } else if (t.lp_frontend_page_name == "session-notifications") {
-          t.route = "notifications"
-        } else if (t.lp_frontend_page_name == "my-sops") {
-          t.route = "certifications?filterData=sop"
-        } else if (t.lp_frontend_page_name == "my-analysis") {
-          t.route = "certifications?filterData=analytic"        
-        } else if (t.lp_frontend_page_name == "my-pending-certification-approvals") {
-          t.route = "certifications?filterData=myPendingCertificationApprovals"
-        }
-      })
-      this.tabs = tabs
-      this.navigate("/dashboard/"+ this.tabs[this.tabs.length-1].route)
-      this.currentTab = this.tabs[this.tabs.length-1].route
-    }
+    // Mostrar u ocultar botones de desplazamiento según la posición del scroll
+    this.prevVisible = tabContainer.scrollLeft > 0;
+    this.nextVisible = tabContainer.scrollLeft < maxScrollLeft;
   }
 
+  // Mostrar pestañas ocultas en un menú desplegable
+  showHiddenTabsMenu() {
+    this.hiddenTabs = this.tabs.filter(tab => {
+      // Lógica para determinar qué pestañas están ocultas (fuera de pantalla)
+      return true; // Placeholder
+    });
+    // Lógica para mostrar menú con las pestañas ocultas
+  }
+
+  // Eliminar pestaña
+  removeTab(e, index) {
+    e.stopPropagation(); // Evita que el clic en cerrar también cambie de pestaña
+    this.tabs = [...this.tabs.slice(0, index), ...this.tabs.slice(index + 1)];    
+    sessionStorage.setItem('openTabs', JSON.stringify(this.tabs));
+    this.requestUpdate();
+  }
+
+  // Guardar las pestañas en el almacenamiento o backend
   saveTabs() {
-    let tabsString = this.tabs.map(t => {
-      let arr = []
-      for (const [k, v] of Object.entries(t)) {
-        arr.push(`${k}:${v}`)
-      }
-      return arr.join("*")
-    })
-    tabsString = tabsString.join("|")
-    this.fetchApi(this.config.backendUrl + this.config.appAuthenticateApiUrl + '?' + new URLSearchParams({
-      finalToken: JSON.parse(sessionStorage.getItem("userSession")).finalToken,
-      actionName: 'SET_DEFAULT_TABS_ON_LOGIN',
-      tabsString: tabsString,
-      isForTesting: this.config.isForTesting
-    }))
+    // Lógica para guardar el estado actual de las pestañas
+    console.log('Tabs saved:', this.tabs);
   }
 
-  /**
-   * Populating fetch api
-   * @param {*} urlParams the url api with params
-   */
-  fetchApi(urlParams) {
-    this.dispatchEvent(new CustomEvent('set-activity', {bubbles: true, composed: true}))
-    return fetch(urlParams).then(async r => {
-      if (r.status == 200) {
-        return r.json()
-      } else {
-        let err = await r.json()
-        throw err
-      }
-    }).then(j => {
-      this.dispatchEvent(new CustomEvent('success', {
-        detail: {...j},
-        bubbles: true,
-        composed: true
-      }))
-      return j
-    }).catch(e => {
-      this.dispatchEvent(new CustomEvent("error", {
-        detail: {...e},
-        bubbles: true,
-        composed: true
-      }))
-      return
-    })
-  }
-}
-customElements.define('tab-state', TabState);
+}customElements.define('tab-state', TabState);

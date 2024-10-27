@@ -1,0 +1,13 @@
+{
+    "name": "@trazit/build-label",
+    "version": "1.0.0",
+    "description": "Module to set labels by different ways of",
+    "main": "build-label.js",
+    "scripts": {
+        "postpublish": "node generateComponentVersions.js"
+    },
+    "keywords": [],
+    "author": "Fran Gómez",
+    "license": "MIT",
+    "yalcSig": "55120089a17c89fe9e413a8f8f40bd85"
+}

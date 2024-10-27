@@ -4,6 +4,7 @@ import { store } from '../redux/store';
 import { navigator } from 'lit-element-router';
 import '@trazit/platform-login/platform-login';
 import { setUserSession } from '../redux/store'; // Adjust the path if necessary
+import '@trazit/tr-styling/src/tr-styling';
 
 export class TrHome extends connect(store)(navigator(LitElement)) {
   static get styles() {
@@ -40,6 +41,7 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
       // Despacha la acción de Redux para actualizar el estado
       store.dispatch(setUserSession(userSession));
     });    
+   
   }
   
   async setupConfig() {
@@ -66,21 +68,8 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
   
   handleAuthorization(event) {
     this.auth = event.target.auth;
-    console.log('authorized')
+    //alert('authorized')
     this.dispatchEvent(new CustomEvent('authorized', { bubbles: true, composed: true }));
-  }
-  handleAuthorization20240828(event) {
-    this.auth = event.target.auth;
-  }
-
-
-  renderOld() {
-    if (this.pLogin===null){console.log('pLogin not loaded')}
-    console.log('tr-home')
-    return html`
-    s
-      <platform-login .config=${this.config}></platform-login>
-    `;
   }
 
   get pLogin() {
@@ -89,6 +78,7 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
 
   static get properties() {
     return {
+      
       config: { type: Object }
     };
   }
@@ -96,6 +86,7 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
   constructor() {
     super();
     this.config = {};
+    
   }
 
   stateChanged(state) {
@@ -106,5 +97,8 @@ export class TrHome extends connect(store)(navigator(LitElement)) {
       this.pLogin.lang = state.app.lang;
     }
   }
+
+
+
 }
 customElements.define('tr-home', TrHome);

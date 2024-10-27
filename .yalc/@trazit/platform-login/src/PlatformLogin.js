@@ -258,7 +258,8 @@ export class PlatformLogin extends CommonCore {
           }));
         }
         this.userRoles = j;
-        await this.requestUpdate();
+        await this.updateComplete;
+        //await this.requestUpdate();
       } else {
         if (document.fullscreenElement) {
           document.exitFullscreen();
@@ -298,9 +299,9 @@ export class PlatformLogin extends CommonCore {
           backendUrl: this.config.backendUrl,
           isProcManagement: isProcManagement
         }));
-        this.getUserRoleProceduresList(this.user.value, this.role).catch((error) => {
-          console.error("Error fetching procedures list:", error);
-        });        
+        // this.getUserRoleProceduresList(this.user.value, this.role).catch((error) => {
+        //   console.error("Error fetching procedures list:", error);
+        // });        
         //return this.getUserRoleProceduresList(this.user.value, this.role);
       } else {
         if (document.fullscreenElement) {

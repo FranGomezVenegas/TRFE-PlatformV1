@@ -17,13 +17,13 @@
       "file": true
     },
     "@trazit/tr-styling": {
-      "version": "1.0.0",
-      "signature": "2fe85c87cf1a23ba3ae61c73cd20c855",
+      "version": "1.1.0",
+      "signature": "8929c0c298a0d583f40b19b62b8764a0",
       "file": true
     },
     "@trazit/cred-dialog": {
-      "version": "1.0.0",
-      "signature": "c285800172197ef64d6a7040fe820bc5",
+      "version": "1.1.1",
+      "signature": "9efc29b2cfa3af5a2748ed3d9539f1c2",
       "file": true
     },
     "@trazit/relogin-dialog": {
@@ -33,27 +33,17 @@
     },
     "@trazit/apis-forplatform": {
       "version": "1.0.0",
-      "signature": "d6a0cfdd3ec3a94ca060931c27f9a45a",
-      "file": true
-    },
-    "@trazit/my-certifications": {
-      "version": "0.0.3",
-      "signature": "21d84c5da0bc6eade8df45987574ecaa",
-      "file": true
-    },
-    "@trazit/user-profile": {
-      "version": "0.0.4",
-      "signature": "c8be5ae4b0ced1b52c416b08fea47cd6",
+      "signature": "2fd211b8aee3374bcdbf8f0676fd4d06",
       "file": true
     },
     "@trazit/video-tutorial": {
       "version": "0.0.3",
-      "signature": "06fc6aa7ebf25d3474baa1c2e2a8ee14",
+      "signature": "2265f69956b34ac91e22846175860748",
       "file": true
     },
     "@trazit/holiday-calendars": {
       "version": "0.0.5",
-      "signature": "a2a21fe03b93045609251671e4163472",
+      "signature": "f017644178c714b0726a230f5f92e50d",
       "file": true
     },
     "@trazit/platform-notif": {
@@ -68,7 +58,7 @@
     },
     "@trazit/tr-dialog": {
       "version": "1.1.0",
-      "signature": "220b37f0c862062f07af47838f2f2259",
+      "signature": "c512939cbf9d202f9ab3d7be3d000a7e",
       "file": true
     },
     "@trazit/my-incidents": {
@@ -76,9 +66,24 @@
       "signature": "e3ccb99c412d4c6bb1b02956546a15d6",
       "file": true
     },
+    "@trazit/user-certifications": {
+      "version": "1.0.0",
+      "signature": "5c6ffa7eebafaf3ead074f3b0fced9c1",
+      "file": true
+    },
+    "@trazit/user-settings": {
+      "version": "0.0.4",
+      "signature": "2517d819866d2c86c868f5a4666bdfae",
+      "file": true
+    },
+    "@trazit/actions": {
+      "version": "1.1.0",
+      "signature": "1a45f34a76dbda52c896cf551b433382",
+      "file": true
+    },
     "@trazit/platform-login": {
-      "version": "2.3.0",
-      "signature": "a10dbe03ec8f60865162dcc5e36c041f",
+      "version": "2.3.4",
+      "signature": "cc3423de0d2ab2ee791ddf4a724c4010",
       "file": true
     }
   }

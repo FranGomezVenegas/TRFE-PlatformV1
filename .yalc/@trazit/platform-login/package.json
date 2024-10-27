@@ -3,7 +3,7 @@
   "description": "Component login of trazit platform",
   "license": "MIT",
   "author": "Trazit Team",
-  "version": "2.3.0",
+  "version": "2.3.4",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
@@ -15,5 +15,5 @@
     "@trazit/common-core": "file:.yalc/@trazit/common-core",
     "lit": "^2.0.2"
   },
-  "yalcSig": "a10dbe03ec8f60865162dcc5e36c041f"
+  "yalcSig": "cc3423de0d2ab2ee791ddf4a724c4010"
 }

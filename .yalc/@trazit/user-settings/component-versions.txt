@@ -1,0 +1,8 @@
+@trazit/tr-dialog: 1.1.0
+@trazit/utils-actions-functions: 1.0.0
+@trazit/platform-login: 2.3.1
+@trazit/common-core: 1.0.0
+@trazit/cred-dialog: 1.1.1
+@trazit/actions: 1.1.0
+@trazit/tr-styling: 1.1.0
+@trazit/apis-forplatform: 1.0.0

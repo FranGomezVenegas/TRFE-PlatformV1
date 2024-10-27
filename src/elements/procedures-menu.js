@@ -11,7 +11,8 @@ export class ProceduresMenu extends LitElement {
       procAccess: { type: Array },
       collapses: { type: Array }, // Estado de colapso de los menús
       lang: { type: String },
-      selectedMenuCallback: { type: Function }
+      selectedMenuCallback: { type: Function },
+      menuOpen: { type: Boolean },
     };
   }
 
@@ -19,11 +20,50 @@ export class ProceduresMenu extends LitElement {
     super();
     this.procAccess = [];
     this.collapses = []; // Inicialización vacía para collapses
-    this.lang = 'en'; // Idioma predeterminado
-    this.selectedMenuCallback = null;
-  }
+    //this.lang = 'en'; // Idioma predeterminadoconnectedCallback() {
+      super.connectedCallback();
+      // Agrega los eventos y asegura que `this` siempre se mantenga en el contexto del componente
+      document.addEventListener('keydown', this._handleKeydown.bind(this));
+      document.addEventListener('click', this.closeMenuOnOutsideClick.bind(this));
+    }
+    
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      // Remueve los eventos para evitar fugas de memoria
+      document.removeEventListener('keydown', this._handleKeydown.bind(this));
+      document.removeEventListener('click', this.closeMenuOnOutsideClick.bind(this));
+    }
+    
+    closeMenuOnOutsideClick = (event) => {
+      const mobileMenu = this.shadowRoot?.querySelector('#mobileMenu');
+      if (mobileMenu && !mobileMenu.contains(event.target)) {
+        this.closeMenu();
+      }
+    };
+    
+    _handleKeydown(e) {
+      if (e.key === 'Escape' && this.shadowRoot?.querySelector('#mobileMenu')?.classList.contains('open')) {
+        this.closeMenu();
+      }
+    }
+    
+    closeMenu() {
+      const mobileMenu = this.shadowRoot?.querySelector('#mobileMenu');
+      if (mobileMenu) {
+        mobileMenu.classList.remove('open');
+      }
+    }
+    
 
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
   firstUpdated(){
+    this.collapses = this.procAccess.map(proc => ({
+      proc: proc.procInstanceName,
+      val: false
+    }));
     window.addEventListener('sessionUpdated', (e) => {
       if (e.detail.key === 'userSession') {
         this.updateUserSession(); // Actualiza el estado del componente cuando se emite el evento
@@ -44,14 +84,24 @@ export class ProceduresMenu extends LitElement {
   }
 
   setCollapses(proc) {
+   // console.log("Antes de cambiar collapses:", this.collapses); // Log previo
     this.collapses = this.collapses.map(c =>
       c.proc === proc.procInstanceName ? { ...c, val: !c.val } : c
     );
-    this.requestUpdate();
+    //console.log("Después de cambiar collapses:", this.collapses); // Log posterior
   }
-
+  updated(changedProperties) {
+    if (changedProperties.has('procAccess')) {
+      this.collapses = this.procAccess.map(proc => ({
+        proc: proc.procInstanceName,
+        val: false,
+      }));
+      //console.log("Collapses actualizado:", this.collapses); // Para verificar que se inicializa correctamente
+    }
+  }
   getCollapse(proc) {
     const collapse = this.collapses.find(c => c.proc === proc.procInstanceName);
+  //  console.log("Estado de collapse para", proc.procInstanceName, collapse);
     return collapse ? collapse.val : false;
   }
 
@@ -71,6 +121,7 @@ export class ProceduresMenu extends LitElement {
   //}
 
   render() {
+    if (this.lang===undefined){this.lang = 'en'}
     return html`
       <div class="menu" style="width:300px;">
         ${this.procAccess.map(proc => html`
@@ -97,7 +148,7 @@ export class ProceduresMenu extends LitElement {
                       ${def.icons.map((subProc, i) => html`
                         <img title="${subProc.sops_passed == false ? this.setCertifiedLabel(def.icons) : null}" 
                              src="/images/${subProc.sops_passed ? subProc.icon_name || `noImage${i}.png` : subProc.icon_name_when_not_certified || `noImage${i}.png`}" 
-                             style="width:2.2vw; pointer-events: auto; margin-right:1.5vw;" 
+                             class="submenu" 
                              @click=${() => this._handleMenuClick(def, `/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${subProc.name}`)}>
                       `)}
 
@@ -107,7 +158,7 @@ export class ProceduresMenu extends LitElement {
                       </label>
                     ` : html`
                       <label title="${def.sops_passed == false ? this.setCertifiedLabel([def]) : null}" 
-                          class="${def.sops_passed == false ? 'sops_not_passed' : 'sops_passed'}"                             
+                          class="submenu ${def.sops_passed == false ? 'sops_not_passed' : 'sops_passed'}"                             
                              @click=${() => this._handleMenuClick(def, `/dashboard/procedures?procName=${proc.procInstanceName}&viewName=${def.lp_frontend_page_name}&filterName=${def.name}`)}>
                         ${def["label_" + this.lang]}
                       </label>

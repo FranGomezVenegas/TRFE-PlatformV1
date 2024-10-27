@@ -31,12 +31,11 @@ export const styles = css`
 }
 
 
-#changelang, #logout {
+#changelang {
   margin-left: 20px; /* Space between the language and logout buttons */
+  font-size: 30px;
+  cursor:pointer;
 }
-
-
-
 
 img {
   height: 50px; /* Ensure logo is compact */
@@ -163,7 +162,7 @@ img {
   display: none;
   position: absolute;  
   min-width: 160px;
-  background: transparent;
+  background: rgb(255, 255, 255);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   padding: 10px;
@@ -185,12 +184,13 @@ img {
   transition: background-color 0.2s ease;
   border-radius: 5px;
   margin-bottom: 4px; /* Espacio entre opciones */
+   transition: transform 0.3s ease;
 }
 
 .operation-dropdown-option:hover {
   background: linear-gradient(135deg, rgba(68, 132, 208, 1) 0%, rgba(124, 200, 245, 1) 100%); /* Color más oscuro en hover */  
   color: #fff8f6;
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .operation-button {
@@ -202,11 +202,12 @@ img {
   padding: 10px 15px;           /* Espaciado interno */
   display: flex;                /* Flex para alinear contenido */
   align-items: center;          /* Centrar verticalmente el contenido */
-  transition: transform 0.2s ease, 
+  text-shadow: rgba(20, 78, 117, 0.5) -0.11px -0.11px 0px, rgba(20, 78, 117, 0.5) 0.1051px -0.1051px 0px, rgba(20, 78, 117, 0.5) -0.101px 0.11px 0px, rgba(20, 78, 117, 0.5) 0.101px 0.101px 0px;
+  transition: transform 0.2s ease;
 }
 
 .operation-button:hover {
-  transform: scale(1.1); /* Efecto de agrandar ligeramente el botón en hover */  
+  transform: scale(1.2); /* Efecto de agrandar ligeramente el botón en hover */  
 }
 
 .button-letters {
@@ -263,9 +264,14 @@ div.mainbackground {
     transition: visibility 0.3s, height 0.3s ease-in-out;
     padding-left: 20px;
     margin-top: 5px;
+
+  max-height: none; /* Ajuste para permitir que el contenedor crezca */
+  overflow-y: auto; /* Solo muestra el scroll si el contenido realmente excede el tamaño */
+    
   }
 
   .sublist.open {
+  
     visibility: visible;
     height: auto;
   }
@@ -458,5 +464,22 @@ div.mainbackground {
 .tabContainer tab-item {
   margin-right: 10px;
 }
+  label.submenu{
+    transition: transform 0.3s ease;
+  }
+  label.submenu:hover,
+  label.submenu:active {
+    transform: scale(1.2);
+  }
+  img.submenu {
+    width:2.2vw; 
+    pointer-events: auto; 
+    margin-right:1.5vw;
+    transition: transform 0.3s ease;
+  }
+  img.submenu:hover,
+img.submenu:active {
+    transform: scale(1.3);
+  }
 
   `;

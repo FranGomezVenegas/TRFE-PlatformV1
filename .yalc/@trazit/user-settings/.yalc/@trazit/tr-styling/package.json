@@ -1,0 +1,19 @@
+{
+    "name": "@trazit/tr-styling",
+    "version": "1.1.0",
+    "description": "Component to manage styles and themes for the application.",
+    "main": "tr-styling.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "yalc:publish": "yalc publish --no-scripts"
+    },
+    "dependencies": {
+        "@material/web": "^2.2.0",
+        "lit": "^2.0.0"
+    },
+    "author": "Fran Gómez",
+    "license": "MIT",
+    "yalcSig": "8929c0c298a0d583f40b19b62b8764a0"
+}
