@@ -1,0 +1,4 @@
+@trazit/tr-dialog: 1.2.0
+@trazit/common-core: 1.0.0
+@trazit/tr-styling: 1.1.0
+@trazit/platform-login: 2.3.4

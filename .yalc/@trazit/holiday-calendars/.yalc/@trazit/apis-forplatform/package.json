@@ -2,12 +2,12 @@
     "name": "@trazit/apis-forplatform",
     "version": "1.0.0",
     "description": "Module to make request against the backend for Platform processes",
-    "main": "ApiFunctions.js",
+    "main": "ApiFunctionsForPlatform.js",
     "scripts": {
         "postpublish": "node generateComponentVersions.js"
     },
     "keywords": [],
     "author": "Fran Gómez",
     "license": "MIT",
-    "yalcSig": "d6a0cfdd3ec3a94ca060931c27f9a45a"
+    "yalcSig": "2fd211b8aee3374bcdbf8f0676fd4d06"
 }

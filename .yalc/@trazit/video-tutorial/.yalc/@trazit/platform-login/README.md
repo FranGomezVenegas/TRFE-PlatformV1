@@ -37,3 +37,10 @@ To run a local development server that serves the basic demo located in `demo/in
 
 ## Versioning Tracking
 [- v2.0.4 use lit instead of lit-element]
+[- v2.1.0 Upgrade for material design]
+[- v2.2.0 Implemented  recommendations for performance]
+[- v2.3.0 Splitted procedures_list from final token then can be invoked separated to allow us refresh this info any time]
+[- v2.3.1 encapsule the PlatformLogin component registry to not register it twice by mistake]
+[- v2.3.2 replaced await this.requestUpdate(); by await this.updateComplete; (new lit library artifact for)}]
+[- v2.3.3 found typo in the solution for 2.3.1]
+[- v2.3.4 disabled the call to getUserRoleProceduresList]

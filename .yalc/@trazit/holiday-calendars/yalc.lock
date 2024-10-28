@@ -2,17 +2,23 @@
   "version": "v1",
   "packages": {
     "@trazit/apis-forplatform": {
-      "signature": "d6a0cfdd3ec3a94ca060931c27f9a45a",
-      "file": true
-    },
-    "@trazit/platform-login": {
-      "version": "2.2.0",
-      "signature": "c51be079e6decd3f0acf3837822e368a",
+      "version": "1.0.0",
+      "signature": "2fd211b8aee3374bcdbf8f0676fd4d06",
       "file": true
     },
     "@trazit/common-core": {
       "version": "1.0.0",
       "signature": "938b910bcecca93396fddf02063de815",
+      "file": true
+    },
+    "@trazit/tr-dialog": {
+      "version": "1.1.0",
+      "signature": "c512939cbf9d202f9ab3d7be3d000a7e",
+      "file": true
+    },
+    "@trazit/platform-login": {
+      "version": "2.3.4",
+      "signature": "cc3423de0d2ab2ee791ddf4a724c4010",
       "file": true
     }
   }

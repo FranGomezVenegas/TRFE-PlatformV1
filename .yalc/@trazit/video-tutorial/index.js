@@ -1,1 +1,1 @@
-export { VideoTutorial } from './src/VideoTutorial.js';
+export { VideoTutorial } from './src/video-main';

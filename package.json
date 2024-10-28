@@ -24,6 +24,7 @@
   "description": "Trazit Platform",
   "author": "Trazit Team",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@alenaksu/json-viewer": "^1.0.1",
     "@material/mwc-drawer": "^0.27.0",
@@ -43,6 +44,7 @@
     "@trazit/my-incidents": "file:.yalc/@trazit/my-incidents",
     "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
     "@trazit/platform-notif": "file:.yalc/@trazit/platform-notif",
+    "@trazit/procedures-controller": "file:.yalc/@trazit/procedures-controller",
     "@trazit/relogin-dialog": "file:.yalc/@trazit/relogin-dialog",
     "@trazit/tr-dialog": "file:.yalc/@trazit/tr-dialog",
     "@trazit/tr-styling": "file:.yalc/@trazit/tr-styling",

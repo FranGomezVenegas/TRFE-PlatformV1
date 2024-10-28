@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "packages": {
+    "@trazit/tr-dialog": {
+      "version": "1.2.0",
+      "signature": "677e9d69eeeba2c0a21a2f06ea41d598",
+      "file": true
+    },
+    "@trazit/common-core": {
+      "version": "1.0.0",
+      "signature": "938b910bcecca93396fddf02063de815",
+      "file": true
+    },
+    "@trazit/tr-styling": {
+      "version": "1.1.0",
+      "signature": "8929c0c298a0d583f40b19b62b8764a0",
+      "file": true
+    },
+    "@trazit/platform-login": {
+      "version": "2.3.4",
+      "signature": "cc3423de0d2ab2ee791ddf4a724c4010",
+      "file": true
+    }
+  }
+}

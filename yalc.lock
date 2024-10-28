@@ -36,16 +36,6 @@
       "signature": "2fd211b8aee3374bcdbf8f0676fd4d06",
       "file": true
     },
-    "@trazit/video-tutorial": {
-      "version": "0.0.3",
-      "signature": "2265f69956b34ac91e22846175860748",
-      "file": true
-    },
-    "@trazit/holiday-calendars": {
-      "version": "0.0.5",
-      "signature": "f017644178c714b0726a230f5f92e50d",
-      "file": true
-    },
     "@trazit/platform-notif": {
       "version": "1.2.0",
       "signature": "7d5fce4dc0fc061d323b69afc3246026",
@@ -54,11 +44,6 @@
     "@trazit/endpoints-list": {
       "version": "1.1.0",
       "signature": "db948ba9018793f1bb49401496fa9815",
-      "file": true
-    },
-    "@trazit/tr-dialog": {
-      "version": "1.1.0",
-      "signature": "c512939cbf9d202f9ab3d7be3d000a7e",
       "file": true
     },
     "@trazit/my-incidents": {
@@ -84,6 +69,26 @@
     "@trazit/platform-login": {
       "version": "2.3.4",
       "signature": "cc3423de0d2ab2ee791ddf4a724c4010",
+      "file": true
+    },
+    "@trazit/video-tutorial": {
+      "version": "1.0.0",
+      "signature": "3e2cd99516b163803b1af9446895a8e7",
+      "file": true
+    },
+    "@trazit/holiday-calendars": {
+      "version": "1.0.0",
+      "signature": "1b6475d929f74bda4d78205eda2e26c4",
+      "file": true
+    },
+    "@trazit/procedures-controller": {
+      "version": "0.1.0",
+      "signature": "9cfb30b7866c1ac6bb9cd339fc278be1",
+      "file": true
+    },
+    "@trazit/tr-dialog": {
+      "version": "1.2.0",
+      "signature": "677e9d69eeeba2c0a21a2f06ea41d598",
       "file": true
     }
   }

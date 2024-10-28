@@ -1,0 +1,10 @@
+{  
+  "theme": "trazit",
+  "dbName": "demo_v0_9_2",
+  "isForTesting": false,
+  "backendUrl": "https://platform.trazit.net:8443/TRAZiT-API",
+  "backendUrlLocal": "http://localhost:8081/TRAZiT-API",
+  "appAuthenticateApiUrl": "/app/AuthenticationAPIactions",
+  "appPlatformAdminActions": "/app/PlatformAdminActions",
+  "appPlatformAdminQueries": "/app/PlatformAdminQueries"
+}

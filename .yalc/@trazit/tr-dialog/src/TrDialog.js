@@ -255,7 +255,7 @@ export class TrDialog extends LitElement {
                     >${this.zoomLabel}</md-icon>
                     <md-icon 
                         ?hidden=${this.hideXtoClose} 
-                        @click=${this.closeDialog}
+                        @click=${this.close}
                     >close</md-icon>
                 </div>
             </div>
@@ -266,7 +266,7 @@ export class TrDialog extends LitElement {
 
             <div class="button-container">
                 ${this.showCloseButton ? html`
-                    <md-filled-button style="--_container-color:#892a25bf;" @click=${this.closeDialog}>${this.closeButtonLabel===undefined?`${defaultButtonLabels.close["label_"+this.lang]}`:this.closeButtonLabel["label_"+this.lang]}</md-filled-button>
+                    <md-filled-button style="--_container-color:#892a25bf;" @click=${this.close}>${this.closeButtonLabel===undefined?`${defaultButtonLabels.close["label_"+this.lang]}`:this.closeButtonLabel["label_"+this.lang]}</md-filled-button>
                 ` : ''}
                 
                 ${this.showDoButton ? html`
@@ -287,7 +287,7 @@ export class TrDialog extends LitElement {
         `;
     }
     firstUpdated() {
-        this.closeDialog()
+        this.close()
         const doButton = this.shadowRoot.querySelector('#do-button');
         if (doButton) {
             doButton.focus();
@@ -475,7 +475,7 @@ export class TrDialog extends LitElement {
         }
         this.requestUpdate();
     }
-    show() {
+    open() {
         this.isOpen = true;
     
         // Asegúrate de que el tamaño se ajuste correctamente
@@ -489,19 +489,24 @@ export class TrDialog extends LitElement {
             dialogContainer.style.left = '50%';  // Centramos desde el CSS con transform
             dialogContainer.style.transform = 'translate(-50%, -50%)';  // Esto asegura el centrado
         }
+        this.dispatchEvent(new CustomEvent('dialog-opened', {
+            detail: { id: this.id }
+        }));        
     }
     
     
     close(){
-        this.closeDialog()
-    }
-    closeDialog() {
         this.isOpen = false;
+        this.requestUpdate()
         const dialogContainer = this.shadowRoot.querySelector('.dialog-container');
         if (dialogContainer) {
             dialogContainer.style.display = 'none'; // Ocultar el diálogo
         }
+        this.dispatchEvent(new CustomEvent('dialog-closed', {
+            detail: { id: this.id }
+        }));        
     }
+
     connectedCallback() {
         super.connectedCallback();
         window.addEventListener('resize', this.adjustDialogSize.bind(this)); // Ajustar cuando la ventana cambie de tamaño

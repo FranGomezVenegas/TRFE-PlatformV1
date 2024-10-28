@@ -1,0 +1,10 @@
+# Excluir todas las carpetas y archivos por defecto
+*
+
+# Incluir explícitamente las carpetas y archivos necesarios
+!dist/
+!dist/**
+!yalc.lock
+!component-versions.txt
+!package.json
+!README.md

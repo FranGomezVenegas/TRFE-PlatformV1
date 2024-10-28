@@ -1,6 +1,6 @@
 import { html, nothing } from 'lit';
 import './elements/tab-state.js';
-//import '@trazit/tr-procedures/tr-procedures.js'
+import '@trazit/procedures-controller/procedures-controller.js'
 export const mainView = (thisComp, desktop, config, showTab, lang, currentView, notifs, query) => html`
 <div class="mainbackground">
 <main class="layout vertical flex">
@@ -11,7 +11,7 @@ export const mainView = (thisComp, desktop, config, showTab, lang, currentView, 
 
     <tr-default ?hidden=${currentView.componentToOpen}></tr-default>
     ${currentView.componentToOpen == 'procedures' ? html`
-      <tr-procedures .lang=${lang} .config=${config}></tr-procedures>
+      <procedures-controller .lang=${lang} .config=${config}></procedures-controller>
     `:nothing}
     ${currentView.componentToOpen == 'notifications' ? html`
       <platform-notif .lang=${lang} .notifs=${notifs}  .params=${currentView}></platform-notif>

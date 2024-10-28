@@ -248,25 +248,26 @@ export class TrDashboard extends connect(store)(LitElement) {
       mobileMenu.classList.remove('open');
     }
   }  
-  get trProc() {
-    return this.shadowRoot.querySelector("tr-procedures")
+  get procsController() {
+    return this.shadowRoot.querySelector("procedures-controller")
   }
   _paramsChanged(componentToOpen) {
    // alert(componentToOpen)
     this.requestUpdate(); // call it to wait the page props complete updated
     switch (componentToOpen) {
-      case 'procedures':        
-        this.trProc.ready = false
-        this.trProc.procName = this.query.procName
-        this.trProc.viewName = this.query.viewName
-        this.trProc.filterName = this.query.filterName
-        this.trProc.resetView()
-        this.trProc.authorized()
-        this.trProc.render()
+      case 'procedures':       
+        if (this.procsController!=null){ 
+        this.procsController.ready = false
+        this.procsController.procName = this.query.procName
+        this.procsController.viewName = this.query.viewName
+        this.procsController.filterName = this.query.filterName
+        this.procsController.resetView()
+        this.procsController.authorized()
+        this.procsController.render()
+        }
         this.drawerState = false;
         break;
       case 'notifications':
-     //   alert('case '+componentToOpen)
         import('@trazit/platform-notif/platform-notif');
         this.drawerState = false;
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
@@ -287,7 +288,7 @@ export class TrDashboard extends connect(store)(LitElement) {
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
       case 'tutorial':
-        //import('@trazit/video-tutorial/video-tutorial');
+        import('@trazit/video-tutorial/video-tutorial');
         this.drawerState = false;
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
@@ -297,7 +298,7 @@ export class TrDashboard extends connect(store)(LitElement) {
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;
       case 'holidayscalendar':
-        //import('@trazit/holiday-calendars/holiday-calendars');
+        import('@trazit/holiday-calendars/holiday-calendars');
         this.drawerState = false;
         this.requestUpdate(); // Forzar una actualización para que se renderice el componente.
         break;

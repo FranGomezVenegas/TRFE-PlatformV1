@@ -3,18 +3,18 @@
   "description": "Component video tutorial of trazit platform",
   "license": "MIT",
   "author": "Trazit Team",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
     "start": "web-dev-server --root-dir demo --node-resolve --open --watch"
   },
   "dependencies": {
-    "@collaborne/lit-flexbox-literals": "^0.2.2",
-    "@spectrum-web-components/card": "^0.8.18",
-    "@spectrum-web-components/split-view": "^0.4.3",
+    "@material/web": "^2.2.0",
     "@trazit/common-core": "file:.yalc/@trazit/common-core",
+    "@trazit/platform-login": "file:.yalc/@trazit/platform-login",
+    "@trazit/tr-styling": "file:.yalc/@trazit/tr-styling",
     "lit": "^2.0.2"
   },
-  "yalcSig": "2265f69956b34ac91e22846175860748"
+  "yalcSig": "3e2cd99516b163803b1af9446895a8e7"
 }
